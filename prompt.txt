@@ -1,0 +1,48 @@
+Below I have given you the combination of set of symptoms that where not seen before so I want you to give me related Target protein, Target Ligands, Admet Properties, Function, Desciption, Title and Summary, Structures, Names and Identifiers, Chemical and Physical Properties, Related Records, Drug and Medication Information, Pharmacology and Biochemistry, Use and Manufacturing, Toxicity, Associated Disorders and Diseases, Literature, Patents, Interactions and Pathways, Biological Test Results, Classification, Information Sources of each Target Ligands, of given symptoms means all info that is related to given symptoms {brittle toenails, cracking knuckles, ear blockage, fluttering heartbeat, sudden confusion}
+
+
+const queries = [
+        `${symptoms} target protein ligand site:pubchem.ncbi.nlm.nih.gov OR site:drugbank.ca`,
+        `${symptoms} ADMET properties pharmacology`,
+        `${symptoms} molecular mechanism pathway`
+    ];
+`
+Analyse the given combination of set of symptoms ${symptoms} and perform following opartion there:
+1. If the Symptoms combination already exists for any disease then search for the disease and return the drugs for it that are found with the Sources.
+2. if the Symptoms combination does not exists for any disease and such combination is seen first time then search for following information :
+    1. Target proteins
+       1. Name of target protein
+       2. Uniport ID of target protein
+       3. Functional Characteristics
+       4. Description of target protein
+       5. Disease association
+       6. Structural Information
+       7. Druggability
+       8. Protein Expression & Localization
+       9. Sequence & Family
+       10. Biological Network
+       11. Stability & Kinetics
+       12.Target Ligands of each target protein:
+          1. Admet Properties
+          2.Function, Desciption
+          3.Title and Summary
+          4. Structures
+          5. Names and Identifiers
+          6. Properties
+             6.1 Chemical properties
+             6.2 Physical properties   
+          7.Related Records 
+          8. Drug and Medication Information 
+          9. Pharmacology and Biochemistry
+          10. Use and Manufacturing 
+          11.Toxicity
+          12. Associated Disorders and Diseases
+          13. Literature 
+          14.Patents 
+          15. Interactions and Pathways 
+          16. Biological Test Results 
+          17. Classification
+          18.Information Sources
+          19. ADMET Properties
+
+`

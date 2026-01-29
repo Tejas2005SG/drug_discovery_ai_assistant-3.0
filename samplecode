@@ -1,0 +1,54 @@
+// To run this code you need to install the following dependencies:
+// npm install @google/genai mime
+// npm install -D @types/node
+
+import {
+  GoogleGenAI,
+} from '@google/genai';
+
+async function main() {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
+  const tools = [
+    {
+      googleSearch: {
+      }
+    },
+  ];
+  const config = {
+    thinkingConfig: {
+      thinkingLevel: 'HIGH',
+    },
+    tools,
+  };
+  const model = 'gemini-3-flash-preview';
+  const contents = [
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `INSERT_INPUT_HERE`,
+        },
+      ],
+    },
+  ];
+
+  const response = await ai.models.generateContentStream({
+    model,
+    config,
+    contents,
+  });
+  let fileIndex = 0;
+  for await (const chunk of response) {
+    console.log(chunk.text);
+  }
+}
+
+main();
+Below I have given you the combination of set of symptoms that where not seen before so I want you to give me related  Target protein, Target Ligands, Admet Properties, Function, Desciption, Title and Summary, Structures, Names and Identifiers, Chemical and Physical Properties, Related Records,  Drug and Medication Information, Pharmacology and Biochemistry, Use and Manufacturing, Toxicity, Associated Disorders and Diseases, Literature, Patents, Interactions and Pathways, Biological Test Results, Classification, Information Sources of each Target Ligands, of given symptoms means all info that is related to given symptoms
+
+
+brittle toenails, cracking knuckles, ear blockage, fluttering heartbeat, sudden confusion
+{brittle toenails, cracking knuckles, ear blockage, fluttering heartbeat, sudden confusion}
+
