@@ -23,9 +23,62 @@ interface Source {
   contentLength?: number;
 }
 
+interface ChemicalAnalysis {
+  valid: boolean;
+  smiles: string;
+  properties: {
+    molecular_weight: number;
+    logp: number;
+    hbd: number;
+    hba: number;
+    tpsa: number;
+    rotatable_bonds: number;
+    qed: number;
+  };
+  lipinski: {
+    passed: boolean;
+    violations_count: number;
+    details: string[];
+  };
+  analysis: string;
+}
+
+interface SynthesisStep {
+  step: number;
+  reactant: string;
+  reagent: string;
+  product: string;
+  conditions: string;
+}
+
+interface Reference {
+  database: string;
+  id: string;
+  url: string;
+}
+
+interface DrugCandidate {
+  name: string;
+  smiles: string;
+  target: string;
+  pdb_id?: string;
+  pdb_source?: string;
+  pdb_resolution?: string;
+  pdb_method?: string;
+  tier: string;
+  mechanism?: string;
+  mechanism_evidence?: string;
+  references?: Reference[];
+  synthesis?: SynthesisStep[];
+  chemicalAnalysis?: ChemicalAnalysis;
+  confidenceScore?: number;
+  isValidated?: boolean;
+}
+
 interface ResearchResult {
   content: string;
   sources: Source[];
+  candidates?: DrugCandidate[]; // NEW: Hybrid Lead Gen Candidates
   symptoms: string;
   mode: string;
   timestamp: string;
@@ -36,8 +89,9 @@ interface DrugDiscoveryState {
   results: ResearchResult | null;
   thinkingSteps: ThinkingStep[];
   sources: Source[];
+  candidates: DrugCandidate[]; // Store candidates separately for easy access
   error: string | null;
-  
+
   startResearch: (symptoms: string) => Promise<void>;
   reset: () => void;
 }
@@ -47,12 +101,13 @@ export const useDrugDiscoveryStore = create<DrugDiscoveryState>((set) => ({
   results: null,
   thinkingSteps: [],
   sources: [],
+  candidates: [],
   error: null,
 
-  reset: () => set({ results: null, thinkingSteps: [], sources: [], error: null, isResearching: false }),
+  reset: () => set({ results: null, thinkingSteps: [], sources: [], candidates: [], error: null, isResearching: false }),
 
   startResearch: async (symptoms: string) => {
-    set({ isResearching: true, error: null, thinkingSteps: [], results: null, sources: [] });
+    set({ isResearching: true, error: null, thinkingSteps: [], results: null, sources: [], candidates: [] });
 
     try {
       const response = await fetch(`${API_URL}/research`, {
@@ -92,7 +147,7 @@ export const useDrugDiscoveryStore = create<DrugDiscoveryState>((set) => ({
                 set((state) => {
                   const newSteps = [...state.thinkingSteps];
                   const existingStepIndex = newSteps.findIndex(s => s.id === data.id);
-                  
+
                   if (existingStepIndex !== -1) {
                     // Update existing step only if it's not already completed
                     if (newSteps[existingStepIndex].status !== 'completed' || data.status === 'completed') {
@@ -118,14 +173,15 @@ export const useDrugDiscoveryStore = create<DrugDiscoveryState>((set) => ({
                       data: data.data,
                     });
                   }
-                  
+
                   return { thinkingSteps: newSteps };
                 });
               } else if (data.type === "complete") {
-                set((state) => ({ 
-                  results: data.data, 
+                set((state) => ({
+                  results: data.data,
                   isResearching: false,
                   sources: data.data.sources || [],
+                  candidates: data.data.candidates || [],
                   // Force mark all previous steps as completed when the whole process finishes
                   thinkingSteps: state.thinkingSteps.map(step => ({
                     ...step,

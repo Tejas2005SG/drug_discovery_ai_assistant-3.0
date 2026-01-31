@@ -48,7 +48,9 @@ Respond ONLY with a JSON object... (rest of your prompt)`
             }],
             generationConfig: { responseMimeType: "application/json" }
         });
-        const parsed = JSON.parse(response.candidates[0].content.parts[0].text);
+        let text = response.candidates[0].content.parts[0].text;
+        text = text.replace(/```json\n?|```/g, '').trim();
+        const parsed = JSON.parse(text);
         const allQueries = [
             ...(parsed.queries?.clinical || []),
             ...(parsed.queries?.protein || []),
@@ -113,7 +115,8 @@ async function runSelectionAlgorithm(symptoms, categorizedSources, onProgress) {
             generationConfig: { responseMimeType: "application/json" }
         });
 
-        const text = response.candidates[0].content.parts[0].text;
+        let text = response.candidates[0].content.parts[0].text;
+        text = text.replace(/```json\n?|```/g, '').trim();
         return JSON.parse(text);
     } catch (e) {
         console.error("Selection Algorithm Failed:", e);
@@ -336,8 +339,73 @@ function buildUserContentWithSelections(categorizedSources, symptoms, selectionR
     return content;
 }
 
+/**
+ * Extract structured candidates from the generated dossier using Flash (Component 2 of Hybrid Phase)
+ */
+export const extractCandidatesFromDossier = async (dossierContent) => {
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-3-flash-preview", // Fast extraction
+            contents: [{
+                role: 'user',
+                parts: [{
+                    text: `Extract all chemical compounds, drugs, and ligands mentioned as PRIORITY candidates from the provided text.
+                    Focus on "Priority Pharmacology" section.
+                    
+                    Tasks:
+                    1. Extract Name (Prioritize Small Molecules over Antibodies if possible).
+                    2. Extract SMILES string (Required for chemical analysis).
+                    3. Extract Primary Target (protein name).
+                    4. Find the BEST matching PDB ID for the target from RCSB PDB database (e.g., "4EY6", "1ATP", "2XZD"). Use common/validated structures.
+                    5. Extract Mechanism of Action (2-3 scientific sentences explaining HOW it binds/works).
+                    6. Generate a Plausible 3-Step Synthesis Pathway (theoretical or known).
+                    7. Include scientific references and source validation.
+                    
+                    Return JSON Array:
+                    [
+                        { 
+                            "name": "Compound X", 
+                            "smiles": "C1=CC...", 
+                            "target": "Protein Y", 
+                            "pdb_id": "4EY6",
+                            "pdb_source": "RCSB Protein Data Bank",
+                            "pdb_resolution": "2.1 Å",
+                            "pdb_method": "X-ray diffraction",
+                            "tier": "Novel/FDA/Clinical/Preclinical",
+                            "mechanism": "Competitive inhibitor that forms H-bonds with...",
+                            "mechanism_evidence": "Based on molecular docking studies and published literature",
+                            "references": [
+                                { "database": "PubMed", "id": "PMID:12345678", "url": "https://pubmed.ncbi.nlm.nih.gov/12345678" },
+                                { "database": "PubChem", "id": "CID:12345", "url": "https://pubchem.ncbi.nlm.nih.gov/compound/12345" },
+                                { "database": "RCSB PDB", "id": "4EY6", "url": "https://www.rcsb.org/structure/4EY6" }
+                            ],
+                            "synthesis": [
+                                { "step": 1, "reactant": "Start Material A", "reagent": "Reagent B", "product": "Intermediate C", "conditions": "RT, 2h" },
+                                { "step": 2, "reactant": "Intermediate C", "reagent": "Reagent D", "product": "Compound X", "conditions": "Reflux, 4h" }
+                            ]
+                        }
+                    ]
+                    
+                    TEXT TO ANALYZE:
+                    ${dossierContent.substring(0, 30000)}`
+                }]
+            }],
+            generationConfig: { responseMimeType: "application/json" }
+        });
+
+        let text = response.candidates[0].content.parts[0].text;
+        // Clean markdown code blocks if present
+        text = text.replace(/```json\n?|```/g, '').trim();
+        return JSON.parse(text);
+    } catch (e) {
+        console.error("Candidate extraction failed:", e);
+        return [];
+    }
+};
+
 export default {
     ai,
     generateResearchPlan,
-    synthesizeMolecularDossier
+    synthesizeMolecularDossier,
+    extractCandidatesFromDossier
 };

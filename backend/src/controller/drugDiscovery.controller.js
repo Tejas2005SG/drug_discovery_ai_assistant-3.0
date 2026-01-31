@@ -9,6 +9,8 @@ import {
     generateResearchPlan
 } from "../lib/gemini.js";
 import { saveResearchResult } from "./researchResult.controller.js";
+import { extractCandidatesFromDossier } from "../lib/gemini.js";
+import { analyzeMolecule, calculateConfidenceScore } from "../lib/chemRefinery.js";
 
 /**
  * Send Server-Sent Event
@@ -529,6 +531,66 @@ export const startDrugDiscovery = async (req, res) => {
         await delay(200);
 
         // ═══════════════════════════════════════════════════════════════
+        // PHASE 7: LEAD REFINEMENT & CHEMICAL LOGIC (AURELIUS ENGINE)
+        // ═══════════════════════════════════════════════════════════════
+
+        sendSSE(res, createProgress(
+            "phase-refinement",
+            "thinking",
+            "Validating chemical plausibility and calculating toxicity...",
+            "running"
+        ));
+
+        // 1. Extract structured candidates
+        let extractedCandidates = await extractCandidatesFromDossier(synthesisResult.content);
+
+        // 2. Run Chemical Refinery (RDKit)
+        const refinedCandidates = [];
+
+        for (const cand of extractedCandidates) {
+            let analysis = null;
+            let confidence = 0;
+
+            if (cand.smiles) {
+                try {
+                    analysis = await analyzeMolecule(cand.smiles);
+                    if (analysis && analysis.valid) {
+                        confidence = calculateConfidenceScore(analysis);
+                    }
+                } catch (err) {
+                    console.error("Chemical analysis failed for", cand.name);
+                }
+            }
+
+            refinedCandidates.push({
+                ...cand,
+                chemicalAnalysis: analysis,
+                confidenceScore: confidence,
+                isValidated: !!analysis?.valid
+            });
+
+            // Send granular update for each molecule
+            if (cand.smiles) {
+                sendSSE(res, createProgress(
+                    `molecules-${cand.name}`,
+                    "thinking",
+                    `Analyzed ${cand.name}: ${analysis?.valid ? 'Valid Structure' : 'Invalid Structure'}`,
+                    "running"
+                ));
+            }
+        }
+
+        sendSSE(res, createProgress(
+            "phase-refinement",
+            "thinking",
+            `Refinement complete: ${refinedCandidates.filter(c => c.isValidated).length} valid candidates identified.`,
+            "completed",
+            { progress: 100 }
+        ));
+
+        await delay(300);
+
+        // ═══════════════════════════════════════════════════════════════
         // PHASE 6: COMPLETION
         // ═══════════════════════════════════════════════════════════════
 
@@ -537,6 +599,7 @@ export const startDrugDiscovery = async (req, res) => {
         // Prepare the complete result data
         const completeResultData = {
             content: synthesisResult.content,
+            candidates: refinedCandidates, // Clean structured data
             sources: dataForSynthesis.map(d => ({
                 title: d.title || "Untitled",
                 url: d.url,
