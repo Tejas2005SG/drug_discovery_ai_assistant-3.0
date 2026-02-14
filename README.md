@@ -1,3 +1,5 @@
+## Drug Discovery AI Assistant 3.0
+
 # NOVO-1 Drug Discovery AI v3.0
 
 ## 🧪 Empirical Testing Success: 66.1% Accuracy on COVID-19 Scenario
