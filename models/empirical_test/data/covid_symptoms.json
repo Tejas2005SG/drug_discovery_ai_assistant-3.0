@@ -1,0 +1,81 @@
+{
+  "test_name": "COVID-19 Empirical Accuracy Test",
+  "test_date": "2025-02-01",
+  "data_source": "CDC COVID-19 Clinical Guidance (Feb 2025)",
+  "disease": "COVID-19 (SARS-CoV-2 Infection)",
+  "severity": "mild_to_moderate",
+  
+  "symptoms": {
+    "primary_symptoms": [
+      "fever",
+      "cough",
+      "shortness_of_breath",
+      "fatigue"
+    ],
+    "secondary_symptoms": [
+      "loss_of_taste",
+      "loss_of_smell",
+      "muscle_aches",
+      "headache",
+      "sore_throat",
+      "congestion",
+      "nausea",
+      "vomiting",
+      "diarrhea"
+    ],
+    "severity_indicators": [
+      "difficulty_breathing",
+      "persistent_chest_pain",
+      "confusion",
+      "inability_to_wake",
+      "pale_gray_blue_skin"
+    ]
+  },
+  
+  "clinical_features": {
+    "incubation_period": "2-14 days",
+    "transmission": "respiratory_droplets",
+    "target_organ": "respiratory_system",
+    "complications": [
+      "pneumonia",
+      "acute_respiratory_distress",
+      "organ_failure",
+      "blood_clots"
+    ]
+  },
+  
+  "biological_targets": {
+    "viral_targets": [
+      {
+        "target": "3CL_protease",
+        "protein": "Main Protease (Mpro)",
+        "function": "Viral polyprotein cleavage",
+        "drug_class": "Protease inhibitors"
+      },
+      {
+        "target": "RdRp",
+        "protein": "RNA-dependent RNA polymerase",
+        "function": "Viral RNA replication",
+        "drug_class": "Polymerase inhibitors"
+      },
+      {
+        "target": "Spike_protein",
+        "protein": "SARS-CoV-2 Spike",
+        "function": "Cell entry",
+        "drug_class": "Entry inhibitors"
+      }
+    ],
+    "host_targets": [
+      {
+        "target": "ACE2_receptor",
+        "function": "Viral entry receptor",
+        "drug_class": "Receptor blockers"
+      },
+      {
+        "target": "TMPRSS2",
+        "function": "Spike protein priming",
+        "drug_class": "Protease inhibitors"
+      }
+    ]
+  }
+}

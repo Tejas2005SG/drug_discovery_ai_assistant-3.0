@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-02-02T16:54:05.191179",
+  "system_version": "3.0_baseline_test",
+  "num_fda_drugs": 95,
+  "test_results": [
+    {
+      "test_name": "Mild COVID-19",
+      "symptoms": [
+        "fever",
+        "cough",
+        "fatigue"
+      ],
+      "num_candidates": 4,
+      "avg_confidence": 0.7374602156326138,
+      "avg_qed": 0.834493750641989,
+      "avg_similarity": 0.183,
+      "validity_rate": 100.0,
+      "accuracy": 68.19322114456422
+    },
+    {
+      "test_name": "Moderate COVID-19",
+      "symptoms": [
+        "fever",
+        "cough",
+        "shortness of breath",
+        "fatigue"
+      ],
+      "num_candidates": 6,
+      "avg_confidence": 0.731939631758488,
+      "avg_qed": 0.7667394952793763,
+      "avg_similarity": 0.238,
+      "validity_rate": 100.0,
+      "accuracy": 67.03977012872082
+    },
+    {
+      "test_name": "Severe COVID-19",
+      "symptoms": [
+        "severe shortness of breath",
+        "high fever",
+        "chest pain"
+      ],
+      "num_candidates": 6,
+      "avg_confidence": 0.7102941490354495,
+      "avg_qed": 0.7015392034698148,
+      "avg_similarity": 0.231,
+      "validity_rate": 100.0,
+      "accuracy": 64.07794206551242
+    },
+    {
+      "test_name": "Long COVID",
+      "symptoms": [
+        "persistent fatigue",
+        "brain fog",
+        "muscle weakness"
+      ],
+      "num_candidates": 6,
+      "avg_confidence": 0.6797754679185976,
+      "avg_qed": 0.6650685383410567,
+      "avg_similarity": 0.7796666666666666,
+      "validity_rate": 100.0,
+      "accuracy": 72.73640820030894
+    },
+    {
+      "test_name": "COVID with Pneumonia",
+      "symptoms": [
+        "fever",
+        "cough",
+        "pneumonia",
+        "shortness of breath"
+      ],
+      "num_candidates": 6,
+      "avg_confidence": 0.6724538589062958,
+      "avg_qed": 0.6791154356251833,
+      "avg_similarity": 0.5581666666666666,
+      "validity_rate": 100.0,
+      "accuracy": 68.43495075834068
+    },
+    {
+      "test_name": "Post-COVID Recovery",
+      "symptoms": [
+        "fatigue",
+        "shortness of breath",
+        "loss of taste"
+      ],
+      "num_candidates": 6,
+      "avg_confidence": 0.651089003140589,
+      "avg_qed": 0.6029893458956894,
+      "avg_similarity": 0.268,
+      "validity_rate": 100.0,
+      "accuracy": 59.493240502494245
+    }
+  ],
+  "overall_accuracy": 66.66258879999022,
+  "baseline_accuracy": 65.6,
+  "difference": 1.0625887999902233
+}

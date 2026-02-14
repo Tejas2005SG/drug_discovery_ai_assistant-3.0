@@ -1,0 +1,121 @@
+{
+  "symptoms": [
+    "brittle toenails",
+    "cracking knuckles",
+    "ear blockage",
+    "fluttering heartbeat",
+    "sudden confusion"
+  ],
+  "results": [
+    {
+      "id": "NOVO_001",
+      "smiles": "CCO(=O)Oc1ccccc1C(=O)O",
+      "mw": 116,
+      "c": 3,
+      "o": 5,
+      "n": 0,
+      "qed": 0.56,
+      "confidence": 0.823,
+      "valid": true
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(N=O)O",
+      "mw": 130,
+      "c": 7,
+      "o": 2,
+      "n": 1,
+      "qed": 0.64,
+      "confidence": 0.897,
+      "valid": true
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "CC(=O)NC1=CC=C(C=CN1)O",
+      "mw": 156,
+      "c": 8,
+      "o": 2,
+      "n": 2,
+      "qed": 0.66,
+      "confidence": 0.858,
+      "valid": true
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "CNO1C=NC2=C1C(=O)N(C(=O)N2C)C",
+      "mw": 200,
+      "c": 8,
+      "o": 3,
+      "n": 4,
+      "qed": 0.66,
+      "confidence": 0.851,
+      "valid": true
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "CC(C)Nc1nc2cc(C#Cc3ccccn3)cNcc2o1",
+      "mw": 88,
+      "c": 5,
+      "o": 0,
+      "n": 2,
+      "qed": 0.6,
+      "confidence": 0.897,
+      "valid": true
+    },
+    {
+      "id": "NOVO_006",
+      "smiles": "CC(=O)Oc1ccccc1CN(=O)O",
+      "mw": 114,
+      "c": 3,
+      "o": 4,
+      "n": 1,
+      "qed": 0.56,
+      "confidence": 0.772,
+      "valid": true
+    },
+    {
+      "id": "NOVO_007",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=CO)O",
+      "mw": 128,
+      "c": 8,
+      "o": 2,
+      "n": 0,
+      "qed": 0.66,
+      "confidence": 0.839,
+      "valid": true
+    },
+    {
+      "id": "NOVO_008",
+      "smiles": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "mw": 600,
+      "c": 50,
+      "o": 0,
+      "n": 0,
+      "qed": 0.95,
+      "confidence": 0.765,
+      "valid": true
+    },
+    {
+      "id": "NOVO_009",
+      "smiles": "CN1C=NC2=C1C(=O)N(C(=O)NN2C)C",
+      "mw": 198,
+      "c": 8,
+      "o": 2,
+      "n": 5,
+      "qed": 0.66,
+      "confidence": 0.863,
+      "valid": true
+    },
+    {
+      "id": "NOVO_010",
+      "smiles": "CC(C)Nc1nc2cc(C#Cc3Occccn3)ccc2o1",
+      "mw": 90,
+      "c": 5,
+      "o": 1,
+      "n": 1,
+      "qed": 0.6,
+      "confidence": 0.783,
+      "valid": true
+    }
+  ]
+}

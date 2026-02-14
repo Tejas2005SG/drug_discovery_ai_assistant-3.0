@@ -1,0 +1,83 @@
+{
+  "system": "Custom Drug Discovery (Built from Scratch)",
+  "input_symptoms": [
+    "brittle toenails",
+    "cracking knuckles",
+    "ear blockage",
+    "fluttering heartbeat",
+    "sudden confusion"
+  ],
+  "candidates_generated": 10,
+  "top_candidates": [
+    {
+      "id": "NOVO_001",
+      "smiles": "ssBBBB2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222",
+      "molecular_weight": 1200.0,
+      "logp": 2.867001717067965,
+      "qed_score": 0.9167164066368233,
+      "synthesizability": 3.9607476749700217,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "disease_class": "Dermatological",
+      "confidence": 0.6013215780258179
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "sssssss",
+      "molecular_weight": 84.0,
+      "logp": 3.5256474403964297,
+      "qed_score": 0.6801686346582106,
+      "synthesizability": 3.16794092681745,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "disease_class": "Dermatological",
+      "confidence": 0.6013215780258179
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "ssss",
+      "molecular_weight": 48.0,
+      "logp": 3.05765877964712,
+      "qed_score": 0.8288547641500327,
+      "synthesizability": 3.8716117080424297,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "disease_class": "Dermatological",
+      "confidence": 0.6013215780258179
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "s688666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666",
+      "molecular_weight": 1200.0,
+      "logp": 1.4718990670936896,
+      "qed_score": 0.8165637207680271,
+      "synthesizability": 4.106714825095376,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "disease_class": "Dermatological",
+      "confidence": 0.6013215780258179
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "sBBB222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222",
+      "molecular_weight": 1200.0,
+      "logp": 2.696805023906245,
+      "qed_score": 0.7599653068297735,
+      "synthesizability": 3.483935668783011,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "disease_class": "Dermatological",
+      "confidence": 0.6013215780258179
+    }
+  ]
+}

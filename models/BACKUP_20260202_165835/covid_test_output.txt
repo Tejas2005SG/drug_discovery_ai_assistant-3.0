@@ -1,0 +1,464 @@
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)('
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC=
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC=' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC='
+[15:02:29] SMILES Parse Error: syntax error while parsing: 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(=
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(=' for input: '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(='
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: C@H]1C[C@@H](C(=O)N(C)C)N(C(==O)NC(=O)NC1=NC=
+[15:02:29] SMILES Parse Error: check for mistakes around position 2:
+[15:02:29] C@H]1C[C@@H](C(=O)N(C)C)N(C(==O)NC(=O)NC1
+[15:02:29] ~^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES 'C@H]1C[C@@H](C(=O)N(C)C)N(C(==O)NC(=O)NC1=NC=' for input: 'C@H]1C[C@@H](C(=O)N(C)C)N(C(==O)NC(=O)NC1=NC='
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: C@H]1C[C@@H](C(=O)N(C)C)N(C(=C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(
+[15:02:29] SMILES Parse Error: check for mistakes around position 2:
+[15:02:29] C@H]1C[C@@H](C(=O)N(C)C)N(C(=C2(CCN(C(=O)
+[15:02:29] ~^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES 'C@H]1C[C@@H](C(=O)N(C)C)N(C(=C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(' for input: 'C@H]1C[C@@H](C(=O)N(C)C)N(C(=C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)('
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] SMILES Parse Error: syntax error while parsing: 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: =O)NC(=O)NC1=NC=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] =O)NC(=O)NC1=NC=3CCC4=CC(=O)C=C[C@]4(C)[C
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '=O)NC(=O)NC1=NC=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: '=O)NC(=O)NC1=NC=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 35:
+[15:02:29] C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cn
+[15:02:29] ~~~~~~~~~~~~~~~~~~~~^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES 'C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: 'C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 35:
+[15:02:29] C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cn
+[15:02:29] ~~~~~~~~~~~~~~~~~~~~^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES 'C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: 'C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)((C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] SMILES Parse Error: syntax error while parsing: =O)NC(=O)NC1=NC=C@H]1C[C@@H](C(=O)N(C)C)N(C(=
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] =O)NC(=O)NC1=NC=C@H]1C[C@@H](C(=O)N(C)C)N
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '=O)NC(=O)NC1=NC=C@H]1C[C@@H](C(=O)N(C)C)N(C(=' for input: '=O)NC(=O)NC1=NC=C@H]1C[C@@H](C(=O)N(C)C)N(C(='
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+================================================================================
+COVID-19 EMPIRICAL TEST - KNOWLEDGE GRAPH VALIDATION
+================================================================================
+
+This test will:
+  1. Build knowledge graph with COVID-19 data
+  2. Train embeddings on CPU
+  3. Generate drugs for COVID symptoms
+  4. Compare against FDA-approved drugs
+  5. Calculate accuracy metrics
+================================================================================
+[OK] RDKit available - using full chemistry toolkit
+
+[STARTING COMPLETE EMPIRICAL TEST]
+
+[BUILDING AND TRAINING SYSTEM]
+
+[LOADING COVID-19 DATASET]
+[OK] Loaded 8 diseases
+[OK] Loaded 12 FDA-approved drugs
+[OK] Total COVID-related symptoms: 24
+======================================================================
+NOVO-1 DRUG DISCOVERY SYSTEM v2.0
+Knowledge Graph + Smart Molecular Generation
+======================================================================
+======================================================================
+DRUG REPURPOSING KNOWLEDGE GRAPH
+======================================================================
+[OK] RDKit available - using full chemistry toolkit
+[OK] System initialized
+
+Building knowledge graph...
+
+[BUILDING KNOWLEDGE GRAPH]
+[OK] Added 8 diseases
+[OK] Added 24 symptoms
+[OK] Added 12 drugs
+[OK] Added 18 proteins
+[OK] Created 85 triples
+
+[TRAINING KG EMBEDDINGS ON CPU]
+  Dimension: 100
+  Epochs: 1000
+  Learning Rate: 0.01
+  Negative Samples: 5
+
+[TRAINING PROGRESS]
+  Epoch    0/1000: Loss = 1.0144
+  Epoch   50/1000: Loss = 0.9382
+  Epoch  100/1000: Loss = 0.8761
+  Epoch  150/1000: Loss = 0.8445
+  Epoch  200/1000: Loss = 0.8523
+  Epoch  250/1000: Loss = 0.8417
+  Epoch  300/1000: Loss = 0.8298
+  Epoch  350/1000: Loss = 0.8040
+  Epoch  400/1000: Loss = 0.8011
+  Epoch  450/1000: Loss = 0.9558
+  Epoch  500/1000: Loss = 0.9178
+  Epoch  550/1000: Loss = 0.9963
+  Epoch  600/1000: Loss = 0.8355
+  Epoch  650/1000: Loss = 0.8979
+  Epoch  700/1000: Loss = 0.8930
+  Epoch  750/1000: Loss = 0.8955
+  Epoch  800/1000: Loss = 0.9052
+  Epoch  850/1000: Loss = 0.8605
+  Epoch  900/1000: Loss = 0.9966
+  Epoch  950/1000: Loss = 0.8871
+
+[OK] Training complete!
+[OK] RDKit available - using full chemistry toolkit
+
+[KNOWLEDGE GRAPH STATISTICS]
+  Diseases: 8
+  Symptoms: 24
+  Drugs: 12
+  Proteins: 18
+  Triples: 85
+
+================================================================================
+TESTING COVID-19 SYMPTOM SCENARIOS
+================================================================================
+
+[TEST 1/6] Mild COVID-19
+Symptoms: fever, cough, fatigue
+Expected drugs: Paxlovid, Molnupiravir
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['fever', 'cough', 'fatigue']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Influenza A (similarity: 0.827)
+  - Pneumonia (similarity: 0.784)
+  - COVID-19 (similarity: 0.729)
+
+[STEP 2] Found 6 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_005 (Confidence: 51.7%)
+     SMILES: CC(C)CC[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)...
+     QED: 0.600
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  2. NOVO_001 (Confidence: 43.9%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  3. NOVO_002 (Confidence: 42.0%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+
+[TEST 2/6] Moderate COVID-19
+Symptoms: fever, cough, fatigue, shortness of breath
+Expected drugs: Paxlovid, Remdesivir
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['fever', 'cough', 'fatigue', 'shortness of breath']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Pneumonia (similarity: 0.818)
+  - COVID-19 (similarity: 0.715)
+  - Influenza A (similarity: 0.678)
+
+[STEP 2] Found 6 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_000 (Confidence: 44.2%)
+     SMILES: CCC(CC)S(=O)(=O)N[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)O...
+     QED: 0.687
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  2. NOVO_001 (Confidence: 43.9%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  3. NOVO_006 (Confidence: 27.6%)
+     SMILES: CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)...
+     QED: 0.470
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+
+[TEST 3/6] Severe COVID-19
+Symptoms: severe shortness of breath, chest pain, high fever
+Expected drugs: Remdesivir, Dexamethasone, Tocilizumab
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['severe shortness of breath', 'chest pain', 'high fever']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Pneumonia (similarity: 0.914)
+  - Severe COVID-19 (similarity: 0.725)
+  - SARS (similarity: 0.682)
+
+[STEP 2] Found 5 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_004 (Confidence: 65.0%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.598
+     Targets: RNA-dependent RNA polymerase, inflammatory cytokines
+  2. NOVO_000 (Confidence: 55.5%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, inflammatory cytokines
+  3. NOVO_002 (Confidence: 55.5%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, inflammatory cytokines
+
+[TEST 4/6] Long COVID
+Symptoms: persistent fatigue, brain fog, shortness of breath
+Expected drugs:  investigational, supportive care
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['persistent fatigue', 'brain fog', 'shortness of breath']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Long COVID (similarity: 0.775)
+  - Pneumonia (similarity: 0.556)
+  - COVID-19 (similarity: 0.513)
+
+[STEP 2] Found 4 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_001 (Confidence: 53.7%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  2. NOVO_002 (Confidence: 53.7%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  3. NOVO_000 (Confidence: 53.6%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+
+[TEST 5/6] COVID + Influenza
+Symptoms: fever, cough, fatigue, muscle pain, sore throat
+Expected drugs: Paxlovid, Oseltamivir
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['fever', 'cough', 'fatigue', 'muscle pain', 'sore throat']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Influenza A (similarity: 0.820)
+  - COVID-19 (similarity: 0.721)
+  - SARS (similarity: 0.509)
+
+[STEP 2] Found 6 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_001 (Confidence: 50.3%)
+     SMILES: CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)...[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: =O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] =O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '=O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: '=O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: =O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] =O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '=O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](' for input: '=O)NC(=O)NC1=NC=(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H]('
+[15:02:29] SMILES Parse Error: syntax error while parsing: C@H]1C[C@@H](C(=O)N(C)C)N(C(=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C
+[15:02:29] SMILES Parse Error: check for mistakes around position 2:
+[15:02:29] C@H]1C[C@@H](C(=O)N(C)C)N(C(=3CCC4=CC(=O)
+[15:02:29] ~^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES 'C@H]1C[C@@H](C(=O)N(C)C)N(C(=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C' for input: 'C@H]1C[C@@H](C(=O)N(C)C)N(C(=3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C'
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](C2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)('
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+[15:02:29] SMILES Parse Error: syntax error while parsing: (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC=
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] (C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC=' for input: '(C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](=O)NC(=O)NC1=NC='
+[15:02:29] SMILES Parse Error: syntax error while parsing: 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(=
+[15:02:29] SMILES Parse Error: check for mistakes around position 1:
+[15:02:29] 3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)
+[15:02:29] ^
+[15:02:29] SMILES Parse Error: Failed parsing SMILES '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(=' for input: '3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[CC@H]1C[C@@H](C(=O)N(C)C)N(C(='
+[15:02:29] DEPRECATION WARNING: please use MorganGenerator
+
+     QED: 0.559
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  2. NOVO_003 (Confidence: 25.9%)
+     SMILES: CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)...
+     QED: 0.470
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+  3. NOVO_005 (Confidence: 25.8%)
+     SMILES: CC(C)CCCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(...
+     QED: 0.132
+     Targets: RNA-dependent RNA polymerase, 3CL_protease
+
+[TEST 6/6] Cytokine Storm
+Symptoms: high fever, severe inflammation, low oxygen, lung inflammation
+Expected drugs: Dexamethasone, Tocilizumab, Baricitinib
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['high fever', 'severe inflammation', 'low oxygen', 'lung inflammation']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - ARDS (similarity: 0.453)
+  - Influenza A (similarity: 0.293)
+  - SARS (similarity: 0.263)
+
+[STEP 2] Found 5 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+Top 3 Generated Candidates:
+  1. NOVO_000 (Confidence: 32.8%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, neuraminidase
+  2. NOVO_002 (Confidence: 32.8%)
+     SMILES: C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3...
+     QED: 0.667
+     Targets: RNA-dependent RNA polymerase, neuraminidase
+  3. NOVO_006 (Confidence: 31.5%)
+     SMILES: CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2c...
+     QED: 0.623
+     Targets: RNA-dependent RNA polymerase, neuraminidase
+
+======================================================================
+GENERATING DRUGS FOR SYMPTOMS: ['fever', 'cough', 'fatigue']
+======================================================================
+
+[STEP 1] Matched Diseases:
+  - Influenza A (similarity: 0.827)
+  - Pneumonia (similarity: 0.784)
+  - COVID-19 (similarity: 0.729)
+
+[STEP 2] Found 6 source drugs
+
+[STEP 3] Generated 7 valid candidates
+======================================================================
+
+
+================================================================================
+MOLECULAR SIMILARITY ANALYSIS
+================================================================================
+Traceback (most recent call last):
+  File "C:\Users\Tejas\Desktop\drugs_discovery_ai_assistant\models\covid_empirical_test.py", line 509, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\Tejas\Desktop\drugs_discovery_ai_assistant\models\covid_empirical_test.py", line 501, in main
+    report = test.run_complete_test()
+  File "C:\Users\Tejas\Desktop\drugs_discovery_ai_assistant\models\covid_empirical_test.py", line 482, in run_complete_test
+    similarities = self.calculate_molecular_similarity(candidates)
+  File "C:\Users\Tejas\Desktop\drugs_discovery_ai_assistant\models\covid_empirical_test.py", line 376, in calculate_molecular_similarity
+    real_fp = self.mol_processor.smiles_to_fingerprint(real_drug['smiles'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MolecularProcessor' object has no attribute 'smiles_to_fingerprint'

@@ -1,0 +1,1745 @@
+"""
+Target Protein Database for Drug Discovery
+Comprehensive protein metadata with UniProt information, pathways, and functions
+"""
+
+import json
+from typing import Dict, List, Optional
+from pathlib import Path
+
+class ProteinDatabase:
+    """
+    Comprehensive protein database for drug target identification
+    Contains UniProt IDs, protein families, pathways, and therapeutic relevance
+    """
+    
+    def __init__(self, db_path: Optional[str] = None):
+        """
+        Initialize protein database
+        
+        Args:
+            db_path: Path to JSON protein database file
+        """
+        self.proteins = {}  # protein_name -> metadata dict
+        self.protein_families = {}  # family_name -> list of proteins
+        self.pathways = {}  # pathway_name -> list of proteins
+        
+        # Load database if provided
+        if db_path:
+            self.load_database(db_path)
+        else:
+            # Try to load expanded database first
+            expanded_path = Path("D:/Datasets/expanded_protein_database_complete.json")
+            if expanded_path.exists():
+                self.load_database(str(expanded_path))
+                print(f"[OK] Loaded expanded protein database with {len(self.proteins)} proteins")
+            else:
+                self._initialize_default_database()
+    
+    def _initialize_default_database(self):
+        """Initialize comprehensive default protein database"""
+        
+        # Define comprehensive protein metadata
+        default_proteins = {
+            # Proteases
+            "3CL_protease": {
+                "uniprot_id": "P0DTD1",
+                "gene_name": "N/A",
+                "full_name": "3C-like protease",
+                "protein_family": "Viral Protease",
+                "organism": "SARS-CoV-2",
+                "function": "Cleaves viral polyprotein into functional units",
+                "pathways": ["Viral Replication", "COVID-19 Pathogenesis"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["COVID-19", "SARS", "MERS"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Cysteine protease",
+                "clinical_significance": "Primary target for COVID-19 antivirals",
+                "literature_count": 15000,
+                "structure_available": True,
+                "pdb_ids": ["6LU7", "7L0D"],
+                "known_inhibitors": ["Paxlovid", "Lopinavir", "Ritonavir"],
+                "importance_score": 0.95
+            },
+            "Mpro": {
+                "uniprot_id": "P0DTD1",
+                "gene_name": "N/A",
+                "full_name": "Main protease",
+                "protein_family": "Viral Protease",
+                "organism": "SARS-CoV-2",
+                "function": "Essential for viral replication",
+                "pathways": ["Viral Replication", "Protein Processing"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["COVID-19"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Cysteine protease",
+                "clinical_significance": "Critical target for COVID-19 treatment",
+                "literature_count": 12000,
+                "structure_available": True,
+                "pdb_ids": ["6LU7", "6W63"],
+                "known_inhibitors": ["Paxlovid", "Nirmatrelvir"],
+                "importance_score": 0.94
+            },
+            
+            # Cyclooxygenases
+            "COX-1": {
+                "uniprot_id": "P23219",
+                "gene_name": "PTGS1",
+                "full_name": "Prostaglandin G/H synthase 1",
+                "protein_family": "Cyclooxygenase",
+                "organism": "Homo sapiens",
+                "function": "Produces prostaglandins and thromboxane",
+                "pathways": ["Prostaglandin Synthesis", "Inflammatory Response", "Platelet Aggregation"],
+                "therapeutic_area": "Anti-inflammatory",
+                "disease_relevance": ["Inflammation", "Pain", "Fever"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Bifunctional enzyme (COX and peroxidase)",
+                "clinical_significance": "Target for NSAIDs, responsible for gastric protection",
+                "literature_count": 8500,
+                "structure_available": True,
+                "pdb_ids": ["1PTH", "3N8X"],
+                "known_inhibitors": ["Aspirin", "Ibuprofen", "Naproxen"],
+                "importance_score": 0.88
+            },
+            "COX-2": {
+                "uniprot_id": "P35354",
+                "gene_name": "PTGS2",
+                "full_name": "Prostaglandin G/H synthase 2",
+                "protein_family": "Cyclooxygenase",
+                "organism": "Homo sapiens",
+                "function": "Inducible prostaglandin synthesis during inflammation",
+                "pathways": ["Inflammatory Response", "Pain Signaling", "Fever Response"],
+                "therapeutic_area": "Anti-inflammatory",
+                "disease_relevance": ["Inflammation", "Pain", "Cancer", "Arthritis"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Bifunctional enzyme (COX and peroxidase)",
+                "clinical_significance": "Primary target for selective NSAIDs, implicated in cardiovascular risk",
+                "literature_count": 12000,
+                "structure_available": True,
+                "pdb_ids": ["1CX2", "3LN1"],
+                "known_inhibitors": ["Celecoxib", "Rofecoxib", "Etoricoxib"],
+                "importance_score": 0.90
+            },
+            
+            # CD markers
+            "CD20": {
+                "uniprot_id": "P11836",
+                "gene_name": "MS4A1",
+                "full_name": "B-lymphocyte antigen CD20",
+                "protein_family": "Membrane-spanning 4-domain family",
+                "organism": "Homo sapiens",
+                "function": "B-cell activation and proliferation regulation",
+                "pathways": ["B-cell Receptor Signaling", "Calcium Signaling"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Lymphoma", "Rheumatoid Arthritis"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "None (receptor)",
+                "clinical_significance": "Target for monoclonal antibodies in MS and cancer",
+                "literature_count": 6000,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Ocrelizumab", "Rituximab", "Ofatumumab"],
+                "importance_score": 0.85
+            },
+            
+            # Ion channels
+            "Potassium_Channel": {
+                "uniprot_id": "Multiple",
+                "gene_name": "Various",
+                "full_name": "Voltage-gated potassium channel",
+                "protein_family": "Ion Channel",
+                "organism": "Homo sapiens",
+                "function": "Regulates neuronal excitability and action potential repolarization",
+                "pathways": ["Neuronal Signaling", "Cardiac Conduction", "Smooth Muscle Contraction"],
+                "therapeutic_area": "Neurology/Cardiology",
+                "disease_relevance": ["Epilepsy", "Arrhythmia", "MS", "Pain"],
+                "druggability": "Medium",
+                "binding_sites": 4,
+                "catalytic_activity": "Ion channel (selective for K+)",
+                "clinical_significance": "Target for anti-epileptics and anti-arrhythmics",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["2R9R", "3LUT"],
+                "known_inhibitors": ["4-AP", "TEA", "Various toxins"],
+                "importance_score": 0.87
+            },
+            "Sodium_Channel": {
+                "uniprot_id": "P35498",
+                "gene_name": "SCN1A",
+                "full_name": "Sodium channel protein type 1 subunit alpha",
+                "protein_family": "Voltage-gated Sodium Channel",
+                "organism": "Homo sapiens",
+                "function": "Mediates voltage-dependent sodium ion permeability",
+                "pathways": ["Action Potential Initiation", "Neuronal Excitability"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy", "Pain", "Migraine"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Ion channel (selective for Na+)",
+                "clinical_significance": "Primary target for local anesthetics and anti-epileptics",
+                "literature_count": 7000,
+                "structure_available": True,
+                "pdb_ids": ["5X0M", "6J8E"],
+                "known_inhibitors": ["Carbamazepine", "Lamotrigine", "Phenytoin"],
+                "importance_score": 0.86
+            },
+            "Calcium_Channel": {
+                "uniprot_id": "Q13936",
+                "gene_name": "CACNA1C",
+                "full_name": "Voltage-dependent L-type calcium channel subunit alpha-1C",
+                "protein_family": "Voltage-gated Calcium Channel",
+                "organism": "Homo sapiens",
+                "function": "Mediates entry of calcium ions in response to membrane depolarization",
+                "pathways": ["Cardiac Contraction", "Smooth Muscle Contraction", "Neurotransmitter Release"],
+                "therapeutic_area": "Cardiology/Neurology",
+                "disease_relevance": ["Hypertension", "Angina", "Arrhythmia", "Migraine"],
+                "druggability": "High",
+                "binding_sites": 3,
+                "catalytic_activity": "Ion channel (selective for Ca2+)",
+                "clinical_significance": "Primary target for calcium channel blockers",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["5GJW", "6JPA"],
+                "known_inhibitors": ["Amlodipine", "Verapamil", "Diltiazem"],
+                "importance_score": 0.88
+            },
+            
+            # Enzymes
+            "DHFR": {
+                "uniprot_id": "P00374",
+                "gene_name": "DHFR",
+                "full_name": "Dihydrofolate reductase",
+                "protein_family": "Oxidoreductase",
+                "organism": "Homo sapiens",
+                "function": "Reduces dihydrofolate to tetrahydrofolate",
+                "pathways": ["Folate Metabolism", "DNA Synthesis", "Cell Division"],
+                "therapeutic_area": "Oncology/Rheumatology",
+                "disease_relevance": ["Cancer", "Rheumatoid Arthritis", "Psoriasis"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "NADPH-dependent reduction",
+                "clinical_significance": "Essential enzyme for cell proliferation, target for methotrexate",
+                "literature_count": 10000,
+                "structure_available": True,
+                "pdb_ids": ["1DHF", "1U72"],
+                "known_inhibitors": ["Methotrexate", "Pemetrexed", "Pralatrexate"],
+                "importance_score": 0.89
+            },
+            "Acetylcholinesterase": {
+                "uniprot_id": "P22303",
+                "gene_name": "ACHE",
+                "full_name": "Acetylcholinesterase",
+                "protein_family": "Hydrolase",
+                "organism": "Homo sapiens",
+                "function": "Terminates synaptic transmission by hydrolyzing acetylcholine",
+                "pathways": ["Neurotransmitter Degradation", "Cholinergic Signaling"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease", "Myasthenia Gravis", "Glaucoma"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Serine hydrolase",
+                "clinical_significance": "Target for Alzheimer's treatment and nerve agent antidotes",
+                "literature_count": 11000,
+                "structure_available": True,
+                "pdb_ids": ["1ACJ", "4EY7"],
+                "known_inhibitors": ["Donepezil", "Rivastigmine", "Galantamine"],
+                "importance_score": 0.88
+            },
+            "Monoamine_Oxidase_B": {
+                "uniprot_id": "P27338",
+                "gene_name": "MAOB",
+                "full_name": "Amine oxidase [flavin-containing] B",
+                "protein_family": "Flavin-containing monoamine oxidase",
+                "organism": "Homo sapiens",
+                "function": "Catalyzes dopamine degradation",
+                "pathways": ["Dopamine Metabolism", "Monoamine Degradation"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Parkinson's Disease", "Depression"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "FAD-dependent oxidase",
+                "clinical_significance": "Target for Parkinson's disease treatment",
+                "literature_count": 7500,
+                "structure_available": True,
+                "pdb_ids": ["1GOS", "2V5Z"],
+                "known_inhibitors": ["Selegiline", "Rasagiline", "Safinamide"],
+                "importance_score": 0.87
+            },
+            "Catechol-O-Methyltransferase": {
+                "uniprot_id": "P21964",
+                "gene_name": "COMT",
+                "full_name": "Catechol O-methyltransferase",
+                "protein_family": "Methyltransferase",
+                "organism": "Homo sapiens",
+                "function": "Catalyzes transfer of methyl group to catecholamines",
+                "pathways": ["Dopamine Metabolism", "Norepinephrine Metabolism"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Parkinson's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Mg2+-dependent methyltransferase",
+                "clinical_significance": "Target for adjunct Parkinson's therapy",
+                "literature_count": 5500,
+                "structure_available": True,
+                "pdb_ids": ["3A7E", "3BWM"],
+                "known_inhibitors": ["Entacapone", "Tolcapone", "Opicapone"],
+                "importance_score": 0.82
+            },
+            
+            # Neurotransmitter receptors
+            "Dopamine_Receptor_D2": {
+                "uniprot_id": "P14416",
+                "gene_name": "DRD2",
+                "full_name": "Dopamine receptor D2",
+                "protein_family": "G-protein coupled receptor (GPCR)",
+                "organism": "Homo sapiens",
+                "function": "Inhibits adenylyl cyclase activity",
+                "pathways": ["Dopaminergic Signaling", "Reward Pathway", "Motor Control"],
+                "therapeutic_area": "Neurology/Psychiatry",
+                "disease_relevance": ["Parkinson's Disease", "Schizophrenia", "Bipolar Disorder"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gi/o coupled)",
+                "clinical_significance": "Primary target for antipsychotics and Parkinson's drugs",
+                "literature_count": 13000,
+                "structure_available": True,
+                "pdb_ids": ["6CM4", "6WI7"],
+                "known_inhibitors": ["Haloperidol", "Risperidone", "Aripiprazole"],
+                "importance_score": 0.91
+            },
+            "GABA_Receptor": {
+                "uniprot_id": "P14867",
+                "gene_name": "GABRA1",
+                "full_name": "Gamma-aminobutyric acid receptor subunit alpha-1",
+                "protein_family": "Ligand-gated ion channel",
+                "organism": "Homo sapiens",
+                "function": "Mediates inhibitory neurotransmission",
+                "pathways": ["Inhibitory Neurotransmission", "Anxiety Response", "Seizure Suppression"],
+                "therapeutic_area": "Neurology/Psychiatry",
+                "disease_relevance": ["Epilepsy", "Anxiety", "Insomnia", "Alcohol Withdrawal"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Chloride ion channel",
+                "clinical_significance": "Primary target for benzodiazepines and barbiturates",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["6HUP", "6D6U"],
+                "known_inhibitors": ["Diazepam", "Phenobarbital", "Propofol"],
+                "importance_score": 0.89
+            },
+            "Glutamate_Receptor_NMDA": {
+                "uniprot_id": "P35439",
+                "gene_name": "GRIN2B",
+                "full_name": "Glutamate receptor ionotropic, NMDA 2B",
+                "protein_family": "Ionotropic glutamate receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates excitatory synaptic transmission",
+                "pathways": ["Excitatory Neurotransmission", "Synaptic Plasticity", "Learning and Memory"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease", "Depression", "Chronic Pain"],
+                "druggability": "Medium",
+                "binding_sites": 5,
+                "catalytic_activity": "Cation channel (Ca2+ permeable)",
+                "clinical_significance": "Target for Alzheimer's and depression treatment",
+                "literature_count": 10000,
+                "structure_available": True,
+                "pdb_ids": ["4PE5", "5H8Q"],
+                "known_inhibitors": ["Memantine", "Ketamine", "Esketamine"],
+                "importance_score": 0.88
+            },
+            "Serotonin_Receptor_5HT1B": {
+                "uniprot_id": "P28222",
+                "gene_name": "HTR1B",
+                "full_name": "5-hydroxytryptamine receptor 1B",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Vascular and neuronal serotonin receptor",
+                "pathways": ["Serotonergic Signaling", "Migraine Pathogenesis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine", "Depression", "Anxiety"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gi/Go coupled)",
+                "clinical_significance": "Target for triptan migraine medications",
+                "literature_count": 6500,
+                "structure_available": True,
+                "pdb_ids": ["5V54", "6G79"],
+                "known_inhibitors": ["Sumatriptan", "Rizatriptan", "Zolmitriptan"],
+                "importance_score": 0.84
+            },
+            
+            # Enzymes for neurotransmitters
+            "Tryptophan_Hydroxylase": {
+                "uniprot_id": "Q16868",
+                "gene_name": "TPH2",
+                "full_name": "Tryptophan 5-hydroxylase 2",
+                "protein_family": "Aromatic amino acid hydroxylase",
+                "organism": "Homo sapiens",
+                "function": "Rate-limiting enzyme in serotonin biosynthesis",
+                "pathways": ["Serotonin Synthesis", "Melatonin Synthesis"],
+                "therapeutic_area": "Psychiatry",
+                "disease_relevance": ["Depression", "Anxiety", "Insomnia"],
+                "druggability": "Medium",
+                "binding_sites": 2,
+                "catalytic_activity": "Iron-dependent hydroxylase",
+                "clinical_significance": "Key target for mood disorder treatment",
+                "literature_count": 4500,
+                "structure_available": True,
+                "pdb_ids": ["5HWM", "6CO5"],
+                "known_inhibitors": ["Paroxetine (indirect)", "Various tryptophan analogs"],
+                "importance_score": 0.81
+            },
+            
+            # Immune targets
+            "TNF_alpha": {
+                "uniprot_id": "P01375",
+                "gene_name": "TNF",
+                "full_name": "Tumor necrosis factor",
+                "protein_family": "Cytokine",
+                "organism": "Homo sapiens",
+                "function": "Promotes inflammatory response and cell death",
+                "pathways": ["Inflammatory Response", "Apoptosis", "Immune Response"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Rheumatoid Arthritis", "Crohn's Disease", "Psoriasis"],
+                "druggability": "High",
+                "binding_sites": 3,
+                "catalytic_activity": "Cytokine (trimeric)",
+                "clinical_significance": "Primary target for biologic anti-inflammatories",
+                "literature_count": 25000,
+                "structure_available": True,
+                "pdb_ids": ["1TNF", "2AZ5"],
+                "known_inhibitors": ["Adalimumab", "Infliximab", "Etanercept"],
+                "importance_score": 0.92
+            },
+            "Interleukin_6_Receptor": {
+                "uniprot_id": "P08887",
+                "gene_name": "IL6R",
+                "full_name": "Interleukin-6 receptor subunit alpha",
+                "protein_family": "Cytokine receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates IL-6 signaling",
+                "pathways": ["JAK-STAT Signaling", "Inflammatory Response", "B-cell Differentiation"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Rheumatoid Arthritis", "Castleman Disease", "Cytokine Storm"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Cytokine receptor (signaling)",
+                "clinical_significance": "Target for tocilizumab in cytokine storm",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["1P9M", "2Y5T"],
+                "known_inhibitors": ["Tocilizumab", "Sarilumab", "Siltuximab"],
+                "importance_score": 0.86
+            },
+            "JAK1": {
+                "uniprot_id": "P23458",
+                "gene_name": "JAK1",
+                "full_name": "Tyrosine-protein kinase JAK1",
+                "protein_family": "Janus kinase",
+                "organism": "Homo sapiens",
+                "function": "Transduces cytokine and growth factor signals",
+                "pathways": ["JAK-STAT Signaling", "Immune Response", "Hematopoiesis"],
+                "therapeutic_area": "Immunology/Oncology",
+                "disease_relevance": ["Rheumatoid Arthritis", "Myelofibrosis", "Psoriasis"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Tyrosine kinase",
+                "clinical_significance": "Target for JAK inhibitors in autoimmune diseases",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["3EYG", "4K6Z"],
+                "known_inhibitors": ["Tofacitinib", "Ruxolitinib", "Baricitinib"],
+                "importance_score": 0.87
+            },
+            
+            # Metabolic enzymes
+            "HMG-CoA_Reductase": {
+                "uniprot_id": "P04035",
+                "gene_name": "HMGCR",
+                "full_name": "3-hydroxy-3-methylglutaryl-coenzyme A reductase",
+                "protein_family": "Oxidoreductase",
+                "organism": "Homo sapiens",
+                "function": "Rate-limiting enzyme in cholesterol biosynthesis",
+                "pathways": ["Cholesterol Biosynthesis", "Steroid Biosynthesis"],
+                "therapeutic_area": "Cardiology",
+                "disease_relevance": ["Hypercholesterolemia", "Cardiovascular Disease", "Atherosclerosis"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "NADPH-dependent reductase",
+                "clinical_significance": "Primary target for statin drugs",
+                "literature_count": 9500,
+                "structure_available": True,
+                "pdb_ids": ["1DQ8", "1HWK"],
+                "known_inhibitors": ["Atorvastatin", "Simvastatin", "Rosuvastatin"],
+                "importance_score": 0.89
+            },
+            "SGLT2": {
+                "uniprot_id": "P31639",
+                "gene_name": "SLC5A2",
+                "full_name": "Sodium/glucose cotransporter 2",
+                "protein_family": "Solute carrier family",
+                "organism": "Homo sapiens",
+                "function": "Reabsorbs glucose from renal filtrate",
+                "pathways": ["Glucose Reabsorption", "Renal Physiology"],
+                "therapeutic_area": "Endocrinology/Cardiology",
+                "disease_relevance": ["Type 2 Diabetes", "Heart Failure", "Chronic Kidney Disease"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Sodium-glucose symporter",
+                "clinical_significance": "Target for SGLT2 inhibitors in diabetes and heart failure",
+                "literature_count": 7000,
+                "structure_available": True,
+                "pdb_ids": ["2XQ2", "6RPB"],
+                "known_inhibitors": ["Empagliflozin", "Dapagliflozin", "Canagliflozin"],
+                "importance_score": 0.87
+            },
+            
+            # Coagulation factors
+            "Factor_Xa": {
+                "uniprot_id": "P00742",
+                "gene_name": "F10",
+                "full_name": "Coagulation factor X",
+                "protein_family": "Serine protease",
+                "organism": "Homo sapiens",
+                "function": "Converts prothrombin to thrombin in coagulation cascade",
+                "pathways": ["Blood Coagulation", "Complement Activation"],
+                "therapeutic_area": "Hematology/Cardiology",
+                "disease_relevance": ["Thrombosis", "Atrial Fibrillation", "DVT", "PE"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Serine protease",
+                "clinical_significance": "Primary target for oral anticoagulants",
+                "literature_count": 8500,
+                "structure_available": True,
+                "pdb_ids": ["1FAX", "1Z6E"],
+                "known_inhibitors": ["Rivaroxaban", "Apixaban", "Edoxaban"],
+                "importance_score": 0.88
+            },
+            "Thrombin": {
+                "uniprot_id": "P00734",
+                "gene_name": "F2",
+                "full_name": "Thrombin",
+                "protein_family": "Serine protease",
+                "organism": "Homo sapiens",
+                "function": "Converts fibrinogen to fibrin",
+                "pathways": ["Blood Coagulation", "Platelet Activation"],
+                "therapeutic_area": "Hematology",
+                "disease_relevance": ["Thrombosis", "Stroke", "ACS"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Serine protease",
+                "clinical_significance": "Target for direct thrombin inhibitors",
+                "literature_count": 11000,
+                "structure_available": True,
+                "pdb_ids": ["1PPB", "1SFQ"],
+                "known_inhibitors": ["Dabigatran", "Argatroban", "Bivalirudin"],
+                "importance_score": 0.89
+            },
+            
+            # Oncology targets
+            "EGFR": {
+                "uniprot_id": "P00533",
+                "gene_name": "EGFR",
+                "full_name": "Epidermal growth factor receptor",
+                "protein_family": "Receptor tyrosine kinase",
+                "organism": "Homo sapiens",
+                "function": "Mediates cell proliferation and survival signals",
+                "pathways": ["EGFR Signaling", "MAPK Cascade", "PI3K-AKT"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Non-small Cell Lung Cancer", "Colorectal Cancer", "Glioblastoma"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Tyrosine kinase",
+                "clinical_significance": "Primary target for targeted cancer therapy",
+                "literature_count": 28000,
+                "structure_available": True,
+                "pdb_ids": ["1M17", "2ITW"],
+                "known_inhibitors": ["Gefitinib", "Erlotinib", "Osimertinib"],
+                "importance_score": 0.94
+            },
+            "HER2": {
+                "uniprot_id": "P04626",
+                "gene_name": "ERBB2",
+                "full_name": "Receptor tyrosine-protein kinase erbB-2",
+                "protein_family": "Receptor tyrosine kinase",
+                "organism": "Homo sapiens",
+                "function": "Promotes cell growth and division",
+                "pathways": ["HER2 Signaling", "PI3K-AKT", "MAPK"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Breast Cancer", "Gastric Cancer", "Ovarian Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Tyrosine kinase",
+                "clinical_significance": "Target for HER2+ cancer therapy",
+                "literature_count": 18000,
+                "structure_available": True,
+                "pdb_ids": ["3BE1", "3PP0"],
+                "known_inhibitors": ["Trastuzumab", "Pertuzumab", "T-DM1"],
+                "importance_score": 0.93
+            },
+            "BCR-ABL": {
+                "uniprot_id": "P00519",
+                "gene_name": "ABL1",
+                "full_name": "Tyrosine-protein kinase ABL1",
+                "protein_family": "Non-receptor tyrosine kinase",
+                "organism": "Homo sapiens",
+                "function": "Constitutively active in BCR-ABL fusion",
+                "pathways": ["BCR-ABL Signaling", "Cell Proliferation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Chronic Myeloid Leukemia", "ALL"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Tyrosine kinase",
+                "clinical_significance": "Target for tyrosine kinase inhibitors",
+                "literature_count": 15000,
+                "structure_available": True,
+                "pdb_ids": ["1OPJ", "2HYY"],
+                "known_inhibitors": ["Imatinib", "Dasatinib", "Nilotinib"],
+                "importance_score": 0.92
+            },
+            "Androgen_Receptor": {
+                "uniprot_id": "P10275",
+                "gene_name": "AR",
+                "full_name": "Androgen receptor",
+                "protein_family": "Nuclear receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates androgen signaling",
+                "pathways": ["Androgen Signaling", "Prostate Cell Proliferation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Prostate Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Nuclear receptor (transcription factor)",
+                "clinical_significance": "Target for prostate cancer therapy",
+                "literature_count": 12000,
+                "structure_available": True,
+                "pdb_ids": ["1E3G", "2PIF"],
+                "known_inhibitors": ["Enzalutamide", "Bicalutamide", "Apalutamide"],
+                "importance_score": 0.90
+            },
+            "Estrogen_Receptor": {
+                "uniprot_id": "P03372",
+                "gene_name": "ESR1",
+                "full_name": "Estrogen receptor",
+                "protein_family": "Nuclear receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates estrogen signaling",
+                "pathways": ["Estrogen Signaling", "Breast Cell Proliferation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Breast Cancer", "Endometrial Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Nuclear receptor (transcription factor)",
+                "clinical_significance": "Target for hormone therapy in breast cancer",
+                "literature_count": 16000,
+                "structure_available": True,
+                "pdb_ids": ["1A52", "3ERT"],
+                "known_inhibitors": ["Tamoxifen", "Letrozole", "Fulvestrant"],
+                "importance_score": 0.91
+            },
+            "VEGFR2": {
+                "uniprot_id": "P35968",
+                "gene_name": "KDR",
+                "full_name": "Vascular endothelial growth factor receptor 2",
+                "protein_family": "Receptor tyrosine kinase",
+                "organism": "Homo sapiens",
+                "function": "Mediates angiogenesis signaling",
+                "pathways": ["VEGF Signaling", "Angiogenesis"],
+                "therapeutic_area": "Oncology/Cardiology",
+                "disease_relevance": ["Cancer", "Wet AMD", "Diabetic Retinopathy"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Tyrosine kinase",
+                "clinical_significance": "Target for anti-angiogenic therapy",
+                "literature_count": 11000,
+                "structure_available": True,
+                "pdb_ids": ["2XIR", "3VHE"],
+                "known_inhibitors": ["Sunitinib", "Sorafenib", "Bevacizumab"],
+                "importance_score": 0.88
+            },
+            "BRAF": {
+                "uniprot_id": "P15056",
+                "gene_name": "BRAF",
+                "full_name": "Serine/threonine-protein kinase B-raf",
+                "protein_family": "RAF kinase",
+                "organism": "Homo sapiens",
+                "function": "Transduces signals from Ras to MEK in MAPK pathway",
+                "pathways": ["MAPK Signaling", "Cell Proliferation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Melanoma", "Colorectal Cancer", "Thyroid Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Serine/threonine kinase",
+                "clinical_significance": "V600E mutation target for melanoma therapy",
+                "literature_count": 14000,
+                "structure_available": True,
+                "pdb_ids": ["2FB8", "4E26"],
+                "known_inhibitors": ["Vemurafenib", "Dabrafenib", "Encorafenib"],
+                "importance_score": 0.90
+            },
+            "MEK1": {
+                "uniprot_id": "Q02750",
+                "gene_name": "MAP2K1",
+                "full_name": "Dual specificity mitogen-activated protein kinase kinase 1",
+                "protein_family": "MAP kinase kinase",
+                "organism": "Homo sapiens",
+                "function": "Phosphorylates and activates ERK",
+                "pathways": ["MAPK Signaling", "Cell Proliferation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Melanoma", "NSCLC", "Colorectal Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Dual-specificity kinase",
+                "clinical_significance": "Target for combination therapy with BRAF inhibitors",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["3V01", "3EQD"],
+                "known_inhibitors": ["Trametinib", "Cobimetinib", "Binimetinib"],
+                "importance_score": 0.87
+            },
+            "PD-1": {
+                "uniprot_id": "Q15116",
+                "gene_name": "PDCD1",
+                "full_name": "Programmed cell death protein 1",
+                "protein_family": "Immunoglobulin superfamily",
+                "organism": "Homo sapiens",
+                "function": "Inhibits T-cell activation",
+                "pathways": ["Immune Checkpoint", "T-cell Regulation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Melanoma", "NSCLC", "Renal Cell Carcinoma", "Various Cancers"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Immune receptor (signaling)",
+                "clinical_significance": "Revolutionary target for cancer immunotherapy",
+                "literature_count": 20000,
+                "structure_available": True,
+                "pdb_ids": ["3RRQ", "5GGS"],
+                "known_inhibitors": ["Pembrolizumab", "Nivolumab", "Cemiplimab"],
+                "importance_score": 0.95
+            },
+            "PD-L1": {
+                "uniprot_id": "Q9NZQ7",
+                "gene_name": "CD274",
+                "full_name": "Programmed cell death 1 ligand 1",
+                "protein_family": "Immunoglobulin superfamily",
+                "organism": "Homo sapiens",
+                "function": "Binds PD-1 to inhibit T-cell response",
+                "pathways": ["Immune Checkpoint", "T-cell Regulation"],
+                "therapeutic_area": "Oncology",
+                "disease_relevance": ["Melanoma", "NSCLC", "Bladder Cancer", "Various Cancers"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Immune ligand",
+                "clinical_significance": "Target for small molecule and antibody immunotherapy",
+                "literature_count": 15000,
+                "structure_available": True,
+                "pdb_ids": ["3BIK", "5JDS"],
+                "known_inhibitors": ["Atezolizumab", "Durvalumab", "Avelumab"],
+                "importance_score": 0.93
+            },
+            
+            # Antimicrobial targets
+            "Bacterial_50S_Ribosomal_Subunit": {
+                "uniprot_id": "Multiple",
+                "gene_name": "Various",
+                "full_name": "50S ribosomal subunit",
+                "protein_family": "Ribosomal Protein",
+                "organism": "Bacteria",
+                "function": "Protein synthesis machinery",
+                "pathways": ["Translation", "Protein Synthesis"],
+                "therapeutic_area": "Antibiotic",
+                "disease_relevance": ["Bacterial Infections"],
+                "druggability": "High",
+                "binding_sites": 3,
+                "catalytic_activity": "Ribozyme/Ribosomal RNA",
+                "clinical_significance": "Target for macrolide antibiotics",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["1FFK", "3J7Z"],
+                "known_inhibitors": ["Erythromycin", "Azithromycin", "Clarithromycin"],
+                "importance_score": 0.85
+            },
+            "Bacterial_30S_Ribosomal_Subunit": {
+                "uniprot_id": "Multiple",
+                "gene_name": "Various",
+                "full_name": "30S ribosomal subunit",
+                "protein_family": "Ribosomal Protein",
+                "organism": "Bacteria",
+                "function": "Protein synthesis machinery (decoding center)",
+                "pathways": ["Translation", "Protein Synthesis"],
+                "therapeutic_area": "Antibiotic",
+                "disease_relevance": ["Bacterial Infections"],
+                "druggability": "High",
+                "binding_sites": 3,
+                "catalytic_activity": "Ribozyme/Ribosomal RNA",
+                "clinical_significance": "Target for aminoglycoside and tetracycline antibiotics",
+                "literature_count": 7500,
+                "structure_available": True,
+                "pdb_ids": ["1FJF", "4V4N"],
+                "known_inhibitors": ["Gentamicin", "Tetracycline", "Doxycycline"],
+                "importance_score": 0.84
+            },
+            "Bacterial_DNA_Gyrase": {
+                "uniprot_id": "P0A0K9",
+                "gene_name": "gyrA",
+                "full_name": "DNA gyrase subunit A",
+                "protein_family": "Type II topoisomerase",
+                "organism": "Bacteria",
+                "function": "Introduces negative supercoils into DNA",
+                "pathways": ["DNA Replication", "DNA Topology"],
+                "therapeutic_area": "Antibiotic",
+                "disease_relevance": ["Bacterial Infections", "UTI", "Respiratory Infections"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Topoisomerase",
+                "clinical_significance": "Primary target for fluoroquinolone antibiotics",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["1AB4", "3CD5"],
+                "known_inhibitors": ["Ciprofloxacin", "Levofloxacin", "Moxifloxacin"],
+                "importance_score": 0.87
+            },
+            "Bacterial_DHFR": {
+                "uniprot_id": "P0AC13",
+                "gene_name": "folA",
+                "full_name": "Dihydrofolate reductase",
+                "protein_family": "Oxidoreductase",
+                "organism": "Bacteria",
+                "function": "Reduces dihydrofolate to tetrahydrofolate",
+                "pathways": ["Folate Metabolism", "DNA Synthesis"],
+                "therapeutic_area": "Antibiotic",
+                "disease_relevance": ["Bacterial Infections", "UTI", "Pneumonia"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "NADPH-dependent reductase",
+                "clinical_significance": "Target for trimethoprim",
+                "literature_count": 6500,
+                "structure_available": True,
+                "pdb_ids": ["1DG5", "3FRE"],
+                "known_inhibitors": ["Trimethoprim", "Iclaprim"],
+                "importance_score": 0.82
+            },
+            
+            # Viral targets
+            "HIV_Reverse_Transcriptase": {
+                "uniprot_id": "P03366",
+                "gene_name": "pol",
+                "full_name": "Reverse transcriptase/RNaseH",
+                "protein_family": "Retroviral polymerase",
+                "organism": "HIV-1",
+                "function": "Synthesizes DNA from viral RNA",
+                "pathways": ["Retroviral Replication", "Reverse Transcription"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["HIV/AIDS"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "RNA-dependent DNA polymerase",
+                "clinical_significance": "Primary target for antiretroviral therapy",
+                "literature_count": 15000,
+                "structure_available": True,
+                "pdb_ids": ["1RTD", "3HVT"],
+                "known_inhibitors": ["Tenofovir", "Lamivudine", "Efavirenz"],
+                "importance_score": 0.91
+            },
+            "HIV_Protease": {
+                "uniprot_id": "P03367",
+                "gene_name": "pol",
+                "full_name": "HIV-1 protease",
+                "protein_family": "Retroviral aspartyl protease",
+                "organism": "HIV-1",
+                "function": "Processes viral polyprotein",
+                "pathways": ["Viral Maturation", "Protein Processing"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["HIV/AIDS"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Aspartyl protease (homodimer)",
+                "clinical_significance": "First successful structure-based drug design target",
+                "literature_count": 14000,
+                "structure_available": True,
+                "pdb_ids": ["1HSG", "3OXC"],
+                "known_inhibitors": ["Lopinavir", "Darunavir", "Atazanavir"],
+                "importance_score": 0.90
+            },
+            "Hepatitis_C_NS3_Protease": {
+                "uniprot_id": "Q9WMX2",
+                "gene_name": "NS3",
+                "full_name": "Serine protease/helicase NS3",
+                "protein_family": "Viral serine protease",
+                "organism": "Hepatitis C virus",
+                "function": "Cleaves viral polyprotein",
+                "pathways": ["Viral Replication", "Protein Processing"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["Hepatitis C"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Serine protease",
+                "clinical_significance": "Target for HCV direct-acting antivirals",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["1A1R", "3SV6"],
+                "known_inhibitors": ["Simeprevir", "Paritaprevir", "Grazoprevir"],
+                "importance_score": 0.86
+            },
+            "Influenza_Neuraminidase": {
+                "uniprot_id": "P03472",
+                "gene_name": "NA",
+                "full_name": "Neuraminidase",
+                "protein_family": "Viral neuraminidase",
+                "organism": "Influenza virus",
+                "function": "Cleaves sialic acid from host cells to release virus",
+                "pathways": ["Viral Release", "Host Cell Egress"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["Influenza"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Sialidase (hydrolase)",
+                "clinical_significance": "Target for neuraminidase inhibitors",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["1NN2", "2HU4"],
+                "known_inhibitors": ["Oseltamivir", "Zanamivir", "Peramivir"],
+                "importance_score": 0.87
+            },
+            
+            # CNS targets
+            "Amyloid_Precursor_Protein": {
+                "uniprot_id": "P05067",
+                "gene_name": "APP",
+                "full_name": "Amyloid-beta precursor protein",
+                "protein_family": "Type I membrane protein",
+                "organism": "Homo sapiens",
+                "function": "Precursor to amyloid-beta peptides",
+                "pathways": ["Amyloid Processing", "Alzheimer's Pathogenesis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 2,
+                "catalytic_activity": "Substrate (processed by secretases)",
+                "clinical_significance": "Central to Alzheimer's disease pathology",
+                "literature_count": 18000,
+                "structure_available": True,
+                "pdb_ids": ["1MWP", "4PQD"],
+                "known_inhibitors": ["BACE inhibitors (failed trials)", "Gamma-secretase modulators"],
+                "importance_score": 0.88
+            },
+            "Tau_Protein": {
+                "uniprot_id": "P10636",
+                "gene_name": "MAPT",
+                "full_name": "Microtubule-associated protein tau",
+                "protein_family": "Microtubule-associated protein",
+                "organism": "Homo sapiens",
+                "function": "Stabilizes microtubules in neurons",
+                "pathways": ["Microtubule Dynamics", "Alzheimer's Pathogenesis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease", "Frontotemporal Dementia", "Tauopathies"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Microtubule stabilizer",
+                "clinical_significance": "Second major target in Alzheimer's disease",
+                "literature_count": 13000,
+                "structure_available": True,
+                "pdb_ids": ["5O3L", "6HRE"],
+                "known_inhibitors": ["Methylthioninium chloride", "Various tau aggregation inhibitors"],
+                "importance_score": 0.85
+            },
+            
+            # Additional MS targets
+            "S1P_receptor": {
+                "uniprot_id": "O95121",
+                "gene_name": "S1PR1",
+                "full_name": "Sphingosine-1-phosphate receptor 1",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Regulates lymphocyte trafficking",
+                "pathways": ["S1P Signaling", "Lymphocyte Egress"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gi/o coupled)",
+                "clinical_significance": "Target for S1P receptor modulators in MS",
+                "literature_count": 3000,
+                "structure_available": True,
+                "pdb_ids": ["3V2Y", "7MBY"],
+                "known_inhibitors": ["Fingolimod", "Siponimod", "Ponesimod"],
+                "importance_score": 0.82
+            },
+            "Integrin_alpha4": {
+                "uniprot_id": "P13612",
+                "gene_name": "ITGA4",
+                "full_name": "Integrin alpha-4",
+                "protein_family": "Integrin",
+                "organism": "Homo sapiens",
+                "function": "Cell adhesion and migration",
+                "pathways": ["Cell Adhesion", "Immune Cell Trafficking"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Inflammatory Bowel Disease"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Adhesion receptor",
+                "clinical_significance": "Target for natalizumab in MS",
+                "literature_count": 4500,
+                "structure_available": True,
+                "pdb_ids": ["4DR2", "4DR3"],
+                "known_inhibitors": ["Natalizumab"],
+                "importance_score": 0.80
+            },
+            "Interferon_receptor": {
+                "uniprot_id": "P17181",
+                "gene_name": "IFNAR1",
+                "full_name": "Interferon alpha/beta receptor subunit 1",
+                "protein_family": "Cytokine receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates interferon signaling",
+                "pathways": ["Interferon Signaling", "Antiviral Response"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Viral Infections"],
+                "druggability": "Low",
+                "binding_sites": 1,
+                "catalytic_activity": "Cytokine receptor",
+                "clinical_significance": "Target for interferon therapy in MS",
+                "literature_count": 5500,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Interferon beta-1a", "Interferon beta-1b"],
+                "importance_score": 0.78
+            },
+            "DHODH": {
+                "uniprot_id": "Q02127",
+                "gene_name": "DHODH",
+                "full_name": "Dihydroorotate dehydrogenase",
+                "protein_family": "Oxidoreductase",
+                "organism": "Homo sapiens",
+                "function": "Catalyzes fourth step in pyrimidine synthesis",
+                "pathways": ["Pyrimidine Synthesis", "Nucleotide Metabolism"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Rheumatoid Arthritis"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "FMN-dependent oxidoreductase",
+                "clinical_significance": "Target for teriflunomide in MS",
+                "literature_count": 2800,
+                "structure_available": True,
+                "pdb_ids": ["1D3G", "2B0E"],
+                "known_inhibitors": ["Teriflunomide", "Leflunomide"],
+                "importance_score": 0.79
+            },
+            "Nrf2": {
+                "uniprot_id": "Q16236",
+                "gene_name": "NFE2L2",
+                "full_name": "Nuclear factor erythroid 2-related factor 2",
+                "protein_family": "Transcription factor",
+                "organism": "Homo sapiens",
+                "function": "Regulates antioxidant response",
+                "pathways": ["Antioxidant Response", "Oxidative Stress"],
+                "therapeutic_area": "Immunology/Neurology",
+                "disease_relevance": ["Multiple Sclerosis", "Neurodegenerative Diseases"],
+                "druggability": "Low",
+                "binding_sites": 1,
+                "catalytic_activity": "Transcription factor",
+                "clinical_significance": "Target for dimethyl fumarate in MS",
+                "literature_count": 12000,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Dimethyl fumarate", "Monomethyl fumarate"],
+                "importance_score": 0.81
+            },
+            "HDAC": {
+                "uniprot_id": "P56524",
+                "gene_name": "HDAC4",
+                "full_name": "Histone deacetylase 4",
+                "protein_family": "Histone deacetylase",
+                "organism": "Homo sapiens",
+                "function": "Removes acetyl groups from histones",
+                "pathways": ["Gene Expression", "Chromatin Remodeling"],
+                "therapeutic_area": "Oncology/Neurology",
+                "disease_relevance": ["Multiple Sclerosis", "Cancer"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Zinc-dependent hydrolase",
+                "clinical_significance": "Secondary target for dimethyl fumarate",
+                "literature_count": 6500,
+                "structure_available": True,
+                "pdb_ids": ["2VQM", "4CBN"],
+                "known_inhibitors": ["Various HDAC inhibitors"],
+                "importance_score": 0.80
+            },
+            "MHC_Class_II": {
+                "uniprot_id": "P04435",
+                "gene_name": "HLA-DRA",
+                "full_name": "HLA class II histocompatibility antigen",
+                "protein_family": "MHC protein",
+                "organism": "Homo sapiens",
+                "function": "Presents peptides to CD4+ T cells",
+                "pathways": ["Antigen Presentation", "Immune Response"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Autoimmune Diseases"],
+                "druggability": "Low",
+                "binding_sites": 1,
+                "catalytic_activity": "Peptide binding",
+                "clinical_significance": "Target for glatiramer acetate mechanism",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["1AQD", "1FYT"],
+                "known_inhibitors": ["Glatiramer acetate"],
+                "importance_score": 0.75
+            },
+            "TCR": {
+                "uniprot_id": "P04435",
+                "gene_name": "TRAC",
+                "full_name": "T-cell receptor alpha chain",
+                "protein_family": "Immunoglobulin superfamily",
+                "organism": "Homo sapiens",
+                "function": "Recognizes antigen-MHC complexes",
+                "pathways": ["T-cell Activation", "Immune Response"],
+                "therapeutic_area": "Immunology",
+                "disease_relevance": ["Multiple Sclerosis", "Cancer"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Receptor signaling",
+                "clinical_significance": "Modulated by glatiramer acetate",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["1AO7", "2C4P"],
+                "known_inhibitors": ["Glatiramer acetate"],
+                "importance_score": 0.77
+            },
+            
+            # Additional Epilepsy/Neurology targets
+            "SV2A": {
+                "uniprot_id": "Q9HAB8",
+                "gene_name": "SV2A",
+                "full_name": "Synaptic vesicle glycoprotein 2A",
+                "protein_family": "Synaptic vesicle protein",
+                "organism": "Homo sapiens",
+                "function": "Regulates synaptic vesicle exocytosis",
+                "pathways": ["Neurotransmitter Release", "Synaptic Transmission"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy", "Seizures"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Synaptic vesicle protein",
+                "clinical_significance": "Primary target for levetiracetam",
+                "literature_count": 2500,
+                "structure_available": True,
+                "pdb_ids": ["4J7H", "6P11"],
+                "known_inhibitors": ["Levetiracetam", "Brivaracetam"],
+                "importance_score": 0.83
+            },
+            "AMPA_receptor": {
+                "uniprot_id": "P42261",
+                "gene_name": "GRIA2",
+                "full_name": "Glutamate receptor 2",
+                "protein_family": "Ionotropic glutamate receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates fast synaptic transmission",
+                "pathways": ["Excitatory Neurotransmission", "Synaptic Plasticity"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy", "ALS", "Parkinson's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 3,
+                "catalytic_activity": "Ion channel (Na+/K+ permeable)",
+                "clinical_significance": "Target for perampanel in epilepsy",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["3KG2", "5WEP"],
+                "known_inhibitors": ["Perampanel", "Topiramate"],
+                "importance_score": 0.84
+            },
+            "Carbonic_anhydrase": {
+                "uniprot_id": "P00915",
+                "gene_name": "CA1",
+                "full_name": "Carbonic anhydrase 1",
+                "protein_family": "Carbonic anhydrase",
+                "organism": "Homo sapiens",
+                "function": "Catalyzes CO2 hydration",
+                "pathways": ["pH Regulation", "CO2 Transport"],
+                "therapeutic_area": "Neurology/Ophthalmology",
+                "disease_relevance": ["Epilepsy", "Glaucoma"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Zinc hydrolase",
+                "clinical_significance": "Target for topiramate and acetazolamide",
+                "literature_count": 6000,
+                "structure_available": True,
+                "pdb_ids": ["1CAB", "1CA2"],
+                "known_inhibitors": ["Topiramate", "Acetazolamide", "Zonisamide"],
+                "importance_score": 0.80
+            },
+            "GABA_transaminase": {
+                "uniprot_id": "P80404",
+                "gene_name": "ABAT",
+                "full_name": "4-aminobutyrate aminotransferase",
+                "protein_family": "Aminotransferase",
+                "organism": "Homo sapiens",
+                "function": "Degrades GABA",
+                "pathways": ["GABA Metabolism", "Neurotransmitter Degradation"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "PLP-dependent transaminase",
+                "clinical_significance": "Target for vigabatrin in epilepsy",
+                "literature_count": 3500,
+                "structure_available": True,
+                "pdb_ids": ["1OHW", "2E4F"],
+                "known_inhibitors": ["Vigabatrin", "Valproic acid"],
+                "importance_score": 0.81
+            },
+            "Calcium_Channel_alpha2delta": {
+                "uniprot_id": "Q8TAG5",
+                "gene_name": "CACNA2D1",
+                "full_name": "Voltage-dependent calcium channel subunit alpha2-delta-1",
+                "protein_family": "Calcium channel auxiliary subunit",
+                "organism": "Homo sapiens",
+                "function": "Modulates calcium channel activity",
+                "pathways": ["Calcium Signaling", "Neurotransmission"],
+                "therapeutic_area": "Neurology/Pain",
+                "disease_relevance": ["Epilepsy", "Neuropathic Pain"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Auxiliary subunit (no catalytic)",
+                "clinical_significance": "Target for gabapentin and pregabalin",
+                "literature_count": 4000,
+                "structure_available": True,
+                "pdb_ids": ["5GJW", "6JPA"],
+                "known_inhibitors": ["Gabapentin", "Pregabalin"],
+                "importance_score": 0.82
+            },
+            "Calcium_Channel_T_type": {
+                "uniprot_id": "O43497",
+                "gene_name": "CACNA1G",
+                "full_name": "Voltage-dependent T-type calcium channel subunit alpha-1G",
+                "protein_family": "Voltage-gated calcium channel",
+                "organism": "Homo sapiens",
+                "function": "Mediates low-voltage calcium entry",
+                "pathways": ["Neuronal Excitability", "Pacemaker Activity"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy", "Absence Seizures"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Ion channel (Ca2+ permeable)",
+                "clinical_significance": "Target for ethosuximide in absence seizures",
+                "literature_count": 3500,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Ethosuximide", "Valproic acid"],
+                "importance_score": 0.80
+            },
+            "GABA_transporter": {
+                "uniprot_id": "P30531",
+                "gene_name": "SLC6A1",
+                "full_name": "Sodium- and chloride-dependent GABA transporter 1",
+                "protein_family": "Solute carrier family 6",
+                "organism": "Homo sapiens",
+                "function": "Reuptake of GABA from synaptic cleft",
+                "pathways": ["GABA Transport", "Neurotransmitter Clearance"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Epilepsy"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Neurotransmitter transporter",
+                "clinical_significance": "Target for tiagabine in epilepsy",
+                "literature_count": 3000,
+                "structure_available": True,
+                "pdb_ids": ["6ZP8"],
+                "known_inhibitors": ["Tiagabine"],
+                "importance_score": 0.79
+            },
+            
+            # Additional Parkinson's targets
+            "Dopamine_Receptor_D1": {
+                "uniprot_id": "P21728",
+                "gene_name": "DRD1",
+                "full_name": "Dopamine receptor D1",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Stimulates adenylyl cyclase activity",
+                "pathways": ["Dopaminergic Signaling", "Motor Control"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Parkinson's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gs coupled)",
+                "clinical_significance": "Target for Parkinson's disease therapy",
+                "literature_count": 7000,
+                "structure_available": True,
+                "pdb_ids": ["7L1U"],
+                "known_inhibitors": ["Levodopa (indirect)"],
+                "importance_score": 0.80
+            },
+            "Aromatic_L_amino_acid_decarboxylase": {
+                "uniprot_id": "P20711",
+                "gene_name": "DDC",
+                "full_name": "Aromatic-L-amino-acid decarboxylase",
+                "protein_family": "Lyase",
+                "organism": "Homo sapiens",
+                "function": "Converts L-DOPA to dopamine",
+                "pathways": ["Dopamine Synthesis", "Serotonin Synthesis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Parkinson's Disease"],
+                "druggability": "Low",
+                "binding_sites": 1,
+                "catalytic_activity": "PLP-dependent decarboxylase",
+                "clinical_significance": "Target for carbidopa in Parkinson's therapy",
+                "literature_count": 4000,
+                "structure_available": True,
+                "pdb_ids": ["1JS3", "3RBF"],
+                "known_inhibitors": ["Carbidopa", "Benserazide"],
+                "importance_score": 0.81
+            },
+            "NMDA_receptor": {
+                "uniprot_id": "P35439",
+                "gene_name": "GRIN2B",
+                "full_name": "Glutamate receptor ionotropic NMDA 2B",
+                "protein_family": "Ionotropic glutamate receptor",
+                "organism": "Homo sapiens",
+                "function": "Mediates excitatory neurotransmission",
+                "pathways": ["Excitatory Neurotransmission", "Synaptic Plasticity"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease", "Parkinson's Disease", "Epilepsy"],
+                "druggability": "Medium",
+                "binding_sites": 5,
+                "catalytic_activity": "Ion channel (Ca2+ permeable)",
+                "clinical_significance": "Target for memantine and amantadine",
+                "literature_count": 15000,
+                "structure_available": True,
+                "pdb_ids": ["4PE5", "5H8Q"],
+                "known_inhibitors": ["Memantine", "Amantadine", "Ketamine"],
+                "importance_score": 0.88
+            },
+            "Dopamine_transporter": {
+                "uniprot_id": "Q01959",
+                "gene_name": "SLC6A3",
+                "full_name": "Dopamine transporter",
+                "protein_family": "Solute carrier family 6",
+                "organism": "Homo sapiens",
+                "function": "Reuptake of dopamine",
+                "pathways": ["Dopamine Transport", "Reward Pathway"],
+                "therapeutic_area": "Neurology/Psychiatry",
+                "disease_relevance": ["Parkinson's Disease", "ADHD", "Addiction"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Neurotransmitter transporter",
+                "clinical_significance": "Target for benztropine and stimulants",
+                "literature_count": 9000,
+                "structure_available": True,
+                "pdb_ids": ["4XP1", "6M3P"],
+                "known_inhibitors": ["Benztropine", "Cocaine", "Amphetamine"],
+                "importance_score": 0.85
+            },
+            "Muscarinic_acetylcholine_receptor": {
+                "uniprot_id": "P11229",
+                "gene_name": "CHRM1",
+                "full_name": "Muscarinic acetylcholine receptor M1",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Mediates acetylcholine signaling",
+                "pathways": ["Cholinergic Signaling", "Cognitive Function"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Parkinson's Disease", "Alzheimer's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gq coupled)",
+                "clinical_significance": "Target for trihexyphenidyl in Parkinson's",
+                "literature_count": 6000,
+                "structure_available": True,
+                "pdb_ids": ["5CXV"],
+                "known_inhibitors": ["Trihexyphenidyl", "Benztropine", "Atropine"],
+                "importance_score": 0.81
+            },
+            
+            # Additional Migraine targets
+            "Serotonin_Receptor_5HT1D": {
+                "uniprot_id": "P28221",
+                "gene_name": "HTR1D",
+                "full_name": "5-hydroxytryptamine receptor 1D",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Regulates serotonin signaling",
+                "pathways": ["Serotonergic Signaling", "Migraine Pathogenesis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gi/Go coupled)",
+                "clinical_significance": "Target for triptan medications",
+                "literature_count": 3500,
+                "structure_available": True,
+                "pdb_ids": ["6DB1"],
+                "known_inhibitors": ["Sumatriptan", "Rizatriptan", "Zolmitriptan"],
+                "importance_score": 0.83
+            },
+            "CGRP_receptor": {
+                "uniprot_id": "Q8WXA9",
+                "gene_name": "CALCRL",
+                "full_name": "Calcitonin receptor-like receptor",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Receptor for CGRP",
+                "pathways": ["CGRP Signaling", "Vasodilation"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gs coupled)",
+                "clinical_significance": "Target for migraine CGRP antagonists",
+                "literature_count": 4000,
+                "structure_available": True,
+                "pdb_ids": ["3N7P", "6E3Y"],
+                "known_inhibitors": ["Erenumab", "Ubrogepant", "Rimegepant"],
+                "importance_score": 0.86
+            },
+            "CGRP_ligand": {
+                "uniprot_id": "P06881",
+                "gene_name": "CALCA",
+                "full_name": "Calcitonin gene-related peptide",
+                "protein_family": "Neuropeptide",
+                "organism": "Homo sapiens",
+                "function": "Vasodilator and pain mediator",
+                "pathways": ["Neuropeptide Signaling", "Vasodilation"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Ligand",
+                "clinical_significance": "Target for CGRP monoclonal antibodies",
+                "literature_count": 5500,
+                "structure_available": True,
+                "pdb_ids": ["3N7P"],
+                "known_inhibitors": ["Galcanezumab", "Fremanezumab", "Eptinezumab"],
+                "importance_score": 0.85
+            },
+            "SNAP_25": {
+                "uniprot_id": "P60880",
+                "gene_name": "SNAP25",
+                "full_name": "Synaptosomal-associated protein 25",
+                "protein_family": "SNARE protein",
+                "organism": "Homo sapiens",
+                "function": "Mediates vesicle fusion",
+                "pathways": ["Neurotransmitter Release", "Exocytosis"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine", "Dystonia"],
+                "druggability": "Low",
+                "binding_sites": 1,
+                "catalytic_activity": "SNARE complex component",
+                "clinical_significance": "Target for botulinum toxin",
+                "literature_count": 5000,
+                "structure_available": True,
+                "pdb_ids": ["1JTH", "1SFC"],
+                "known_inhibitors": ["Botulinum toxin", "OnabotulinumtoxinA"],
+                "importance_score": 0.82
+            },
+            "Serotonin_Receptor_5HT1F": {
+                "uniprot_id": "P30939",
+                "gene_name": "HTR1F",
+                "full_name": "5-hydroxytryptamine receptor 1F",
+                "protein_family": "GPCR",
+                "organism": "Homo sapiens",
+                "function": "Serotonin receptor",
+                "pathways": ["Serotonergic Signaling"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Migraine"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "GPCR (Gi/Go coupled)",
+                "clinical_significance": "Target for lasmiditan in migraine",
+                "literature_count": 2000,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Lasmiditan"],
+                "importance_score": 0.80
+            },
+            "TRPV1": {
+                "uniprot_id": "Q8NER1",
+                "gene_name": "TRPV1",
+                "full_name": "Transient receptor potential cation channel subfamily V member 1",
+                "protein_family": "TRP channel",
+                "organism": "Homo sapiens",
+                "function": "Detects pain and temperature",
+                "pathways": ["Pain Sensation", "Thermosensation"],
+                "therapeutic_area": "Pain/Neurology",
+                "disease_relevance": ["Neuropathic Pain"],
+                "druggability": "Medium",
+                "binding_sites": 4,
+                "catalytic_activity": "Ion channel (non-selective cation)",
+                "clinical_significance": "Target for capsaicin in neuropathic pain",
+                "literature_count": 10000,
+                "structure_available": True,
+                "pdb_ids": ["5IRX", "6U6B"],
+                "known_inhibitors": ["Capsaicin", "Resiniferatoxin"],
+                "importance_score": 0.85
+            },
+            "VMAT2": {
+                "uniprot_id": "Q05940",
+                "gene_name": "SLC18A2",
+                "full_name": "Vesicular monoamine transporter 2",
+                "protein_family": "Solute carrier family 18",
+                "organism": "Homo sapiens",
+                "function": "Transports monoamines into synaptic vesicles",
+                "pathways": ["Monoamine Transport", "Neurotransmitter Storage"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Huntington's Disease", "Tardive Dyskinesia"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "Proton antiporter",
+                "clinical_significance": "Target for tetrabenazine and deutetrabenazine",
+                "literature_count": 3500,
+                "structure_available": True,
+                "pdb_ids": ["6WJK"],
+                "known_inhibitors": ["Tetrabenazine", "Deutetrabenazine", "Valbenazine"],
+                "importance_score": 0.83
+            },
+            "Butyrylcholinesterase": {
+                "uniprot_id": "P06276",
+                "gene_name": "BCHE",
+                "full_name": "Butyrylcholinesterase",
+                "protein_family": "Hydrolase",
+                "organism": "Homo sapiens",
+                "function": "Hydrolyzes choline esters",
+                "pathways": ["Choline Metabolism"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["Alzheimer's Disease"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Serine hydrolase",
+                "clinical_significance": "Secondary target for rivastigmine",
+                "literature_count": 4500,
+                "structure_available": True,
+                "pdb_ids": ["1P0I", "1XLW"],
+                "known_inhibitors": ["Rivastigmine"],
+                "importance_score": 0.78
+            },
+            "Spike_protein": {
+                "uniprot_id": "P0DTC2",
+                "gene_name": "S",
+                "full_name": "Spike glycoprotein",
+                "protein_family": "Viral surface protein",
+                "organism": "SARS-CoV-2",
+                "function": "Mediates viral entry into host cells",
+                "pathways": ["Viral Entry", "Cell Fusion"],
+                "therapeutic_area": "Infectious Disease",
+                "disease_relevance": ["COVID-19"],
+                "druggability": "High",
+                "binding_sites": 2,
+                "catalytic_activity": "Fusion protein (class I viral fusion protein)",
+                "clinical_significance": "Primary target for COVID-19 monoclonal antibodies",
+                "literature_count": 25000,
+                "structure_available": True,
+                "pdb_ids": ["6VXX", "6XKL", "7KFY"],
+                "known_inhibitors": ["Sotrovimab", "Casirivimab", "Imdevimab", "Nirmatrelvir"],
+                "importance_score": 0.95
+            },
+            "RNA_dependent_RNA_polymerase": {
+                "uniprot_id": "P0DTD1",
+                "gene_name": "nsp12",
+                "full_name": "RNA-directed RNA polymerase",
+                "protein_family": "Viral polymerase",
+                "organism": "SARS-CoV-2",
+                "function": "Synthesizes viral RNA",
+                "pathways": ["Viral Replication", "RNA Synthesis"],
+                "therapeutic_area": "Antiviral",
+                "disease_relevance": ["COVID-19"],
+                "druggability": "High",
+                "binding_sites": 1,
+                "catalytic_activity": "RNA polymerase",
+                "clinical_significance": "Target for remdesivir and molnupiravir",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["6YYT", "7BV1"],
+                "known_inhibitors": ["Remdesivir", "Molnupiravir"],
+                "importance_score": 0.90
+            },
+            "Glutamate_receptor": {
+                "uniprot_id": "P42261",
+                "gene_name": "GRIA2",
+                "full_name": "Glutamate ionotropic receptor AMPA type subunit 2",
+                "protein_family": "Ionotropic glutamate receptor",
+                "organism": "Homo sapiens",
+                "function": "Ionotropic glutamate receptor",
+                "pathways": ["Excitatory synaptic transmission"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["ALS", "Epilepsy"],
+                "druggability": "Medium",
+                "binding_sites": 3,
+                "catalytic_activity": "Ligand-gated ion channel",
+                "clinical_significance": "Target for riluzole in ALS",
+                "literature_count": 8000,
+                "structure_available": True,
+                "pdb_ids": ["3KG2", "5WEP"],
+                "known_inhibitors": ["Riluzole", "Perampanel"],
+                "importance_score": 0.83
+            },
+            "SOD1_mRNA": {
+                "uniprot_id": "N/A",
+                "gene_name": "SOD1",
+                "full_name": "Superoxide dismutase 1 mRNA",
+                "protein_family": "mRNA",
+                "organism": "Homo sapiens",
+                "function": "Template for SOD1 protein synthesis",
+                "pathways": ["Gene Expression"],
+                "therapeutic_area": "Neurology",
+                "disease_relevance": ["ALS"],
+                "druggability": "Medium",
+                "binding_sites": 1,
+                "catalytic_activity": "Nucleic acid (template)",
+                "clinical_significance": "Target for tofersen in SOD1-ALS",
+                "literature_count": 2000,
+                "structure_available": False,
+                "pdb_ids": [],
+                "known_inhibitors": ["Tofersen"],
+                "importance_score": 0.81
+            }
+        }
+        
+        # Add all proteins
+        for name, metadata in default_proteins.items():
+            self.add_protein(name, metadata)
+        
+        print(f"[OK] Initialized protein database with {len(self.proteins)} proteins")
+    
+    def add_protein(self, name: str, metadata: Dict):
+        """Add protein to database"""
+        self.proteins[name] = metadata
+        
+        # Update protein families
+        family = metadata.get("protein_family", "Unknown")
+        if family not in self.protein_families:
+            self.protein_families[family] = []
+        self.protein_families[family].append(name)
+        
+        # Update pathways
+        for pathway in metadata.get("pathways", []):
+            if pathway not in self.pathways:
+                self.pathways[pathway] = []
+            self.pathways[pathway].append(name)
+    
+    def get_protein_info(self, protein_name: str) -> Dict:
+        """Get detailed information about a protein"""
+        return self.proteins.get(protein_name, {
+            "uniprot_id": "Unknown",
+            "gene_name": "Unknown",
+            "full_name": protein_name,
+            "protein_family": "Unknown",
+            "organism": "Unknown",
+            "function": "Unknown",
+            "pathways": [],
+            "therapeutic_area": "Unknown",
+            "disease_relevance": [],
+            "druggability": "Unknown",
+            "clinical_significance": "Unknown"
+        })
+    
+    def search_proteins_by_disease(self, disease: str) -> List[str]:
+        """Find proteins relevant to a disease"""
+        matching_proteins = []
+        disease_lower = disease.lower()
+        
+        for name, metadata in self.proteins.items():
+            for rel_disease in metadata.get("disease_relevance", []):
+                if disease_lower in rel_disease.lower() or rel_disease.lower() in disease_lower:
+                    matching_proteins.append(name)
+                    break
+        
+        # Sort by importance score
+        matching_proteins.sort(
+            key=lambda x: self.proteins[x].get("importance_score", 0),
+            reverse=True
+        )
+        
+        return matching_proteins
+    
+    def search_proteins_by_pathway(self, pathway: str) -> List[str]:
+        """Find proteins in a specific pathway"""
+        return self.pathways.get(pathway, [])
+    
+    def get_proteins_by_family(self, family: str) -> List[str]:
+        """Get all proteins in a protein family"""
+        return self.protein_families.get(family, [])
+    
+    def get_all_protein_families(self) -> List[str]:
+        """Get list of all protein families"""
+        return list(self.protein_families.keys())
+    
+    def get_all_pathways(self) -> List[str]:
+        """Get list of all pathways"""
+        return list(self.pathways.keys())
+    
+    def save_database(self, filepath: str):
+        """Save protein database to JSON"""
+        data = {
+            "proteins": self.proteins,
+            "protein_families": self.protein_families,
+            "pathways": self.pathways
+        }
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        print(f"[OK] Protein database saved to {filepath}")
+    
+    def load_database(self, filepath: Optional[str]):
+        """Load protein database from JSON"""
+        if filepath is None:
+            return
+        assert filepath is not None
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        self.proteins = data.get("proteins", {})
+        self.protein_families = data.get("protein_families", {})
+        self.pathways = data.get("pathways", {})
+        
+        print(f"[OK] Protein database loaded from {filepath} ({len(self.proteins)} proteins)")
+    
+    def get_database_statistics(self) -> Dict:
+        """Get database statistics"""
+        return {
+            "total_proteins": len(self.proteins),
+            "protein_families": len(self.protein_families),
+            "total_pathways": len(self.pathways),
+            "druggable_proteins": sum(1 for p in self.proteins.values() 
+                                      if p.get("druggability") == "High"),
+            "proteins_with_structures": sum(1 for p in self.proteins.values() 
+                                            if p.get("structure_available", False))
+        }
+
+
+# Example usage
+if __name__ == "__main__":
+    # Create protein database
+    db = ProteinDatabase()
+    
+    # Get statistics
+    stats = db.get_database_statistics()
+    print("\n[DATABASE STATISTICS]")
+    for key, value in stats.items():
+        print(f"  {key}: {value}")
+    
+    # Search for Alzheimer's related proteins
+    print("\n[ALZHEIMER'S DISEASE PROTEINS]")
+    alz_proteins = db.search_proteins_by_disease("Alzheimer")
+    for prot in alz_proteins[:5]:
+        info = db.get_protein_info(prot)
+        print(f"  - {prot}: {info['full_name']}")
+        print(f"    Function: {info['function'][:60]}...")
+        print(f"    Druggability: {info['druggability']}")
+    
+    # Search for cancer proteins
+    print("\n[CANCER-RELATED PROTEINS (Top 5)]")
+    cancer_proteins = db.search_proteins_by_disease("Cancer")
+    for prot in cancer_proteins[:5]:
+        info = db.get_protein_info(prot)
+        print(f"  - {prot}: {info['full_name']}")
+        print(f"    Importance Score: {info.get('importance_score', 0):.2f}")
+        print(f"    Known Inhibitors: {', '.join(info.get('known_inhibitors', [])[:3])}")
+    
+    # Save database
+    db.save_database("protein_database.json")
+    print("\n[OK] Protein database created and saved!")

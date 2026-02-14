@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rcsb-molstar Working Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f0f2f5;
+        }
+        #viewer {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            margin: 20px 0;
+            background: #1a1a2e !important;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        input {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 120px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button.secondary {
+            background: #6c757d;
+        }
+        button.secondary:hover {
+            background: #545b62;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .status-loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>rcsb-molstar Integration Test</h1>
+    
+    <div class="controls">
+        <input type="text" id="pdb-input" value="4HHB" maxlength="4" placeholder="Enter PDB ID">
+        <button onclick="loadStructure()">Load Structure</button>
+        <button onclick="clearViewer()">Clear</button>
+    </div>
+
+    <div id="status"></div>
+    <div id="viewer"></div>
+
+    <p><strong>Troubleshooting Guide:</strong></p>
+    <ul>
+        <li>If you see "rcsbMolstar is undefined" error, check browser console (F12)</li>
+        <li>Verify the library file is accessible: <a href="/rcsb-molstar/dist/viewer/rcsb-molstar.js">Test Library URL</a></li>
+        <li>Check network tab for failed requests</li>
+    </ul>
+
+    <!-- Load rcsb-molstar library FIRST (synchronous) -->
+    <script type="text/javascript" src="/rcsb-molstar/dist/viewer/rcsb-molstar.js"></script>
+    <link rel="stylesheet" type="text/css" href="/rcsb-molstar/dist/viewer/rcsb-molstar.css" />
+    
+    <!-- Then load our application code -->
+    <script>
+        // Status function
+        function setStatus(message, type = 'loading') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status-${type}`;
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+
+        // Wait for library to be available
+        function waitForLibrary(maxWait = 10000) {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                
+                function check() {
+                    if (typeof rcsbMolstar !== 'undefined' && rcsbMolstar.Viewer) {
+                        resolve(rcsbMolstar);
+                        return;
+                    }
+                    
+                    if (Date.now() - startTime > maxWait) {
+                        reject(new Error('Timeout waiting for rcsb-molstar library'));
+                        return;
+                    }
+                    
+                    setTimeout(check, 100);
+                }
+                
+                check();
+            });
+        }
+
+        let viewer = null;
+
+        async function initializeViewer() {
+            try {
+                setStatus('Waiting for rcsb-molstar library...', 'loading');
+                
+                const library = await waitForLibrary();
+                setStatus('Library loaded successfully!', 'success');
+                
+                console.log('rcsbMolstar available:', typeof library);
+                console.log('Viewer constructor:', typeof library.Viewer);
+                
+                // Create viewer instance with proper configuration
+                viewer = new library.Viewer('viewer', {
+                    showImportControls: false,
+                    showSessionControls: false,
+                    layoutShowLog: false,
+                    layoutShowControls: true,
+                    showMembraneOrientationPreset: true,
+                    detachedFromSierra: true,
+                    manualReset: true,
+                    // Enable 3D display with proper rendering
+                    volumeViewer: false,
+                    // Set background color
+                    backgroundColor: { r: 26, g: 26, b: 46 }  // Dark blue-gray background
+                });
+                
+                // Apply custom styling to ensure proper display
+                const viewerContainer = document.getElementById('viewer');
+                viewerContainer.style.background = '#1a1a2e';
+                viewerContainer.style.position = 'relative';
+                
+                setStatus('Viewer initialized! Loading default structure...', 'success');
+                
+                // Load default structure with coloring
+                await loadStructure();
+                
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                setStatus(`Error: ${error.message}`, 'error');
+                
+                // Try CDN fallback
+                console.log('Attempting CDN fallback...');
+                setStatus('Trying CDN fallback...', 'loading');
+                
+                try {
+                    await loadFromCDN();
+                    await initializeViewer();
+                } catch (cdnError) {
+                    setStatus(`Failed to load from both local and CDN: ${cdnError.message}`, 'error');
+                }
+            }
+        }
+
+        async function loadFromCDN() {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@rcsb/rcsb-molstar@2.14.2/build/dist/viewer/rcsb-molstar.js';
+                script.onload = () => {
+                    console.log('CDN load successful');
+                    setTimeout(resolve, 1000);
+                };
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        async function loadStructure() {
+            const pdbId = document.getElementById('pdb-input').value.trim().toUpperCase();
+            
+            if (!/^[1-9][A-Za-z0-9]{3}$/.test(pdbId)) {
+                setStatus(`Invalid PDB ID: ${pdbId}`, 'error');
+                return;
+            }
+            
+            if (!viewer) {
+                setStatus('Viewer not initialized yet', 'error');
+                return;
+            }
+            
+            setStatus(`Loading ${pdbId}...`, 'loading');
+            
+            try {
+                // Load structure with default coloring
+                await viewer.loadPdbId(pdbId, {
+                    // Apply default cartoon representation with coloring
+                    representation: 'cartoon',
+                    coloring: {
+                        scheme: 'entity'  // Color by chain/entity
+                    }
+                });
+                setStatus(`Successfully loaded ${pdbId} with colors`, 'success');
+            } catch (error) {
+                console.warn('loadPdbId failed, trying URL load:', error);
+                
+                // Fallback to URL load with explicit coloring
+                const url = `https://files.rcsb.org/download/${pdbId}.cif`;
+                try {
+                    await viewer.loadStructureFromUrl(url, 'mmcif', false, {
+                        representation: 'cartoon',
+                        coloring: {
+                            scheme: 'entity'
+                        }
+                    });
+                    setStatus(`Successfully loaded ${pdbId} with colors`, 'success');
+                } catch (urlError) {
+                    setStatus(`Failed to load ${pdbId}: ${urlError.message}`, 'error');
+                }
+            }
+        }
+
+        async function clearViewer() {
+            if (viewer) {
+                try {
+                    await viewer.clear();
+                    setStatus('Viewer cleared', 'success');
+                } catch (error) {
+                    console.warn('Clear failed:', error);
+                }
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeViewer);
+        
+        // Also check if already loaded
+        if (document.readyState === 'complete') {
+            initializeViewer();
+        }
+    </script>
+</body>
+</html>

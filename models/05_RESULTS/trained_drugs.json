@@ -1,0 +1,60 @@
+{
+  "candidates": [
+    {
+      "id": "NOVO_001",
+      "smiles": "",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": false,
+      "qed": 0.5,
+      "conf": 0.888
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": false,
+      "qed": 0.5,
+      "conf": 0.751
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": false,
+      "qed": 0.5,
+      "conf": 0.878
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": false,
+      "qed": 0.5,
+      "conf": 0.882
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": false,
+      "qed": 0.5,
+      "conf": 0.827
+    }
+  ],
+  "valid": 0
+}

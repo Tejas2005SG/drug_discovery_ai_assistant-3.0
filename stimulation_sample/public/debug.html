@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rcsb-molstar Debug</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .log-entry {
+            padding: 5px;
+            margin: 2px 0;
+            border-left: 3px solid #333;
+            padding-left: 10px;
+        }
+        .log-info { border-left-color: #3794ff; }
+        .log-success { border-left-color: #4ec9b0; }
+        .log-error { border-left-color: #f14c4c; }
+        .log-warn { border-left-color: #cca700; }
+    </style>
+</head>
+<body>
+    <h1>rcsb-molstar Debug Console</h1>
+    <div id="console"></div>
+    <div id="viewer" style="width: 100%; height: 500px; border: 1px solid #444; margin: 20px 0;"></div>
+
+    <script>
+        const consoleEl = document.getElementById('console');
+
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toISOString()}] ${message}`;
+            consoleEl.appendChild(entry);
+            console.log(`[${type.toUpperCase()}]`, message);
+        }
+
+        // Log environment info
+        log(`User Agent: ${navigator.userAgent}`, 'info');
+        log(`Protocol: ${window.location.protocol}`, 'info');
+
+        // Check if script is loading
+        log('Checking for rcsb-molstar script...', 'info');
+
+        const checkInterval = setInterval(() => {
+            if (typeof rcsbMolstar !== 'undefined') {
+                clearInterval(checkInterval);
+                log('SUCCESS: rcsbMolstar is now available!', 'success');
+                log(`rcsbMolstar type: ${typeof rcsbMolstar}`, 'info');
+                log(`rcsbMolstar.Viewer type: ${typeof rcsbMolstar?.Viewer}`, 'info');
+
+                // Try creating viewer
+                try {
+                    const viewer = new rcsbMolstar.Viewer('viewer', {
+                        showImportControls: false,
+                        showSessionControls: false,
+                        layoutShowLog: false,
+                        layoutShowControls: true,
+                        showMembraneOrientationPreset: true,
+                        detachedFromSierra: true,
+                        manualReset: true
+                    });
+                    log('SUCCESS: Viewer instance created!', 'success');
+
+                    // Load structure
+                    viewer.loadPdbId('4HHB').then(() => {
+                        log('SUCCESS: Loaded 4HHB structure!', 'success');
+                    }).catch(err => {
+                        log(`WARN: Failed to load structure: ${err.message}`, 'warn');
+                    });
+                } catch (e) {
+                    log(`ERROR: Failed to create viewer: ${e.message}`, 'error');
+                    log(`Stack: ${e.stack}`, 'error');
+                }
+            } else {
+                log('Waiting for rcsbMolstar...', 'warn');
+            }
+        }, 500);
+
+        // Timeout after 10 seconds
+        setTimeout(() => {
+            if (typeof rcsbMolstar === 'undefined') {
+                clearInterval(checkInterval);
+                log('ERROR: Timeout waiting for rcsbMolstar', 'error');
+                log('Troubleshooting steps:', 'info');
+                log('1. Check browser network tab for failed script load', 'info');
+                log('2. Verify /rcsb-molstar/dist/viewer/rcsb-molstar.js is accessible', 'info');
+                log('3. Try accessing http://localhost:3000/rcsb-molstar/dist/viewer/rcsb-molstar.js directly', 'info');
+            }
+        }, 10000);
+    </script>
+
+    <!-- Load library -->
+    <script type="text/javascript" src="/rcsb-molstar/dist/viewer/rcsb-molstar.js"></script>
+</body>
+</html>

@@ -52,11 +52,30 @@ interface ResearchPlan {
     targetDatabases?: string[];
 }
 
+interface Candidate {
+    id: string;
+    smiles: string;
+    molecular_formula: string;
+    molecular_weight: number;
+    qed: number;
+    confidence_score: number;
+    target_proteins: string[];
+    source_drugs: string[];
+    admet_summary: {
+        oral_bioavailability: number;
+        bbb_penetration: number;
+        toxicity_risk: string;
+        drug_likeness_score: number;
+    };
+    passes_lipinski: boolean;
+}
+
 interface ResearchResult {
     content: string;
     sources: Source[];
     symptoms: string;
     extractedSymptoms?: string;
+    candidates?: Candidate[];
     researchPlan?: ResearchPlan;
     metadata?: Metadata;
 }
@@ -294,6 +313,88 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ results }) => {
                     </div>
                 )}
 
+                {/* Candidates Display */}
+                {results.candidates && results.candidates.length > 0 && (
+                    <div className="border-b border-border bg-muted/5">
+                        <div className="px-6 py-6">
+                            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                                <Database className="h-5 w-5 text-primary" />
+                                Generated Candidates ({results.candidates.length})
+                            </h3>
+                            
+                            <div className="grid gap-4">
+                                {results.candidates.map((candidate, idx) => (
+                                    <div key={idx} className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-colors">
+                                        <div className="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h4 className="font-semibold text-lg">{candidate.id}</h4>
+                                                <p className="text-sm text-muted-foreground font-mono mt-1 break-all">{candidate.smiles}</p>
+                                            </div>
+                                            <Badge variant={candidate.passes_lipinski ? "default" : "destructive"}>
+                                                {candidate.passes_lipinski ? "Passes Lipinski" : "Fails Lipinski"}
+                                            </Badge>
+                                        </div>
+                                        
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm mb-3">
+                                            <div className="p-2 bg-muted/30 rounded">
+                                                <p className="text-xs text-muted-foreground">Formula</p>
+                                                <p className="font-mono font-medium">{candidate.molecular_formula}</p>
+                                            </div>
+                                            <div className="p-2 bg-muted/30 rounded">
+                                                <p className="text-xs text-muted-foreground">Molecular Weight</p>
+                                                <p className="font-medium">{candidate.molecular_weight?.toFixed(1)} Da</p>
+                                            </div>
+                                            <div className="p-2 bg-muted/30 rounded">
+                                                <p className="text-xs text-muted-foreground">QED Score</p>
+                                                <p className="font-medium">{candidate.qed?.toFixed(3)}</p>
+                                            </div>
+                                            <div className="p-2 bg-muted/30 rounded">
+                                                <p className="text-xs text-muted-foreground">Confidence</p>
+                                                <p className="font-medium">{(candidate.confidence_score * 100)?.toFixed(1)}%</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="space-y-2">
+                                            <div className="text-sm">
+                                                <span className="text-muted-foreground">Target Proteins: </span>
+                                                <span className="font-medium">{candidate.target_proteins?.join(', ') || 'N/A'}</span>
+                                            </div>
+                                            <div className="text-sm">
+                                                <span className="text-muted-foreground">Source Drugs: </span>
+                                                <span className="font-medium">{candidate.source_drugs?.join(', ') || 'N/A'}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        {candidate.admet_summary && (
+                                            <div className="mt-3 pt-3 border-t border-border">
+                                                <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">ADMET Predictions</p>
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                                                    <div className="p-2 bg-primary/5 rounded">
+                                                        <p className="text-muted-foreground">Bioavailability</p>
+                                                        <p className="font-medium">{candidate.admet_summary.oral_bioavailability?.toFixed(1)}%</p>
+                                                    </div>
+                                                    <div className="p-2 bg-primary/5 rounded">
+                                                        <p className="text-muted-foreground">BBB Penetration</p>
+                                                        <p className="font-medium">{candidate.admet_summary.bbb_penetration?.toFixed(3)}</p>
+                                                    </div>
+                                                    <div className="p-2 bg-primary/5 rounded">
+                                                        <p className="text-muted-foreground">Toxicity Risk</p>
+                                                        <p className="font-medium">{candidate.admet_summary.toxicity_risk}</p>
+                                                    </div>
+                                                    <div className="p-2 bg-primary/5 rounded">
+                                                        <p className="text-muted-foreground">Drug-likeness</p>
+                                                        <p className="font-medium">{candidate.admet_summary.drug_likeness_score?.toFixed(3)}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Markdown Content Area */}
                 <CardContent className="pt-8 px-6 md:px-10 pb-10">
                     <article className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4 prose-p:leading-7 prose-p:text-foreground/80 prose-li:text-foreground/80">
@@ -418,96 +519,6 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ results }) => {
                 </CardContent>
             </Card>
 
-            {/* --- Sources Section --- */}
-            <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-muted rounded-md border border-border">
-                            <Database className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <h3 className="text-lg font-semibold">
-                            Identified Sources
-                        </h3>
-                    </div>
-
-                    <Tabs value={activeSourceCategory} onValueChange={setActiveSourceCategory}>
-                        <TabsList className="h-9 bg-muted p-1 border border-border">
-                            <TabsTrigger value="all" className="text-xs px-3">All</TabsTrigger>
-                            <TabsTrigger value="clinical" className="text-xs px-3">Clinical</TabsTrigger>
-                            <TabsTrigger value="protein" className="text-xs px-3">Protein</TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {(groupedSources[activeSourceCategory] || []).map((source, idx) => {
-                        const domain = getDomain(source.url);
-                        const favicon = getFaviconUrl(source.url);
-
-                        let dbType = 'default';
-                        if (source.url.includes('pubmed')) dbType = 'pubmed';
-                        if (source.url.includes('uniprot')) dbType = 'uniprot';
-                        if (source.url.includes('pubchem')) dbType = 'pubchem';
-
-                        const borderClass = DB_COLORS[dbType] || DB_COLORS.default;
-
-                        return (
-                            <a
-                                key={idx}
-                                href={source.url}
-                                target="_blank"
-                                className={cn(
-                                    "group flex flex-col p-4 rounded-xl border bg-card transition-all duration-200",
-                                    "hover:shadow-lg hover:-translate-y-0.5",
-                                    borderClass
-                                )}
-                            >
-                                <div className="flex items-start gap-3 mb-3">
-                                    <div className="shrink-0 pt-1">
-                                        {favicon ? (
-                                            <img
-                                                src={favicon}
-                                                className="h-6 w-6 rounded-sm bg-background p-0.5 object-contain"
-                                                alt=""
-                                                onError={(e) => {
-                                                    (e.target as HTMLImageElement).style.display = 'none';
-                                                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                                }}
-                                            />
-                                        ) : null}
-                                        <Globe className={cn("h-6 w-6 text-muted-foreground", favicon && "hidden")} />
-                                    </div>
-                                    <div className="min-w-0 flex-1">
-                                        <h4 className="font-medium text-sm leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-                                            {source.title || domain}
-                                        </h4>
-                                        <p className="text-[10px] text-muted-foreground mt-1 truncate">{source.url}</p>
-                                    </div>
-                                </div>
-
-                                <div className="mt-auto flex items-center justify-between pt-3 border-t border-border">
-                                    <div className="flex items-center gap-2">
-                                        {dbType !== 'default' && (
-                                            <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-normal bg-primary/10 text-primary border-0">
-                                                {dbType}
-                                            </Badge>
-                                        )}
-                                        <Badge variant="outline" className="text-[10px] h-5 px-1.5 font-normal border-border text-muted-foreground">
-                                            rawContent
-                                        </Badge>
-                                    </div>
-
-                                    {source.contentLength && (
-                                        <span className="text-[10px] font-mono text-muted-foreground/60">
-                                            {Math.round(source.contentLength / 1000)}k chars
-                                        </span>
-                                    )}
-                                </div>
-                            </a>
-                        );
-                    })}
-                </div>
-            </div>
         </div>
     );
 };

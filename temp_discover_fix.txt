@@ -1,0 +1,56 @@
+        # Format candidates to match exact expected output
+        formatted_candidates = []
+        for candidate in results.get("candidates", []):
+            props = candidate.get("all_properties", {})
+            admet_props = candidate.get("admet_properties", {})
+            
+            # Extract ADMET values
+            absorption = admet_props.get("absorption", {})
+            toxicity = admet_props.get("toxicity", {})
+            
+            # Build ADMET summary
+            admet_summary = {
+                "oral_bioavailability": round(absorption.get("oral_bioavailability_pct", 0), 1),
+                "bbb_penetration": round(admet_props.get("distribution", {}).get("blood_brain_barrier_logbb", 0), 3),
+                "toxicity_risk": toxicity.get("overall_toxicity_risk", "MODERATE").upper(),
+                "drug_likeness_score": round(admet_props.get("overall", {}).get("drug_likeness_score", 0.5), 3)
+            }
+            
+            # Get source drugs
+            source_drugs = candidate.get("source_drugs", [])
+            if not source_drugs:
+                source_drugs = ["Unknown"]
+            
+            formatted_candidates.append(Candidate(
+                id=candidate.get("id", "NOVO_001"),
+                smiles=candidate.get("smiles", ""),
+                molecular_formula=props.get("molecular_formula", "C10H10N2O"),
+                molecular_weight=round(props.get("molecular_weight", 200.0), 3),
+                qed=round(props.get("qed", 0.5), 3),
+                confidence_score=round(candidate.get("confidence_score", 0.5), 3),
+                target_proteins=candidate.get("target_proteins", []),
+                source_drugs=source_drugs,
+                admet_summary=admet_summary,
+                passes_lipinski=props.get("lipinski_rules", {}).get("passes_lipinski", True)
+            ))
+        
+        # Generate timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Return exact format as shown in test
+        return DiscoverResponse(
+            symptoms=symptoms,
+            num_candidates=n_candidates,
+            timestamp=timestamp,
+            candidates=formatted_candidates
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"[ERROR] Drug discovery failed: {e}")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )

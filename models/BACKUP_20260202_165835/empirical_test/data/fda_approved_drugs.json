@@ -1,0 +1,111 @@
+{
+  "reference_drugs": {
+    "test_source": "FDA Emergency Use Authorization (2024-2025)",
+    "data_sources": [
+      "DrugBank Database",
+      "FDA COVID-19 Treatment Guidelines",
+      "ClinicalTrials.gov"
+    ],
+    
+    "drugs": [
+      {
+        "name": "Paxlovid",
+        "generic_name": "Nirmatrelvir/Ritonavir",
+        "drugbank_id": "DB16691",
+        "fda_status": "Emergency Use Authorization",
+        "approval_date": "2021-12-22",
+        "efficacy": {
+          "hospitalization_reduction": "88%",
+          "population": "High-risk adults"
+        },
+        "mechanism": "3CL protease inhibitor",
+        "smiles_nirmatrelvir": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+        "smiles_ritonavir": "CC(C)C1=NC(CN(C)C(=O)NC(C(=O)NC(Cc2ccccc2)CC(O)C(Cc2ccccc2)NC(=O)OCc2cncs2)C(C)C)CO1",
+        "primary_target": "3CL_protease",
+        "secondary_targets": ["CYP3A4"],
+        "route": "oral",
+        "dosage": "300mg Nirmatrelvir + 100mg Ritonavir",
+        "duration": "5 days",
+        "qed_score": 0.82,
+        "mw": 499.6,
+        "logp": 2.1
+      },
+      
+      {
+        "name": "Lagevrio",
+        "generic_name": "Molnupiravir",
+        "drugbank_id": "DB15666",
+        "fda_status": "Emergency Use Authorization",
+        "approval_date": "2021-12-23",
+        "efficacy": {
+          "hospitalization_reduction": "30%",
+          "population": "Adults at high risk"
+        },
+        "mechanism": "RNA polymerase inhibitor",
+        "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+        "primary_target": "RdRp",
+        "secondary_targets": [],
+        "route": "oral",
+        "dosage": "800mg",
+        "duration": "5 days",
+        "qed_score": 0.68,
+        "mw": 329.3,
+        "logp": 0.5
+      },
+      
+      {
+        "name": "Veklury",
+        "generic_name": "Remdesivir",
+        "drugbank_id": "DB14761",
+        "fda_status": "FDA Approved",
+        "approval_date": "2020-10-22",
+        "efficacy": {
+          "recovery_time": "Shortened by 5 days",
+          "population": "Hospitalized patients"
+        },
+        "mechanism": "RNA polymerase inhibitor",
+        "smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+        "primary_target": "RdRp",
+        "secondary_targets": [],
+        "route": "intravenous",
+        "dosage": "200mg loading, then 100mg daily",
+        "duration": "10 days",
+        "qed_score": 0.71,
+        "mw": 602.6,
+        "logp": 1.8
+      },
+      
+      {
+        "name": "Pemgarda",
+        "generic_name": "Pemivibart",
+        "drugbank_id": "DB18888",
+        "fda_status": "Emergency Use Authorization",
+        "approval_date": "2024-03-22",
+        "efficacy": {
+          "prevention": "Pre-exposure prophylaxis",
+          "population": "Immunocompromised patients"
+        },
+        "mechanism": "Monoclonal antibody",
+        "smiles": "PROTEIN_STRUCTURE_NOT_AVAILABLE",
+        "primary_target": "Spike_protein",
+        "secondary_targets": [],
+        "route": "intravenous",
+        "dosage": "IV infusion",
+        "duration": "Every 3 months",
+        "qed_score": 0.95,
+        "mw": 150000.0,
+        "logp": null
+      }
+    ],
+    
+    "comparison_criteria": {
+      "similarity_threshold": 0.7,
+      "qed_threshold": 0.67,
+      "target_overlap_required": true,
+      "molecular_weight_range": {
+        "min": 300,
+        "max": 700
+      }
+    }
+  }
+}

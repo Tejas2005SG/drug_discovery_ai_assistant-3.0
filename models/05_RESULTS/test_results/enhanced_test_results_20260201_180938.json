@@ -1,0 +1,74 @@
+{
+  "symptoms": [
+    "rapid onset localized neural inflammation",
+    "tremors in extremities",
+    "cytokine storm markers"
+  ],
+  "num_candidates": 3,
+  "target_proteins": [
+    {
+      "name": "SNAP_25",
+      "uniprot_id": "P60880",
+      "druggability": "Low"
+    },
+    {
+      "name": "GABA_Receptor",
+      "uniprot_id": "P14867",
+      "druggability": "High"
+    },
+    {
+      "name": "Calcium_Channel_alpha2delta",
+      "uniprot_id": "Q8TAG5",
+      "druggability": "High"
+    },
+    {
+      "name": "HDAC",
+      "uniprot_id": "P56524",
+      "druggability": "High"
+    },
+    {
+      "name": "GABA_transaminase",
+      "uniprot_id": "P80404",
+      "druggability": "High"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "NOVO_002",
+      "smiles": "CCC1(c2ccccc2)S(=O)(=O)NC(=O)NC1=O",
+      "formula": "C11H12N2O4S",
+      "confidence": 0.72835,
+      "qed": 0.8147013150743047,
+      "admet_score": 0.481,
+      "targets": [
+        "HDAC",
+        "GABA_Receptor",
+        "GABA_transaminase"
+      ]
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "NCC=C(CCC)C(=O)OC(=O)N",
+      "formula": "C8H14N2O3",
+      "confidence": 0.609334119234828,
+      "qed": 0.37453647693931214,
+      "admet_score": 0.502,
+      "targets": [
+        "HDAC",
+        "GABA_transaminase"
+      ]
+    },
+    {
+      "id": "NOVO_001",
+      "smiles": "NCC=C(CCC)C(=O)O",
+      "formula": "C7H13NO2",
+      "confidence": 0.5175015490694895,
+      "qed": 0.5708061962779581,
+      "admet_score": 0.528,
+      "targets": [
+        "HDAC",
+        "GABA_transaminase"
+      ]
+    }
+  ]
+}

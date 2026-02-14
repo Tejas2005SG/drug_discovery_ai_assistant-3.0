@@ -1,0 +1,325 @@
+{
+  "test_info": {
+    "test_name": "COVID-19 Molecular Comparison",
+    "generated_count": 20,
+    "reference_count": 4,
+    "similarity_threshold": 0.7
+  },
+  "similarity_analysis": {
+    "similarity_matrix": [
+      [
+        0.119,
+        0.077,
+        0.077,
+        0.0
+      ],
+      [
+        0.209,
+        0.237,
+        0.136,
+        0.0
+      ],
+      [
+        0.093,
+        0.077,
+        0.061,
+        0.0
+      ],
+      [
+        0.14,
+        0.073,
+        0.075,
+        0.0
+      ],
+      [
+        0.22,
+        0.184,
+        0.123,
+        0.0
+      ],
+      [
+        0.128,
+        0.067,
+        0.118,
+        0.0
+      ],
+      [
+        0.119,
+        0.077,
+        0.077,
+        0.0
+      ],
+      [
+        0.104,
+        0.091,
+        0.118,
+        0.0
+      ],
+      [
+        0.109,
+        0.07,
+        0.121,
+        0.0
+      ],
+      [
+        0.188,
+        0.182,
+        0.143,
+        0.0
+      ],
+      [
+        0.109,
+        0.07,
+        0.088,
+        0.0
+      ],
+      [
+        0.118,
+        0.061,
+        0.143,
+        0.0
+      ],
+      [
+        0.109,
+        0.07,
+        0.121,
+        0.0
+      ],
+      [
+        0.214,
+        0.179,
+        0.138,
+        0.0
+      ],
+      [
+        0.146,
+        0.077,
+        0.061,
+        0.0
+      ],
+      [
+        0.128,
+        0.067,
+        0.07,
+        0.0
+      ],
+      [
+        0.085,
+        0.07,
+        0.072,
+        0.0
+      ],
+      [
+        0.104,
+        0.067,
+        0.086,
+        0.0
+      ],
+      [
+        0.146,
+        0.077,
+        0.061,
+        0.0
+      ],
+      [
+        0.096,
+        0.061,
+        0.159,
+        0.0
+      ]
+    ],
+    "best_matches": [
+      {
+        "generated_id": "NOVO_COVID_000",
+        "reference_name": "Paxlovid",
+        "similarity": 0.119,
+        "generated_smiles": "C(C)CCC(C)C...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_001",
+        "reference_name": "Lagevrio",
+        "similarity": 0.237,
+        "generated_smiles": "CC(C)CC(=O)OC(C)C...",
+        "reference_smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O"
+      },
+      {
+        "generated_id": "NOVO_COVID_002",
+        "reference_name": "Paxlovid",
+        "similarity": 0.093,
+        "generated_smiles": "CNCC(C)C...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_003",
+        "reference_name": "Paxlovid",
+        "similarity": 0.14,
+        "generated_smiles": "CNC(C)CCC(C)C...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_004",
+        "reference_name": "Paxlovid",
+        "similarity": 0.22,
+        "generated_smiles": "CC(C)CC(=O)O...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_005",
+        "reference_name": "Paxlovid",
+        "similarity": 0.128,
+        "generated_smiles": "CC(C)CCNc1ccccc1...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_006",
+        "reference_name": "Paxlovid",
+        "similarity": 0.119,
+        "generated_smiles": "C(C)CCC(C)C...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_007",
+        "reference_name": "Veklury",
+        "similarity": 0.118,
+        "generated_smiles": "CC(C)Cc1ccccc1C(C)C...",
+        "reference_smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2..."
+      },
+      {
+        "generated_id": "NOVO_COVID_008",
+        "reference_name": "Veklury",
+        "similarity": 0.121,
+        "generated_smiles": "c1ccccc1CC(C)C...",
+        "reference_smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2..."
+      },
+      {
+        "generated_id": "NOVO_COVID_009",
+        "reference_name": "Paxlovid",
+        "similarity": 0.188,
+        "generated_smiles": "C(=O)OCC(C)CCC(N)=O...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_010",
+        "reference_name": "Paxlovid",
+        "similarity": 0.109,
+        "generated_smiles": "CC(C)CCC(N)=O...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_011",
+        "reference_name": "Veklury",
+        "similarity": 0.143,
+        "generated_smiles": "c1ccccc1CC(C)CCC(N)=O...",
+        "reference_smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2..."
+      },
+      {
+        "generated_id": "NOVO_COVID_012",
+        "reference_name": "Veklury",
+        "similarity": 0.121,
+        "generated_smiles": "c1ccccc1CC(C)C...",
+        "reference_smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2..."
+      },
+      {
+        "generated_id": "NOVO_COVID_013",
+        "reference_name": "Paxlovid",
+        "similarity": 0.214,
+        "generated_smiles": "C(C)CCC(C)CC(=O)O...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_014",
+        "reference_name": "Paxlovid",
+        "similarity": 0.146,
+        "generated_smiles": "CC(C)CCN...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_015",
+        "reference_name": "Paxlovid",
+        "similarity": 0.128,
+        "generated_smiles": "CC(N)=OCC(C)CCN...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_016",
+        "reference_name": "Paxlovid",
+        "similarity": 0.085,
+        "generated_smiles": "CC(N)=OCC(C)C...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_017",
+        "reference_name": "Paxlovid",
+        "similarity": 0.104,
+        "generated_smiles": "CNCC(C)CCC(N)=O...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_018",
+        "reference_name": "Paxlovid",
+        "similarity": 0.146,
+        "generated_smiles": "CC(C)CCN...",
+        "reference_smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)..."
+      },
+      {
+        "generated_id": "NOVO_COVID_019",
+        "reference_name": "Veklury",
+        "similarity": 0.159,
+        "generated_smiles": "CC(C)CCC(N)=Oc1ccccc1...",
+        "reference_smiles": "CCC(CC)COC(=O)[C@H](C)N[P@](=O)(OC[C@H]1O[C@@H](n2..."
+      }
+    ],
+    "avg_similarity": 0.142,
+    "max_similarity": 0.237,
+    "min_similarity": 0.085,
+    "high_similarity_count": 0,
+    "medium_similarity_count": 0,
+    "low_similarity_count": 20
+  },
+  "property_comparison": {
+    "generated_stats": {
+      "avg_mw": 74.0,
+      "std_mw": 51.2,
+      "avg_qed": 0.622,
+      "std_qed": 0.082,
+      "validity": 0.7
+    },
+    "reference_stats": {
+      "avg_mw": 477.2,
+      "avg_qed": 0.79,
+      "validity": 1.0
+    },
+    "property_match": {
+      "mw_match": 0.155,
+      "qed_match": 0.832,
+      "overall": 0.562
+    }
+  },
+  "target_analysis": {
+    "reference_targets": [
+      "CYP3A4",
+      "3CL_protease",
+      "Spike_protein",
+      "RdRp"
+    ],
+    "generated_targets": {
+      "RdRp": 14,
+      "Spike_protein": 14,
+      "ACE2_receptor": 6
+    },
+    "overlap": [
+      "Spike_protein",
+      "RdRp"
+    ],
+    "coverage": 0.5,
+    "target_match_score": 0.5
+  },
+  "summary": {
+    "avg_similarity": 0.142,
+    "high_similarity_drugs": 0,
+    "property_match_score": 0.562,
+    "target_coverage": 0.5,
+    "overall_chemical_accuracy": 0.401
+  }
+}

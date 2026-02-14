@@ -10,7 +10,7 @@ if (key) {
 export const ai = new GoogleGenAI({ apiKey: key });
 
 // Using Flash for the Selection Algorithm (speed), Pro for Writing (quality)
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-1.5-pro-latest";
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 

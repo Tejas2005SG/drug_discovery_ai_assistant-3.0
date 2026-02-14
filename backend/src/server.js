@@ -8,8 +8,8 @@ import cors from "cors";
 import { connectDB } from "./lib/db.js";
 
 import authRoutes from "./routes/auth.route.js";
+import sequenceAnnotationRoutes from "./routes/sequenceAnnotation.route.js";
 import drugDiscoveryRoutes from "./routes/drugDiscovery.route.js";
-import researchResultRoutes from "./routes/researchResult.route.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,8 +22,8 @@ app.use(cors({
 }));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/sequence-annotation", sequenceAnnotationRoutes);
 app.use("/api/drug-discovery", drugDiscoveryRoutes);
-app.use("/api/research-results", researchResultRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

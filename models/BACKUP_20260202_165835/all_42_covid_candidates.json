@@ -1,0 +1,482 @@
+{
+  "test_metadata": {
+    "test_name": "COVID-19 Empirical Test",
+    "total_candidates": 42,
+    "system": "NOVO-1 Knowledge Graph Model",
+    "overall_accuracy": "62.1%"
+  },
+  "candidates_by_test_case": [
+    {
+      "test_case": "Mild COVID-19",
+      "symptoms": ["fever", "cough", "fatigue"],
+      "candidates": [
+        {
+          "id": "NOVO_005",
+          "smiles": "CC(C)CC[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.564,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Oseltamivir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_001",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.459,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Molnupiravir"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_004",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CNC(=O)OCc1ccccc1",
+          "molecular_weight": 486.6,
+          "qed": 0.598,
+          "confidence": 0.456,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Zanamivir"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_000",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.470,
+          "confidence": 0.412,
+          "targets": ["Mpro", "3CL-protease"],
+          "source_drugs": ["Paxlovid", "Nirmatrelvir"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.398,
+          "targets": ["RNA-dependent RNA polymerase"],
+          "source_drugs": ["Remdesivir", "Molnupiravir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+          "molecular_weight": 329.3,
+          "qed": 0.668,
+          "confidence": 0.385,
+          "targets": ["RdRp"],
+          "source_drugs": ["Molnupiravir", "Favipiravir"],
+          "generation_method": "ring_modification"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.342,
+          "targets": ["neuraminidase"],
+          "source_drugs": ["Oseltamivir", "Zanamivir"],
+          "generation_method": "pharmacophore_combination"
+        }
+      ]
+    },
+    {
+      "test_case": "Moderate COVID-19",
+      "symptoms": ["fever", "cough", "fatigue", "shortness of breath"],
+      "candidates": [
+        {
+          "id": "NOVO_000",
+          "smiles": "CCC(CC)S(=O)(=O)N[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 426.5,
+          "qed": 0.687,
+          "confidence": 0.462,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Oseltamivir", "Hydroxychloroquine"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_001",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.459,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Molnupiravir"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.470,
+          "confidence": 0.296,
+          "targets": ["Mpro", "3CL-protease"],
+          "source_drugs": ["Paxlovid", "Nirmatrelvir"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.285,
+          "targets": ["RNA-dependent RNA polymerase"],
+          "source_drugs": ["Remdesivir", "Molnupiravir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_004",
+          "smiles": "CC(C)CC[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.271,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Oseltamivir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+          "molecular_weight": 329.3,
+          "qed": 0.668,
+          "confidence": 0.259,
+          "targets": ["RdRp"],
+          "source_drugs": ["Molnupiravir", "Favipiravir"],
+          "generation_method": "ring_modification"
+        },
+        {
+          "id": "NOVO_005",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.247,
+          "targets": ["neuraminidase"],
+          "source_drugs": ["Oseltamivir", "Zanamivir"],
+          "generation_method": "pharmacophore_combination"
+        }
+      ]
+    },
+    {
+      "test_case": "Severe COVID-19",
+      "symptoms": ["severe shortness of breath", "chest pain", "high fever"],
+      "candidates": [
+        {
+          "id": "NOVO_004",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CNC(=O)OCc1ccccc1",
+          "molecular_weight": 486.6,
+          "qed": 0.598,
+          "confidence": 0.642,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro", "inflammatory cytokines"],
+          "source_drugs": ["Dexamethasone", "Tocilizumab"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_000",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.553,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro", "inflammatory cytokines"],
+          "source_drugs": ["Dexamethasone", "Remdesivir"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.553,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro", "inflammatory cytokines"],
+          "source_drugs": ["Dexamethasone", "Baricitinib"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_001",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.470,
+          "confidence": 0.498,
+          "targets": ["Mpro", "3CL-protease", "IL-6 receptor"],
+          "source_drugs": ["Paxlovid", "Tocilizumab"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.487,
+          "targets": ["RNA-dependent RNA polymerase", "inflammatory cytokines"],
+          "source_drugs": ["Remdesivir", "Dexamethasone"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_005",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.451,
+          "targets": ["neuraminidase", "JAK1"],
+          "source_drugs": ["Oseltamivir", "Baricitinib"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+          "molecular_weight": 329.3,
+          "qed": 0.668,
+          "confidence": 0.432,
+          "targets": ["RdRp"],
+          "source_drugs": ["Molnupiravir", "Favipiravir"],
+          "generation_method": "ring_modification"
+        }
+      ]
+    },
+    {
+      "test_case": "Long COVID",
+      "symptoms": ["persistent fatigue", "brain fog", "shortness of breath"],
+      "candidates": [
+        {
+          "id": "NOVO_001",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.584,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Molnupiravir"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.584,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Long COVID investigational"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_000",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CNC(=O)OCc1ccccc1",
+          "molecular_weight": 486.6,
+          "qed": 0.598,
+          "confidence": 0.576,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", " supportive care"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_004",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.470,
+          "confidence": 0.523,
+          "targets": ["Mpro", "3CL-protease"],
+          "source_drugs": ["Paxlovid", " investigational"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.498,
+          "targets": ["RNA-dependent RNA polymerase"],
+          "source_drugs": ["Remdesivir", " supportive care"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_005",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.487,
+          "targets": ["neuraminidase"],
+          "source_drugs": ["Oseltamivir", " supportive care"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+          "molecular_weight": 329.3,
+          "qed": 0.668,
+          "confidence": 0.465,
+          "targets": ["RdRp"],
+          "source_drugs": ["Molnupiravir", "Favipiravir"],
+          "generation_method": "ring_modification"
+        }
+      ]
+    },
+    {
+      "test_case": "COVID + Influenza",
+      "symptoms": ["fever", "cough", "fatigue", "muscle pain", "sore throat"],
+      "candidates": [
+        {
+          "id": "NOVO_001",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.559,
+          "confidence": 0.523,
+          "targets": ["Mpro", "3CL-protease", "neuraminidase"],
+          "source_drugs": ["Paxlovid", "Oseltamivir"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_005",
+          "smiles": "CC(C)CCCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 656.7,
+          "qed": 0.132,
+          "confidence": 0.294,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro", "neuraminidase"],
+          "source_drugs": ["Remdesivir", "Oseltamivir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)OCC(C)C",
+          "molecular_weight": 541.7,
+          "qed": 0.470,
+          "confidence": 0.288,
+          "targets": ["Mpro", "3CL-protease", "neuraminidase"],
+          "source_drugs": ["Paxlovid", "Zanamivir"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.285,
+          "targets": ["neuraminidase", "Mpro"],
+          "source_drugs": ["Oseltamivir", "Paxlovid"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_004",
+          "smiles": "CC(C)CC[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.271,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro", "neuraminidase"],
+          "source_drugs": ["Dexamethasone", "Oseltamivir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.259,
+          "targets": ["RNA-dependent RNA polymerase", "neuraminidase"],
+          "source_drugs": ["Remdesivir", "Zanamivir"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_000",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.247,
+          "targets": ["RNA-dependent RNA polymerase", "Mpro"],
+          "source_drugs": ["Dexamethasone", "Molnupiravir"],
+          "generation_method": "pharmacophore_combination"
+        }
+      ]
+    },
+    {
+      "test_case": "Cytokine Storm",
+      "symptoms": ["high fever", "severe inflammation", "low oxygen", "lung inflammation"],
+      "candidates": [
+        {
+          "id": "NOVO_001",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CO",
+          "molecular_weight": 392.5,
+          "qed": 0.667,
+          "confidence": 0.663,
+          "targets": ["RNA-dependent RNA polymerase", "inflammatory cytokines", "IL-6 receptor"],
+          "source_drugs": ["Dexamethasone", "Tocilizumab"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_003",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CNC(=O)OCc1ccccc1",
+          "molecular_weight": 486.6,
+          "qed": 0.622,
+          "confidence": 0.650,
+          "targets": ["RNA-dependent RNA polymerase", "inflammatory cytokines", "JAK1"],
+          "source_drugs": ["Dexamethasone", "Baricitinib"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_000",
+          "smiles": "CC(C)(C)NC(=O)C1CC2(CCN(C(=O)C(C(C)(C)C)NC(=O)C(F)(F)F)CC2)CN1C(=O)O",
+          "molecular_weight": 499.6,
+          "qed": 0.470,
+          "confidence": 0.565,
+          "targets": ["Mpro", "3CL-protease", "IL-6 receptor"],
+          "source_drugs": ["Paxlovid", "Tocilizumab"],
+          "generation_method": "functional_group_swap"
+        },
+        {
+          "id": "NOVO_004",
+          "smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@]4(C)[C@@]3(F)[C@@H](O)C[C@]2(C)[C@@]1(O)C(=O)CN(C)C(=O)OCc1ccccc1",
+          "molecular_weight": 599.7,
+          "qed": 0.600,
+          "confidence": 0.542,
+          "targets": ["RNA-dependent RNA polymerase", "inflammatory cytokines", "JAK2"],
+          "source_drugs": ["Dexamethasone", "Baricitinib"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_002",
+          "smiles": "CCC(CC)COC(=O)[C@H](C)NP(=O)(OCC1OC(n2cnc3c(N)ncnc32)[C@H](O)[C@@H]1O)Oc1ccccc1",
+          "molecular_weight": 602.6,
+          "qed": 0.198,
+          "confidence": 0.521,
+          "targets": ["RNA-dependent RNA polymerase", "inflammatory cytokines"],
+          "source_drugs": ["Remdesivir", "Dexamethasone"],
+          "generation_method": "side_chain_extension"
+        },
+        {
+          "id": "NOVO_005",
+          "smiles": "CCC(CC)C(=O)O[C@H]1C[C@@H](C(=O)N(C)C)N(C(=O)OCc2ccccc2)C1",
+          "molecular_weight": 390.5,
+          "qed": 0.687,
+          "confidence": 0.498,
+          "targets": ["neuraminidase", "inflammatory cytokines"],
+          "source_drugs": ["Oseltamivir", "Tocilizumab"],
+          "generation_method": "pharmacophore_combination"
+        },
+        {
+          "id": "NOVO_006",
+          "smiles": "C[C@@H](C(=O)OC(C)C)N1C(=O)C(O)(CO)C(=O)N(C)C1=O",
+          "molecular_weight": 329.3,
+          "qed": 0.668,
+          "confidence": 0.487,
+          "targets": ["RdRp"],
+          "source_drugs": ["Molnupiravir", "Favipiravir"],
+          "generation_method": "ring_modification"
+        }
+      ]
+    }
+  ],
+  
+  "summary_statistics": {
+    "total_candidates": 42,
+    "valid_molecules": 42,
+    "validity_rate": "100%",
+    "avg_qed": 0.558,
+    "avg_confidence": "36.5%",
+    "avg_molecular_weight": 467.8,
+    "most_common_targets": ["RNA-dependent RNA polymerase", "Mpro", "3CL-protease", "inflammatory cytokines"],
+    "generation_methods": {
+      "pharmacophore_combination": 12,
+      "side_chain_extension": 12,
+      "functional_group_swap": 12,
+      "ring_modification": 6
+    }
+  }
+}

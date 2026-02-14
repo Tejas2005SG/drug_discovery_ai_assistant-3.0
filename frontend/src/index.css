@@ -223,3 +223,105 @@
     @apply bg-white/20;
   }
 }
+
+/* ============================================
+   Mol* 3D Viewer Styles
+   ============================================ */
+
+/* Mol* container background - Light by default */
+#molstar-container {
+  background: #ffffff !important;
+}
+
+#molstar-container canvas {
+  background: #ffffff !important;
+}
+
+.dark #molstar-container {
+  background: #0f172a !important;
+}
+
+.dark #molstar-container canvas {
+  background: #0f172a !important;
+}
+
+/* Ensure Mol* viewer takes full space */
+.msp-plugin {
+  height: 100% !important;
+}
+
+.msp-viewport {
+  background: #ffffff !important;
+}
+
+.dark .msp-viewport {
+  background: #0f172a !important;
+}
+
+/* ============================================
+   Sequence Annotation Track Styles
+   ============================================ */
+
+/* Track row hover effect */
+.track-row {
+  @apply hover:bg-muted/50 transition-colors;
+}
+
+/* Secondary structure elements */
+.ss-helix {
+  @apply bg-pink-300 rounded cursor-pointer hover:opacity-80 transition-opacity;
+}
+
+.ss-sheet {
+  @apply bg-blue-300 rounded cursor-pointer hover:opacity-80 transition-opacity;
+}
+
+/* Outlier bars */
+.outlier-bar {
+  @apply transition-colors hover:bg-red-500;
+}
+
+.outlier-bar.high {
+  @apply bg-red-500;
+}
+
+/* Binding site dots */
+.binding-dot {
+  @apply rounded-full cursor-pointer transition-transform hover:scale-125;
+}
+
+/* Buried residue marks */
+.buried-mark {
+  @apply bg-green-500 rounded cursor-pointer hover:bg-green-600;
+}
+
+/* Hydropathy bars */
+.hydropathy-positive {
+  @apply bg-red-400 rounded-t;
+}
+
+.hydropathy-negative {
+  @apply bg-blue-400 rounded-b;
+}
+
+/* Domain bars */
+.domain-pfam {
+  @apply bg-red-200;
+}
+
+.domain-cath {
+  @apply bg-yellow-200;
+}
+
+.domain-scop {
+  @apply bg-gray-300;
+}
+
+.domain-ecod {
+  @apply bg-green-200;
+}
+
+/* Position indicator line */
+.position-indicator {
+  @apply absolute top-0 bottom-0 w-0.5 bg-yellow-400 pointer-events-none z-50;
+}

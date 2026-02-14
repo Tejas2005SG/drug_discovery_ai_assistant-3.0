@@ -1,0 +1,72 @@
+{
+  "symptoms": [
+    "rapid onset localized neural inflammation",
+    "tremors in extremities",
+    "cytokine storm markers"
+  ],
+  "num_candidates": 5,
+  "target_proteins": [
+    {
+      "name": "Unknown",
+      "uniprot_id": "Unknown",
+      "druggability": "Unknown"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "NOVO_001",
+      "smiles": "CC(C)C#CC(C)(C)NC(=O)C1CCCCC1",
+      "formula": "C15H25NO",
+      "confidence": 0.690610042150957,
+      "qed": 0.7320401686038277,
+      "admet_score": 0.536,
+      "targets": [
+        "Unknown"
+      ]
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "CC(C)C#CC(C)(C)NC(=O)C1CCCCC1",
+      "formula": "C15H25NO",
+      "confidence": 0.690610042150957,
+      "qed": 0.7320401686038277,
+      "admet_score": 0.536,
+      "targets": [
+        "Unknown"
+      ]
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "CC(C)C#CC(C)(C)NC(=O)C1CCCCC1",
+      "formula": "C15H25NO",
+      "confidence": 0.690610042150957,
+      "qed": 0.7320401686038277,
+      "admet_score": 0.536,
+      "targets": [
+        "Unknown"
+      ]
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "CC(C)C#CC(C)(C)NC(=O)C1CCCCC1CN",
+      "formula": "C16H28N2O",
+      "confidence": 0.6899396452545216,
+      "qed": 0.7685585810180863,
+      "admet_score": 0.508,
+      "targets": [
+        "Unknown"
+      ]
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "CC(C)C#CC(C)(C)NC(=O)C1CCCCC1C(=O)N",
+      "formula": "C16H26N2O2",
+      "confidence": 0.6868697059185837,
+      "qed": 0.7730788236743343,
+      "admet_score": 0.496,
+      "targets": [
+        "Unknown"
+      ]
+    }
+  ]
+}

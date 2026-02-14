@@ -1,9 +1,13 @@
 [project]
 name = "python-backend"
-version = "0.1.0"
-description = "Add your description here"
+version = "3.0.0"
+description = "NOVO-1 Drug Discovery FastAPI Backend"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.128.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.6.0",
+    "numpy>=1.24.0",
+    "rdkit>=2023.9.1",
 ]

@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence Annotations in 3D: 4HHB - PDB</title>
+
+    <!-- Mol* CSS -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-molstar@2.14.2/build/dist/viewer/rcsb-molstar.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .pdb-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .pdb-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pdb-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .pdb-title span {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        /* Subtitle */
+        .pdb-subtitle {
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #666;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 500;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 90px);
+        }
+
+        /* Left Panel: Sequence Annotations */
+        .sequence-panel {
+            width: 45%;
+            min-width: 500px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+        }
+
+        /* Tracks Container */
+        .tracks-container {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        /* Tracks Wrapper */
+        .tracks-wrapper {
+            min-height: 100%;
+        }
+
+        /* Sequence Ruler */
+        .sequence-ruler {
+            height: 30px;
+            border-bottom: 1px solid #ddd;
+            margin-left: 140px;
+            position: relative;
+        }
+
+        .ruler-scale {
+            position: relative;
+            height: 100%;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .ruler-tick {
+            position: absolute;
+            bottom: 0;
+            width: 1px;
+            height: 6px;
+            background: #ccc;
+        }
+
+        /* Track Styles */
+        .track {
+            display: flex;
+            align-items: center;
+            min-height: 28px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .track:hover {
+            background: #f8f9fa;
+        }
+
+        .track-label {
+            width: 140px;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: #333;
+            font-weight: 600;
+            text-align: right;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .track-content {
+            flex: 1;
+            height: 100%;
+            min-height: 24px;
+            position: relative;
+            padding: 2px 8px;
+            overflow: hidden;
+        }
+
+        /* Chain Track */
+        .chain-bar {
+            height: 20px;
+            background: #c4b5e0;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 11px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* UniProt Track */
+        .uniprot-bar {
+            height: 20px;
+            background: #a5b4fc;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 11px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Secondary Structure */
+        .ss-bar {
+            display: flex;
+            align-items: center;
+            height: 24px;
+            position: relative;
+        }
+
+        .ss-helix {
+            height: 18px;
+            background: #f4a6c3;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .ss-helix:hover {
+            opacity: 0.8;
+        }
+
+        .ss-sheet {
+            height: 18px;
+            background: #93c5fd;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        /* Outlier Bars */
+        .outlier-bars {
+            display: flex;
+            align-items: flex-end;
+            height: 24px;
+            gap: 1px;
+        }
+
+        .outlier-bar {
+            flex: 1;
+            background: #fca5a5;
+            min-height: 2px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .outlier-bar:hover {
+            background: #f87171;
+        }
+
+        .outlier-bar.high {
+            background: #ef4444;
+        }
+
+        /* Binding Sites */
+        .binding-dots {
+            display: flex;
+            align-items: center;
+            height: 24px;
+            gap: 4px;
+        }
+
+        .binding-cluster {
+            display: flex;
+            gap: 2px;
+        }
+
+        .binding-dot {
+            width: 10px;
+            height: 10px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .binding-dot:hover {
+            transform: scale(1.3);
+        }
+
+        .binding-dot.chain-a {
+            background: #a5b4fc;
+        }
+
+        .binding-dot.chain-b {
+            background: #a5b4fc;
+        }
+
+        .binding-dot.chain-d {
+            background: #a5b4fc;
+        }
+
+        /* Buried Residues */
+        .buried-marks {
+            display: flex;
+            align-items: center;
+            height: 24px;
+            gap: 8px;
+        }
+
+        .buried-mark {
+            width: 6px;
+            height: 16px;
+            background: #22c55e;
+            border-radius: 2px;
+        }
+
+        /* Hydropathy */
+        .hydropathy-chart {
+            display: flex;
+            align-items: center;
+            height: 28px;
+            position: relative;
+        }
+
+        .hydropathy-bar {
+            width: 2px;
+            position: absolute;
+            bottom: 50%;
+        }
+
+        .hydropathy-bar.positive {
+            background: #ff6b6b;
+            border-radius: 1px 1px 0 0;
+        }
+
+        .hydropathy-bar.negative {
+            background: #4dabf7;
+            border-radius: 0 0 1px 1px;
+            transform-origin: bottom;
+        }
+
+        /* Disorder */
+        .disorder-area {
+            height: 28px;
+            background: linear-gradient(to right, #a5b4fc 0%, #a5b4fc 60%, transparent 100%);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        /* Domain tracks */
+        .domain-track {
+            display: flex;
+            align-items: center;
+            height: 24px;
+        }
+
+        .domain-bar {
+            height: 18px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            font-size: 10px;
+            color: #333;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+
+        .domain-pfam {
+            background: #fecaca;
+        }
+
+        .domain-cath {
+            background: #fde68a;
+        }
+
+        .domain-scop {
+            background: #d1d5db;
+        }
+
+        .domain-ecod {
+            background: #a7f3d0;
+        }
+
+        /* Scrollbar styling */
+        .track-content::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .track-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .track-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        /* Right Panel - 3D Viewer */
+        .viewer-panel {
+            flex: 1;
+            background: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewer-toolbar {
+            height: 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 8px;
+        }
+
+        .toolbar-btn {
+            padding: 4px 12px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .toolbar-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .toolbar-btn.active {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1976d2;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 20px;
+            background: #ddd;
+            margin: 0 4px;
+        }
+
+        .viewer-container {
+            flex: 1;
+            position: relative;
+            background: #0f172a;
+        }
+
+        #molstar-container {
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+        }
+
+        /* Force dark background on Mol* canvas */
+        #molstar-container canvas {
+            background: #0f172a !important;
+        }
+
+        /* Position indicator line */
+        .position-indicator {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #ffd700;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+
+        /* Feature Info Panel */
+
+
+        .feature-info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .feature-label {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .feature-position {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        /* Tooltip */
+        .track-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top-color: #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="pdb-header">
+        <div class="pdb-header-left">
+            <h1 class="pdb-title">Sequence Annotations in 3D: <span id="pdb-id-display">4HHB</span></h1>
+            <div class="chain-selector" style="margin-left: 20px; display: flex; align-items: center; gap: 8px;">
+                <label style="font-size: 13px; color: #666; font-weight: 500;">Chain</label>
+                <select id="chain-select" style="padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; background: white;">
+                    <option value="A" selected>A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+
+            <!-- UniProt Input -->
+            <div class="uniprot-input-container" style="margin-left: 20px; display: flex; align-items: center; gap: 8px;">
+                <label style="font-size: 13px; color: #666; font-weight: 500;">UniProt</label>
+                <input type="text" id="uniprot-input" placeholder="e.g., P69905" style="padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100px;">
+                <button id="load-uniprot-btn" style="padding: 4px 12px; background: #0066cc; color: white; border: none; border-radius: 4px; font-size: 13px; cursor: pointer; font-weight: 500;">Load</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subtitle -->
+    <div class="pdb-subtitle" id="structure-title">
+        THE CRYSTAL STRUCTURE OF HUMAN DEOXYHAEMOGLOBIN AT 1.74 ANGSTROMS RESOLUTION
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Panel: Sequence Annotations -->
+        <div class="sequence-panel">
+            <!-- Sequence Tracks -->
+            <div class="tracks-container" id="tracks-container">
+                <!-- Ruler -->
+                <div class="sequence-ruler">
+                    <div class="ruler-scale" id="ruler-scale">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <div class="tracks-wrapper" id="tracks-wrapper">
+                    <!-- Tracks will be generated by JS -->
+                </div>
+
+                <!-- Position Indicator -->
+                <div class="position-indicator" id="position-indicator"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel: 3D Viewer -->
+        <div class="viewer-panel">
+            <div class="viewer-toolbar">
+                <button class="toolbar-btn active" id="btn-residue">Residue</button>
+                <div class="toolbar-separator"></div>
+                <button class="toolbar-btn" id="btn-cartoon" title="Cartoon">&#9679;</button>
+                <button class="toolbar-btn" id="btn-ballstick" title="Ball & Stick">&#9670;</button>
+                <button class="toolbar-btn" id="btn-surface" title="Surface">&#9632;</button>
+                <div class="toolbar-separator"></div>
+                <button class="toolbar-btn" id="btn-paint" title="Color">&#9998;</button>
+                <button class="toolbar-btn" id="btn-cube" title="Box">&#9634;</button>
+                <div class="toolbar-separator"></div>
+                <button class="toolbar-btn" id="btn-minus" title="Zoom Out">&#8722;</button>
+                <button class="toolbar-btn" id="btn-plus" title="Zoom In">+</button>
+                <button class="toolbar-btn" id="btn-help" title="Help">?</button>
+                <button class="toolbar-btn" id="btn-close" title="Close">&#10005;</button>
+            </div>
+
+            <div class="viewer-container">
+                <div id="molstar-container"></div>
+                <div class="loading-overlay" id="viewer-loading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Loading structure...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="track-tooltip" id="tooltip"></div>
+
+    <!-- Mol* JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-molstar@2.14.2/build/dist/viewer/rcsb-molstar.js"></script>
+
+    <script>
+        // Global error handler
+        window.onerror = function (message, source, lineno, colno, error) {
+            console.error('Global Error:', message, 'at', source, ':', lineno);
+            // alert('Error: ' + message + '\nLine: ' + lineno);
+        };
+
+        // Log Mol* availability for debugging
+        console.log('rcsbMolstar available:', typeof rcsbMolstar);
+
+        // Application State
+        const AppState = {
+            currentPdbId: '4HHB',
+            currentUniprotId: 'P69905',
+            currentChain: 'A',
+            viewer: null,
+            viewerReady: false,
+            sequenceLength: 141,
+            selectedPosition: null,
+            hoverPosition: null,
+            isLoading: false
+        };
+
+        // Track Definitions
+        const tracks = [
+            { id: 'chain', label: 'CHAIN', type: 'chain' },
+            { id: 'uniprot', label: 'UNIPROT P69905', type: 'uniprot' },
+            { id: 'secondary', label: 'SECONDARY STRUCTURE', type: 'secondary' },
+            { id: 'plane', label: 'PLANE OUTLIERS', type: 'outliers' },
+            { id: 'chiral', label: 'CHIRAL OUTLIERS', type: 'chiral' },
+            { id: 'atomic', label: 'ATOMIC CLASHES', type: 'atomic' },
+            { id: 'symm', label: 'SYMM CLASHES', type: 'symm' },
+            { id: 'angle', label: 'ANGLE OUTLIERS', type: 'angle' },
+            { id: 'bond', label: 'BOND OUTLIERS', type: 'bond' },
+            { id: 'binding-hem', label: 'BINDING SITE HEM', type: 'binding' },
+            { id: 'metal-hem', label: 'METAL COORDINATION HEM', type: 'metal' },
+            { id: 'binding-a', label: 'BINDING CHAIN A', type: 'binding-chain' },
+            { id: 'binding-b', label: 'BINDING CHAIN B', type: 'binding-chain' },
+            { id: 'binding-d', label: 'BINDING CHAIN D', type: 'binding-chain' },
+            { id: 'buried', label: 'BURIED RESIDUES', type: 'buried' },
+            { id: 'hydropathy', label: 'HYDROPATHY', type: 'hydropathy' },
+            { id: 'disorder', label: 'DISORDER', type: 'disorder' },
+            { id: 'disordered-binding', label: 'DISORDERED BINDING', type: 'disordered-binding' },
+            { id: 'pfam', label: 'PFAM', type: 'domain' },
+            { id: 'cath', label: 'CATH', type: 'domain' },
+            { id: 'scop', label: 'SCOP', type: 'domain' },
+            { id: 'ecod', label: 'ECOD', type: 'domain' },
+            { id: 'molecule-processing', label: 'MOLECULE PROCESSING', type: 'processing' }
+        ];
+
+        // Generate Ruler
+        function generateRuler() {
+            const ruler = document.getElementById('ruler-scale');
+            const length = AppState.sequenceLength;
+            const step = 20;
+
+            let html = '';
+            for (let i = 0; i <= length; i += step) {
+                const left = (i / length) * 100;
+                html += `<span style="position:absolute;left:${left}%">${i}</span>`;
+                html += `<div class="ruler-tick" style="left:${left}%"></div>`;
+            }
+            ruler.innerHTML = html;
+        }
+
+        // Generate Track Content
+        function generateTrackContent(track) {
+            const length = AppState.sequenceLength;
+
+            switch (track.type) {
+                case 'chain':
+                    return `<div class="chain-bar" style="width:100%">CHAIN ${AppState.currentChain}</div>`;
+
+                case 'uniprot':
+                    return `<div class="uniprot-bar" style="width:100%">${AppState.currentUniprotId}</div>`;
+
+                case 'secondary':
+                    return generateSecondaryStructure(length);
+
+                case 'outliers':
+                    return generateOutliers(length, 'plane');
+
+                case 'chiral':
+                    return generateChiralOutliers(length);
+
+                case 'atomic':
+                    return generateAtomicClashes(length);
+
+                case 'symm':
+                    return generateSymmClashes(length);
+
+                case 'angle':
+                    return generateAngleOutliers(length);
+
+                case 'bond':
+                    return generateBondOutliers(length);
+
+                case 'binding':
+                    return generateBindingSites(length, 'hem');
+
+                case 'metal':
+                    return generateMetalCoordination(length);
+
+                case 'binding-chain':
+                    return generateChainBinding(length, track.id);
+
+                case 'buried':
+                    return generateBuriedResidues(length);
+
+                case 'hydropathy':
+                    return generateHydropathy(length);
+
+                case 'disorder':
+                    return generateDisorder(length);
+
+                case 'disordered-binding':
+                    return generateDisorderedBinding(length);
+
+                case 'domain':
+                    return generateDomains(length, track.id);
+
+                case 'processing':
+                    return generateProcessing(length);
+
+                default:
+                    return '';
+            }
+        }
+
+        function generateSecondaryStructure(length) {
+            // Helices and sheets for hemoglobin
+            const helices = [
+                [3, 18], [20, 35], [52, 57], [58, 77], [80, 89], [96, 112], [119, 136]
+            ];
+
+            let html = '<div class="ss-bar">';
+            let lastEnd = 1;
+
+            helices.forEach(([start, end]) => {
+                const left = ((start - 1) / length) * 100;
+                const width = ((end - start + 1) / length) * 100;
+                html += `<div class="ss-helix" style="position:absolute;left:${left}%;width:${width}%" data-start="${start}" data-end="${end}" title="Helix ${start}-${end}"></div>`;
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateOutliers(length, type) {
+            let html = '<div class="outlier-bars">';
+            for (let i = 1; i <= length; i++) {
+                // Random outliers with some clustering
+                const hasOutlier = Math.random() < 0.15 || (i > 40 && i < 50) || (i > 80 && i < 85);
+                const height = hasOutlier ? Math.random() * 80 + 20 : Math.random() * 10 + 2;
+                const isHigh = height > 60;
+                html += `<div class="outlier-bar ${isHigh ? 'high' : ''}" style="height:${height}%" data-pos="${i}" title="Position ${i}: ${height.toFixed(1)}%"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateChiralOutliers(length) {
+            let html = '<div class="outlier-bars">';
+            for (let i = 1; i <= length; i++) {
+                const hasOutlier = i === 62 || i === 98; // Specific positions
+                const height = hasOutlier ? 100 : 2;
+                html += `<div class="outlier-bar ${hasOutlier ? 'high' : ''}" style="height:${height}%" data-pos="${i}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateAtomicClashes(length) {
+            let html = '<div class="outlier-bars">';
+            for (let i = 1; i <= length; i++) {
+                const hasClash = Math.random() < 0.08;
+                const height = hasClash ? Math.random() * 60 + 20 : Math.random() * 8 + 2;
+                html += `<div class="outlier-bar" style="height:${height}%;background:#e8a5e8" data-pos="${i}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateSymmClashes(length) {
+            let html = '<div class="outlier-bars">';
+            for (let i = 1; i <= length; i++) {
+                const hasClash = i === 76;
+                const height = hasClash ? 100 : 2;
+                html += `<div class="outlier-bar" style="height:${height}%;background:#5ee7df" data-pos="${i}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateAngleOutliers(length) {
+            return generateOutliers(length, 'angle');
+        }
+
+        function generateBondOutliers(length) {
+            let html = '<div class="outlier-bars">';
+            for (let i = 1; i <= length; i++) {
+                const hasOutlier = Math.random() < 0.12;
+                const height = hasOutlier ? Math.random() * 50 + 10 : Math.random() * 5 + 1;
+                html += `<div class="outlier-bar" style="height:${height}%;background:#86efac" data-pos="${i}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateBindingSites(length, type) {
+            const sites = [
+                [26, 28], [42, 44], [58, 62], [65, 69], [98, 102], [132, 134]
+            ];
+
+            let html = '<div class="binding-dots">';
+            sites.forEach(([start, end]) => {
+                html += '<div class="binding-cluster">';
+                for (let i = start; i <= end; i++) {
+                    html += `<div class="binding-dot" data-pos="${i}" title="HEM binding site: ${i}"></div>`;
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function generateMetalCoordination(length) {
+            const sites = [63, 87];
+            let html = '<div class="binding-dots">';
+            sites.forEach(pos => {
+                html += `<div class="binding-dot" style="background:#c4b5e0" data-pos="${pos}" title="Metal coordination: ${pos}"></div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function generateChainBinding(length, id) {
+            const chain = id.split('-')[1];
+            const sites = chain === 'a' ? [[30, 35], [95, 100]] :
+                chain === 'b' ? [[18, 23], [110, 115]] :
+                    [[45, 50], [125, 130]];
+
+            let html = '<div class="binding-dots">';
+            sites.forEach(([start, end]) => {
+                for (let i = start; i <= end; i++) {
+                    html += `<div class="binding-dot chain-${chain}" data-pos="${i}" title="Chain ${chain.toUpperCase()} binding: ${i}"></div>`;
+                }
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function generateBuriedResidues(length) {
+            const buried = [5, 12, 18, 25, 32, 38, 45, 52, 58, 65, 72, 78, 85, 92, 98, 105, 112, 118, 125];
+            let html = '<div class="buried-marks">';
+            buried.forEach(pos => {
+                const left = ((pos - 1) / length) * 100;
+                html += `<div class="buried-mark" style="position:absolute;left:${left}%" data-pos="${pos}" title="Buried residue: ${pos}"></div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function generateHydropathy(length) {
+            let html = '<div class="hydropathy-chart">';
+            for (let i = 1; i <= length; i++) {
+                const value = Math.sin(i * 0.2) * 0.5 + Math.random() * 0.3;
+                const left = ((i - 1) / length) * 100;
+                const height = Math.abs(value) * 40;
+                const isPositive = value > 0;
+                html += `<div class="hydropathy-bar ${isPositive ? 'positive' : 'negative'}" 
+                            style="left:${left}%;height:${height}%;${isPositive ? '' : 'top:50%'}"
+                            data-pos="${i}" data-value="${value.toFixed(2)}" title="Position ${i}: ${value.toFixed(2)}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function generateDisorder(length) {
+            return '<div class="disorder-area" style="width:60%"></div>';
+        }
+
+        function generateDisorderedBinding(length) {
+            return '<div class="disorder-area" style="width:80%;background:linear-gradient(to right, #a5b4fc 0%, transparent 100%)"></div>';
+        }
+
+        function generateDomains(length, type) {
+            const domains = {
+                'pfam': [['Globin', 3, 140]],
+                'cath': [['3.10.320.10', 3, 140]],
+                'scop': [['a.1.1.1', 3, 140]],
+                'ecod': [['2013.001.0', 3, 140]]
+            };
+
+            const domainList = domains[type] || [];
+            let html = '<div class="domain-track">';
+            domainList.forEach(([name, start, end]) => {
+                const left = ((start - 1) / length) * 100;
+                const width = ((end - start + 1) / length) * 100;
+                html += `<div class="domain-bar domain-${type}" style="position:absolute;left:${left}%;width:${width}%" data-start="${start}" data-end="${end}">${name}</div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function generateProcessing(length) {
+            return '<div class="domain-track"><div class="domain-bar domain-pfam" style="width:100%">Processed</div></div>';
+        }
+
+        // Render All Tracks
+        function renderTracks() {
+            const wrapper = document.getElementById('tracks-wrapper');
+            wrapper.innerHTML = tracks.map(track => {
+                // Dynamic label for chain track
+                const label = track.type === 'chain' ? `CHAIN ${AppState.currentChain}` : track.label;
+                return `
+                <div class="track track-${track.type}" data-track="${track.id}">
+                    <div class="track-label">${label}</div>
+                    <div class="track-content">
+                        ${generateTrackContent(track)}
+                    </div>
+                </div>
+            `}).join('');
+
+            // Add interaction handlers
+            addTrackInteractions();
+        }
+
+        // Debounce function for hover events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Update tooltip position and content
+        function updateTooltip(content, x, y) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.textContent = content;
+            tooltip.style.left = `${x + 10}px`;
+            tooltip.style.top = `${y - 30}px`;
+            tooltip.style.display = 'block';
+        }
+
+        // Get detailed feature info for a position
+        function getFeatureInfo(position) {
+            const chain = AppState.currentChain;
+            const features = [];
+
+            // Check secondary structure
+            const ssRegions = [
+                { type: 'helix', start: 3, end: 17, label: 'α-helix' },
+                { type: 'helix', start: 20, end: 34, label: 'α-helix' },
+                { type: 'helix', start: 52, end: 71, label: 'α-helix' },
+                { type: 'helix', start: 80, end: 84, label: 'α-helix' },
+                { type: 'helix', start: 87, end: 96, label: 'α-helix' },
+                { type: 'helix', start: 100, end: 118, label: 'α-helix' },
+                { type: 'helix', start: 122, end: 135, label: 'α-helix' }
+            ];
+
+            const ssRegion = ssRegions.find(r => position >= r.start && position <= r.end);
+            if (ssRegion) {
+                features.push(`${ssRegion.label} [${ssRegion.start}-${ssRegion.end}]`);
+            }
+
+            // Check binding site
+            if (position >= 58 && position <= 87) {
+                features.push('Binding Site HEM');
+            }
+
+            // Check if buried
+            const buriedPositions = [4, 7, 8, 11, 14, 15, 18, 19, 22, 25, 26, 29, 30, 33, 34, 37, 38, 41, 42, 45, 46, 49, 50, 53, 54, 57, 58, 61, 62, 65, 66, 69, 70, 73, 74, 77, 78, 81, 82, 85, 86, 89, 90, 93, 94, 97, 98, 101, 102, 105, 106, 109, 110, 113, 114, 117, 118, 121, 122, 125, 126, 129, 130, 133, 134, 137, 138];
+            if (buriedPositions.includes(position)) {
+                features.push('Buried Residue');
+            }
+
+            return features;
+        }
+
+        // Update feature info panel
+        function updateFeatureInfoPanel(position, trackName = null) {
+            const featureLabel = document.getElementById('feature-label');
+            const featurePosition = document.getElementById('feature-position');
+            const chain = AppState.currentChain;
+
+            if (trackName) {
+                // Show track-specific info
+                const features = getFeatureInfo(position);
+                if (features.length > 0) {
+                    featureLabel.textContent = features.join(' | ');
+                } else {
+                    featureLabel.textContent = `${trackName} at position ${position}`;
+                }
+            } else {
+                // Show general position info
+                const features = getFeatureInfo(position);
+                if (features.length > 0) {
+                    featureLabel.textContent = features.join(' | ');
+                } else {
+                    featureLabel.textContent = `Position ${position}`;
+                }
+            }
+
+            featurePosition.textContent = `Chain ${chain} | Position: ${position} [auth: ${position}] | PDB: ${AppState.currentPdbId}.${chain}.${position}`;
+        }
+
+        // Clear feature info panel
+        function clearFeatureInfoPanel() {
+            const featureLabel = document.getElementById('feature-label');
+            const featurePosition = document.getElementById('feature-position');
+            featureLabel.textContent = 'Hover over tracks to see feature details';
+            featurePosition.textContent = '';
+        }
+
+        // Add interactions to tracks
+        function addTrackInteractions() {
+            const tracksContainer = document.getElementById('tracks-container');
+            const indicator = document.getElementById('position-indicator');
+            const tooltip = document.getElementById('tooltip');
+
+            let currentHoverPosition = null;
+            let isHoveringTrack = false;
+
+            const handleMouseMove = async (e) => {
+                const rect = tracksContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left - 140;
+                const contentWidth = rect.width - 140;
+
+                if (x >= 0 && x <= contentWidth) {
+                    const position = Math.round((x / contentWidth) * AppState.sequenceLength) + 1;
+
+                    if (position !== currentHoverPosition) {
+                        currentHoverPosition = position;
+                        AppState.hoverPosition = position;
+
+                        indicator.style.display = 'block';
+                        indicator.style.left = `${140 + (position - 1) / AppState.sequenceLength * contentWidth}px`;
+
+                        updateTooltip(`Residue ${position}`, e.clientX, e.clientY);
+
+                        // Update feature info panel
+                        const trackElement = e.target.closest('.track');
+                        const trackName = trackElement ? trackElement.querySelector('.track-label').textContent : null;
+                        updateFeatureInfoPanel(position, trackName);
+                    } else {
+                        updateTooltip(`Residue ${position}`, e.clientX, e.clientY);
+                    }
+                    isHoveringTrack = true;
+                } else {
+                    if (isHoveringTrack) {
+                        indicator.style.display = 'none';
+                        tooltip.style.display = 'none';
+                        clearHighlights();
+                        clearFeatureInfoPanel();
+                        currentHoverPosition = null;
+                        isHoveringTrack = false;
+                    }
+                }
+            };
+
+            const debouncedMouseMove = debounce(handleMouseMove, 50);
+
+            tracksContainer.addEventListener('mousemove', debouncedMouseMove);
+
+            tracksContainer.addEventListener('mouseleave', () => {
+                indicator.style.display = 'none';
+                tooltip.style.display = 'none';
+                clearHighlights();
+                currentHoverPosition = null;
+                isHoveringTrack = false;
+            });
+
+            tracksContainer.addEventListener('click', (e) => {
+                const rect = tracksContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left - 140;
+                const contentWidth = rect.width - 140;
+                const position = Math.round((x / contentWidth) * AppState.sequenceLength) + 1;
+
+                AppState.selectedPosition = position;
+                highlightResidue(position);
+            });
+
+            // Enhanced hover for track elements with detailed info
+            document.querySelectorAll('.outlier-bar, .binding-dot, .buried-mark, .ss-helix, .domain-bar, .track-content > div > div').forEach(el => {
+                el.addEventListener('mouseenter', (e) => {
+                    const pos = e.target.dataset.pos || e.target.dataset.start;
+                    const trackElement = e.target.closest('.track');
+                    const trackName = trackElement ? trackElement.querySelector('.track-label').textContent : '';
+
+                    if (pos) {
+                        const position = parseInt(pos);
+                        const title = e.target.title || '';
+
+                        // Update tooltip
+                        if (title) {
+                            tooltip.textContent = `${trackName}: ${title}`;
+                        } else {
+                            tooltip.textContent = `${trackName}: Position ${position}`;
+                        }
+
+                        // Update feature info panel with detailed info
+                        updateFeatureInfoPanel(position, trackName);
+
+                        // Highlight in 3D
+                        if (AppState.viewer) {
+                            try {
+                                AppState.viewer.select({
+                                    labelAsymId: AppState.currentChain,
+                                    labelSeqId: position
+                                }, 'hover', 'set');
+                            } catch (e) {
+                                // Silently fail if viewer not ready
+                            }
+                        }
+                    }
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    clearFeatureInfoPanel();
+                    if (AppState.viewer) {
+                        try {
+                            AppState.viewer.clearSelection('hover');
+                        } catch (e) {
+                            // Silently fail
+                        }
+                    }
+                });
+
+                el.addEventListener('click', (e) => {
+                    const pos = e.target.dataset.pos || e.target.dataset.start;
+                    if (pos) {
+                        const position = parseInt(pos);
+                        AppState.selectedPosition = position;
+                        highlightResidue(position);
+                    }
+                });
+            });
+        }
+
+        // Helper function to fix rendering issues (clipping, artifacts)
+        function applyRenderingFixes() {
+            try {
+                const plugin = AppState.viewer.getPlugin();
+                if (plugin && plugin.canvas3d) {
+                    plugin.canvas3d.setProps({
+                        camera: {
+                            near: 0.1,
+                            far: 100000,
+                            fogNear: 0.1,
+                            fogFar: 100000,
+                            fov: 45
+                        },
+                        renderer: {
+                            backgroundColor: 0x0F172A,
+                            cappingColor: 0x0F172A,
+                            cappingOpacity: 0.0,
+                            interiorColor: 0x0F172A,
+                            interiorOpacity: 0.0
+                        }
+                    });
+                }
+            } catch (e) {
+                console.debug('Could not apply rendering fixes:', e);
+            }
+        }
+
+        // Focus on residue in 3D viewer - using RCSB API with target parameter
+        // This is the working approach from rcsb-molstar examples
+        async function focusOnResidue(position, animate = true) {
+            if (!AppState.viewer || AppState.isLoading) {
+                console.debug('Viewer not ready or already loading');
+                return;
+            }
+
+            const chain = AppState.currentChain;
+            console.log('Focusing on residue:', chain, position);
+
+            AppState.isLoading = true;
+            try {
+                // Use the official RCSB API: reload with target parameter
+                // This properly focuses the camera on the specific residue
+                await AppState.viewer.loadPdbId(AppState.currentPdbId, {
+                    representation: 'cartoon',
+                    coloring: { scheme: 'chain-id' },
+                    props: {
+                        kind: 'feature',
+                        target: {
+                            labelAsymId: chain,        // Chain ID (e.g., 'A', 'B', 'C', 'D')
+                            labelSeqId: position,      // Residue position
+                            authSeqId: position        // Auth sequence ID
+                        }
+                    }
+                });
+                console.log('Successfully focused on residue using RCSB API');
+
+                // Reapply rendering fixes after structure reload
+                setTimeout(applyRenderingFixes, 500);
+
+            } catch (e) {
+                console.warn('Failed to focus on residue:', e);
+            } finally {
+                AppState.isLoading = false;
+            }
+        }
+
+        // Clear highlights - reload structure without target to show full view
+        async function clearHighlights() {
+            if (!AppState.viewer || AppState.isLoading) return;
+
+            AppState.isLoading = true;
+            try {
+                // Reload structure without target to clear focus and show full structure
+                await AppState.viewer.loadPdbId(AppState.currentPdbId, {
+                    representation: 'cartoon',
+                    coloring: { scheme: 'chain-id' },
+                    props: {
+                        kind: 'standard'
+                    }
+                });
+                console.log('Cleared highlights - showing full structure');
+
+                // Reapply rendering fixes after structure reload
+                setTimeout(applyRenderingFixes, 500);
+            } catch (e) {
+                console.warn('Failed to clear highlights:', e);
+            } finally {
+                AppState.isLoading = false;
+            }
+        }
+
+        // Highlight residue in 3D viewer (click action) - same as focus
+        async function highlightResidue(position) {
+            if (!AppState.viewer || AppState.isLoading) {
+                console.debug('Viewer not ready or already loading');
+                return;
+            }
+
+            const chain = AppState.currentChain;
+            console.log('Highlighting residue:', chain, position);
+
+            AppState.isLoading = true;
+            try {
+                // Same as focus - reload with target to show specific residue
+                await AppState.viewer.loadPdbId(AppState.currentPdbId, {
+                    representation: 'cartoon',
+                    coloring: { scheme: 'chain-id' },
+                    props: {
+                        kind: 'feature',
+                        target: {
+                            labelAsymId: chain,
+                            labelSeqId: position,
+                            authSeqId: position
+                        }
+                    }
+                });
+                console.log('Successfully highlighted residue');
+
+                // Reapply rendering fixes after structure reload
+                setTimeout(applyRenderingFixes, 500);
+
+            } catch (e) {
+                console.warn('Failed to highlight residue:', e);
+            } finally {
+                AppState.isLoading = false;
+            }
+        }
+
+        // Initialize Mol* Viewer
+        async function initializeViewer() {
+            try {
+                const container = document.getElementById('molstar-container');
+                if (!container || typeof rcsbMolstar === 'undefined') {
+                    console.warn('Mol* not available - check network or CDN');
+                    document.getElementById('viewer-loading').innerHTML = '<div style="color:red">Failed to load Mol* Viewer.<br>Please check internet connection or CDN.</div>';
+                    return false;
+                }
+
+                // Clear any existing viewer
+                if (AppState.viewer) {
+                    try {
+                        AppState.viewer.clear();
+                    } catch (e) {
+                        console.warn('Could not clear existing viewer:', e);
+                    }
+                }
+
+                AppState.viewer = new rcsbMolstar.Viewer('molstar-container', {
+                    showImportControls: false,
+                    showSessionControls: false,
+                    layoutShowLog: false,
+                    layoutShowControls: false,
+                    showMembraneOrientationPreset: false,
+                    detachedFromSierra: true,
+                    manualReset: false
+                });
+
+                console.log('Mol* viewer created successfully');
+
+                // Wait a bit for viewer to initialize
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Set viewer ready flag
+                AppState.viewerReady = true;
+
+                // Set background color and fix rendering issues
+                try {
+                    const plugin = AppState.viewer.getPlugin();
+                    if (plugin && plugin.canvas3d) {
+                        plugin.canvas3d.setProps({
+                            camera: {
+                                near: 0.1,
+                                far: 100000,
+                                fogNear: 0.1,
+                                fogFar: 100000,
+                                fov: 45
+                            },
+                            renderer: {
+                                backgroundColor: 0x0F172A,
+                                cappingColor: 0x0F172A,
+                                cappingOpacity: 0.0,
+                                interiorColor: 0x0F172A,
+                                interiorOpacity: 0.0
+                            }
+                        });
+                        console.log('Applied rendering fixes: camera clipping and capping');
+                    }
+                } catch (e) {
+                    console.warn('Failed to set WebGL properties:', e);
+                }
+
+                // Load default structure
+                await loadStructure(AppState.currentPdbId);
+
+                // Aggressive CSS background force
+                const forceBackground = () => {
+                    const selectors = ['#molstar-container', '#molstar-container canvas', '.msp-plugin', '.msp-viewport', '.msp-layout-main'];
+                    selectors.forEach(sel => {
+                        const el = document.querySelector(sel);
+                        if (el) el.style.setProperty('background', '#0f172a', 'important');
+                    });
+                };
+
+                forceBackground();
+                setTimeout(forceBackground, 1000);
+                setTimeout(forceBackground, 3000);
+
+                // Hide loading after structure is loaded
+                document.getElementById('viewer-loading').classList.add('hidden');
+
+                console.log('Mol* viewer fully initialized and structure loaded');
+                return true;
+
+            } catch (error) {
+                console.error('Failed to initialize viewer:', error);
+                document.getElementById('viewer-loading').classList.add('hidden');
+                AppState.viewerReady = false;
+                return false;
+            }
+        }
+
+        // Load PDB Structure
+        async function loadStructure(pdbId) {
+            try {
+                if (!AppState.viewer) {
+                    console.error('Viewer not initialized');
+                    throw new Error('Viewer not initialized');
+                }
+
+                document.getElementById('viewer-loading').classList.remove('hidden');
+                console.log(`Loading structure: ${pdbId}`);
+
+                // Clear any existing structure first
+                try {
+                    console.log('Clearing previous structure...');
+                    AppState.viewer.clear();
+                    console.log('Previous structure cleared');
+                } catch (e) {
+                    console.warn('Could not clear viewer:', e);
+                }
+
+                // Wait for clear to complete
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Load the new structure
+                console.log(`Calling loadPdbId for ${pdbId}...`);
+                await AppState.viewer.loadPdbId(pdbId, {
+                    representation: 'cartoon',
+                    coloring: { scheme: 'chain-id' }
+                });
+
+                console.log(`Structure ${pdbId} loaded successfully`);
+
+                // Update title
+                document.getElementById('pdb-id-display').textContent = pdbId;
+                AppState.currentPdbId = pdbId;
+
+                // Apply rendering fixes
+                setTimeout(() => {
+                    try {
+                        applyRenderingFixes();
+                    } catch (e) {
+                        console.warn('Could not apply rendering fixes:', e);
+                    }
+                }, 500);
+
+                document.getElementById('viewer-loading').classList.add('hidden');
+
+            } catch (error) {
+                console.error(`Failed to load structure ${pdbId}:`, error);
+                document.getElementById('viewer-loading').classList.add('hidden');
+                throw error;
+            }
+        }
+
+        // Fetch PDB IDs from UniProt API
+        async function fetchPdbFromUniprot(uniprotId) {
+            try {
+                // Clean the UniProt ID
+                const cleanId = uniprotId.trim().toUpperCase();
+                if (!cleanId || cleanId.length < 6) {
+                    throw new Error('Invalid UniProt ID format');
+                }
+
+                console.log(`Fetching PDB mappings for UniProt: ${cleanId}`);
+
+                // Call UniProt API to get cross-references
+                const response = await fetch(`https://rest.uniprot.org/uniprotkb/${cleanId}.json`);
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error(`UniProt ID ${cleanId} not found`);
+                    }
+                    throw new Error(`UniProt API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Extract PDB cross-references
+                const pdbReferences = [];
+                if (data.uniProtKBCrossReferences) {
+                    data.uniProtKBCrossReferences.forEach(ref => {
+                        if (ref.database === 'PDB') {
+                            pdbReferences.push({
+                                id: ref.id,
+                                method: ref.properties?.find(p => p.key === 'method')?.value || 'Unknown',
+                                resolution: ref.properties?.find(p => p.key === 'resolution')?.value || null,
+                                chains: ref.properties?.find(p => p.key === 'chains')?.value || null
+                            });
+                        }
+                    });
+                }
+
+                if (pdbReferences.length === 0) {
+                    throw new Error(`No PDB structures found for UniProt ${cleanId}`);
+                }
+
+                // Sort by resolution (prefer higher resolution = lower number)
+                pdbReferences.sort((a, b) => {
+                    const resA = parseFloat(a.resolution) || 999;
+                    const resB = parseFloat(b.resolution) || 999;
+                    return resA - resB;
+                });
+
+                console.log(`Found ${pdbReferences.length} PDB structures for ${cleanId}:`, pdbReferences);
+                
+                return {
+                    uniprotId: cleanId,
+                    pdbStructures: pdbReferences,
+                    bestStructure: pdbReferences[0]
+                };
+
+            } catch (error) {
+                console.error('Error fetching from UniProt:', error);
+                throw error;
+            }
+        }
+
+        // Fetch protein information from UniProt
+        async function fetchUniprotInfo(uniprotId) {
+            try {
+                const response = await fetch(`https://rest.uniprot.org/uniprotkb/${uniprotId}.json`);
+                if (!response.ok) return null;
+                
+                const data = await response.json();
+                return {
+                    proteinName: data.proteinDescription?.recommendedName?.fullName?.value || 'Unknown Protein',
+                    organism: data.organism?.scientificName || 'Unknown Organism',
+                    sequenceLength: data.sequence?.length || 0,
+                    function: data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || null
+                };
+            } catch (e) {
+                console.warn('Could not fetch UniProt info:', e);
+                return null;
+            }
+        }
+
+        // Fetch structure info from RCSB PDB
+        async function fetchStructureInfo(pdbId) {
+            try {
+                const response = await fetch(`https://data.rcsb.org/rest/v1/core/entry/${pdbId}`);
+                if (!response.ok) {
+                    throw new Error(`PDB API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Extract sequence length from polymer entities
+                let sequenceLength = 0;
+                const entities = data.rcsb_entry_container_identifiers?.polymer_entity_ids || [];
+                
+                // For simplicity, use the first polymer entity's length
+                if (entities.length > 0) {
+                    const entityResponse = await fetch(`https://data.rcsb.org/rest/v1/core/polymer_entity/${pdbId}/${entities[0]}`);
+                    if (entityResponse.ok) {
+                        const entityData = await entityResponse.json();
+                        sequenceLength = entityData.entity_poly?.rcsb_sample_sequence_length || 
+                                        entityData.entity_poly?.sequence_length || 0;
+                    }
+                }
+
+                // Get available chains
+                const asymIds = data.rcsb_entry_container_identifiers?.asym_ids || [];
+                const chains = asymIds.map((id, index) => String.fromCharCode(65 + index)).slice(0, asymIds.length);
+
+                return {
+                    pdbId: pdbId,
+                    title: data.struct?.title?.[0] || 'Unknown Structure',
+                    sequenceLength: sequenceLength || 141, // Default fallback
+                    chains: chains.length > 0 ? chains : ['A', 'B', 'C', 'D'],
+                    resolution: data.rcsb_entry_info?.resolution_combined?.[0] || null,
+                    organism: data.chem_comp?.[0]?.pdbx_synonyms?.[0] || 'Unknown'
+                };
+            } catch (error) {
+                console.error('Error fetching structure info:', error);
+                // Return defaults
+                return {
+                    pdbId: pdbId,
+                    title: 'Unknown Structure',
+                    sequenceLength: 141,
+                    chains: ['A', 'B', 'C', 'D'],
+                    resolution: null,
+                    organism: 'Unknown'
+                };
+            }
+        }
+
+        // Update UI with new structure data
+        async function updateStructureData(pdbId, uniprotId = null) {
+            try {
+                // Fetch structure information
+                const structureInfo = await fetchStructureInfo(pdbId);
+                
+                // Update AppState
+                AppState.currentPdbId = pdbId;
+                AppState.sequenceLength = structureInfo.sequenceLength;
+                
+                // Update chain selector options
+                const chainSelect = document.getElementById('chain-select');
+                chainSelect.innerHTML = '';
+                structureInfo.chains.forEach((chain, index) => {
+                    const option = document.createElement('option');
+                    option.value = chain;
+                    option.textContent = chain;
+                    if (index === 0) option.selected = true;
+                    chainSelect.appendChild(option);
+                });
+                
+                // Reset to first chain
+                AppState.currentChain = structureInfo.chains[0] || 'A';
+                
+                // Update tracks data - regenerate ruler and tracks
+                generateRuler();
+                renderTracks();
+                
+                console.log(`Updated structure data for ${pdbId}: length=${structureInfo.sequenceLength}, chains=[${structureInfo.chains.join(',')}]`);
+                
+                return structureInfo;
+            } catch (error) {
+                console.error('Error updating structure data:', error);
+                throw error;
+            }
+        }
+
+        // Load structure from UniProt ID
+        async function loadFromUniprot(uniprotId) {
+            const loadBtn = document.getElementById('load-uniprot-btn');
+            const originalText = loadBtn.textContent;
+
+            try {
+                // Update UI to show loading
+                loadBtn.textContent = 'Loading...';
+                loadBtn.disabled = true;
+                document.getElementById('viewer-loading').classList.remove('hidden');
+
+                // Fetch PDB structures from UniProt
+                const result = await fetchPdbFromUniprot(uniprotId);
+                const pdbId = result.bestStructure.id;
+
+                console.log(`Loading best PDB structure ${pdbId} for UniProt ${uniprotId}`);
+
+                // Fetch additional protein info
+                const proteinInfo = await fetchUniprotInfo(result.uniprotId);
+
+                // Update subtitle with protein name if available
+                if (proteinInfo && proteinInfo.proteinName) {
+                    document.getElementById('structure-title').textContent =
+                        `${proteinInfo.proteinName} (${result.uniprotId}) - Best structure: ${pdbId}`;
+                } else {
+                    document.getElementById('structure-title').textContent =
+                        `UniProt: ${result.uniprotId} | PDB: ${pdbId}`;
+                }
+
+                // Update structure data (this regenerates tracks and ruler)
+                await updateStructureData(pdbId, uniprotId);
+
+                // Update UniProt track with the correct ID
+                AppState.currentUniprotId = uniprotId.toUpperCase();
+                const uniprotTrack = tracks.find(t => t.id === 'uniprot');
+                if (uniprotTrack) {
+                    uniprotTrack.label = `UNIPROT ${AppState.currentUniprotId}`;
+                }
+
+                // Re-render tracks to show updated data
+                renderTracks();
+
+                // Check if viewer needs to be re-initialized
+                if (!AppState.viewer || !AppState.viewerReady) {
+                    console.log('Viewer not ready, initializing...');
+                    const initSuccess = await initializeViewer();
+                    if (!initSuccess) {
+                        throw new Error('Failed to initialize 3D viewer');
+                    }
+                }
+
+                // Load the 3D structure
+                console.log('Now loading 3D structure:', pdbId);
+                await loadStructure(pdbId);
+                console.log('3D structure loaded successfully');
+
+                // Success message
+                console.log(`Successfully loaded ${pdbId} from UniProt ${uniprotId}`);
+
+            } catch (error) {
+                console.error('Failed to load from UniProt:', error);
+                alert(`Error: ${error.message}`);
+            } finally {
+                // Reset UI
+                loadBtn.textContent = originalText;
+                loadBtn.disabled = false;
+                document.getElementById('viewer-loading').classList.add('hidden');
+            }
+        }
+
+
+
+        // Chain selection
+        document.getElementById('chain-select').addEventListener('change', (e) => {
+            AppState.currentChain = e.target.value;
+            // Re-render tracks with new chain data
+            renderTracks();
+            // Update 3D view - select first residue of new chain
+            setTimeout(() => {
+                highlightResidue(1);
+            }, 100);
+        });
+
+
+
+        // Toolbar buttons
+        document.getElementById('btn-cartoon').addEventListener('click', () => {
+            applyRepresentation('cartoon');
+        });
+
+        document.getElementById('btn-ballstick').addEventListener('click', () => {
+            applyRepresentation('ball-stick');
+        });
+
+        document.getElementById('btn-surface').addEventListener('click', () => {
+            applyRepresentation('surface');
+        });
+
+        // Color/Theme button
+        document.getElementById('btn-paint').addEventListener('click', () => {
+            toggleColorTheme();
+        });
+
+        // Box/Measurement button
+        document.getElementById('btn-cube').addEventListener('click', () => {
+            toggleMeasurementMode();
+        });
+
+        // Zoom Out button
+        document.getElementById('btn-minus').addEventListener('click', () => {
+            zoomCamera(0.8);
+        });
+
+        // Zoom In button  
+        document.getElementById('btn-plus').addEventListener('click', () => {
+            zoomCamera(1.2);
+        });
+
+        // Close button
+        document.getElementById('btn-close').addEventListener('click', () => {
+            if (AppState.viewer) {
+                AppState.viewer.clear();
+            }
+        });
+
+        // UniProt load button
+        document.getElementById('load-uniprot-btn').addEventListener('click', () => {
+            const uniprotId = document.getElementById('uniprot-input').value.trim();
+            if (uniprotId) {
+                loadFromUniprot(uniprotId);
+            } else {
+                alert('Please enter a UniProt ID (e.g., P69905)');
+            }
+        });
+
+        // UniProt input - allow Enter key
+        document.getElementById('uniprot-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const uniprotId = document.getElementById('uniprot-input').value.trim();
+                if (uniprotId) {
+                    loadFromUniprot(uniprotId);
+                }
+            }
+        });
+
+        // Toggle color theme
+        let currentColorTheme = 'chain-id';
+        async function toggleColorTheme() {
+            if (!AppState.viewer) return;
+
+            const themes = ['chain-id', 'element-symbol', 'secondary-structure', 'molecule-type', 'residue-name'];
+            const currentIndex = themes.indexOf(currentColorTheme);
+            currentColorTheme = themes[(currentIndex + 1) % themes.length];
+
+            try {
+                await AppState.viewer.loadPdbId(AppState.currentPdbId, {
+                    representation: 'cartoon',
+                    coloring: { scheme: currentColorTheme }
+                });
+                console.log('Changed color theme to:', currentColorTheme);
+            } catch (e) {
+                console.warn('Failed to change color theme:', e);
+            }
+        }
+
+        // Toggle measurement mode
+        let measurementMode = false;
+        function toggleMeasurementMode() {
+            if (!AppState.viewer) return;
+
+            measurementMode = !measurementMode;
+            const btn = document.getElementById('btn-cube');
+
+            if (measurementMode) {
+                btn.classList.add('active');
+                console.log('Measurement mode enabled');
+            } else {
+                btn.classList.remove('active');
+                console.log('Measurement mode disabled');
+            }
+        }
+
+        // Zoom camera
+        function zoomCamera(factor) {
+            if (!AppState.viewer) return;
+
+            try {
+                const plugin = AppState.viewer.getPlugin();
+                if (plugin && plugin.canvas3d) {
+                    const camera = plugin.canvas3d.camera;
+                    const radius = camera.getRadius();
+                    camera.setRadius(radius * factor);
+                    console.log('Zoomed camera by factor:', factor);
+                }
+            } catch (e) {
+                console.warn('Failed to zoom camera:', e);
+            }
+        }
+
+        async function applyRepresentation(type) {
+            if (!AppState.viewer) return;
+
+            try {
+                const plugin = AppState.viewer.getPlugin();
+                if (!plugin) return;
+
+                const structure = plugin.managers.structure.hierarchy.current.structures[0];
+                if (!structure) return;
+
+                switch (type) {
+                    case 'cartoon':
+                        await plugin.managers.structure.component.applyPreset(structure, 'polymer-cartoon');
+                        break;
+                    case 'ball-stick':
+                        await plugin.managers.structure.component.applyPreset(structure, 'ball-and-stick');
+                        break;
+                    case 'surface':
+                        await plugin.managers.structure.component.applyPreset(structure, 'molecular-surface');
+                        break;
+                }
+            } catch (e) {
+                console.warn('Failed to apply representation:', e);
+            }
+        }
+
+        // Help and Back functions
+        function showHelp() {
+            alert('Sequence Annotations in 3D\n\nClick on the sequence tracks to select residues.\nThe 3D viewer will highlight the selected position.\n\nUse the toolbar to change visualization styles.');
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                console.log('Initializing application...');
+                
+                // Generate tracks first
+                generateRuler();
+                renderTracks();
+                
+                // Wait a moment for Mol* library to load
+                console.log('Waiting for Mol* library...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Check if Mol* is available
+                if (typeof rcsbMolstar === 'undefined') {
+                    console.error('Mol* library not loaded. Retrying...');
+                    // Wait a bit more and retry
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+                
+                // Initialize viewer
+                const success = await initializeViewer();
+                if (!success) {
+                    console.error('Viewer initialization failed');
+                    document.getElementById('viewer-loading').innerHTML = 
+                        '<div style="color:red; padding: 20px;">Failed to load 3D viewer.<br>Please refresh the page.</div>';
+                }
+            } catch (e) {
+                console.error('Initialization error:', e);
+                alert('Initialization error: ' + e.message);
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            generateRuler();
+        });
+    </script>
+</body>
+
+</html>

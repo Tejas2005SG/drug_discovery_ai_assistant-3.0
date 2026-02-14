@@ -1,0 +1,24 @@
+{
+  "test_name": "Neurological Channelopathy Test",
+  "symptoms": [
+    "rapid onset localized neural inflammation",
+    "cytokine storm markers",
+    "blocking of specific potassium channels",
+    "tremors in extremities"
+  ],
+  "clinical_context": {
+    "possible_conditions": [
+      "Multiple Sclerosis (MS)",
+      "Autoimmune encephalitis",
+      "Potassium channelopathy",
+      "Neuroinflammatory disorder"
+    ],
+    "key_targets": [
+      "Kv1.3 potassium channel",
+      "TNF-alpha",
+      "IL-6",
+      "IL-1β",
+      "Microglia"
+    ]
+  }
+}

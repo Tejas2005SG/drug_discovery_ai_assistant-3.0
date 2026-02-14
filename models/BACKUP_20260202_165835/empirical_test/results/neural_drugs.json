@@ -1,0 +1,161 @@
+{
+  "test_info": {
+    "symptoms": [
+      "rapid onset localized neural inflammation",
+      "cytokine storm markers",
+      "blocking of specific potassium channels",
+      "tremors in extremities"
+    ],
+    "num_candidates": 10,
+    "model": "NOVO-1"
+  },
+  "candidates": [
+    {
+      "id": "NEURAL_000",
+      "smiles": "CNCC(C)Cc1ccc(cc1)C(C)C(=O)O",
+      "molecular_weight": 70,
+      "carbons": 2,
+      "oxygens": 2,
+      "nitrogens": 1,
+      "qed": 0.59,
+      "confidence": 0.877,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_001",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)OC(=O)NCN",
+      "molecular_weight": 112,
+      "carbons": 3,
+      "oxygens": 3,
+      "nitrogens": 2,
+      "qed": 0.66,
+      "confidence": 0.89,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_002",
+      "smiles": "C(=O)OCC(C)Cc1ccc(cc1)C(C)C(=O)O",
+      "molecular_weight": 88,
+      "carbons": 2,
+      "oxygens": 4,
+      "nitrogens": 0,
+      "qed": 0.54,
+      "confidence": 0.947,
+      "valid": true,
+      "predicted_targets": [
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_003",
+      "smiles": "C(=O)OCNCC(C)Cc1ccc(cc1)C(C)C(=O)O",
+      "molecular_weight": 114,
+      "carbons": 3,
+      "oxygens": 4,
+      "nitrogens": 1,
+      "qed": 0.61,
+      "confidence": 0.948,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_004",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)OC(=O)N",
+      "molecular_weight": 86,
+      "carbons": 2,
+      "oxygens": 3,
+      "nitrogens": 1,
+      "qed": 0.59,
+      "confidence": 0.868,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_005",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)OC(=O)Oc1ccccc1",
+      "molecular_weight": 16,
+      "carbons": -4,
+      "oxygens": 4,
+      "nitrogens": 0,
+      "qed": 0.42,
+      "confidence": 0.835,
+      "valid": false,
+      "predicted_targets": [
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_006",
+      "smiles": "CNCC(C)Cc1ccc(cc1)C(C)C(=O)O",
+      "molecular_weight": 70,
+      "carbons": 2,
+      "oxygens": 2,
+      "nitrogens": 1,
+      "qed": 0.59,
+      "confidence": 0.847,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_007",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)Oc1ccccc1CN",
+      "molecular_weight": -2,
+      "carbons": -4,
+      "oxygens": 2,
+      "nitrogens": 1,
+      "qed": 0.47,
+      "confidence": 0.875,
+      "valid": false,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_008",
+      "smiles": "c1ccccc1CC(C)Cc1ccc(cc1)C(C)C(=O)O",
+      "molecular_weight": -28,
+      "carbons": -5,
+      "oxygens": 2,
+      "nitrogens": 0,
+      "qed": 0.4,
+      "confidence": 0.909,
+      "valid": false,
+      "predicted_targets": [
+        "TNF-alpha"
+      ]
+    },
+    {
+      "id": "NEURAL_009",
+      "smiles": "C(=O)NCC(C)Cc1ccc(cc1)C(C)C(=O)OCC(C)C",
+      "molecular_weight": 134,
+      "carbons": 6,
+      "oxygens": 3,
+      "nitrogens": 1,
+      "qed": 0.67,
+      "confidence": 0.802,
+      "valid": true,
+      "predicted_targets": [
+        "Kv1.3_channel",
+        "TNF-alpha"
+      ]
+    }
+  ]
+}

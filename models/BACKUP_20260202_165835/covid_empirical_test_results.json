@@ -1,0 +1,83 @@
+{
+  "test_name": "COVID-19 Empirical Test",
+  "date": "2025-02-01",
+  "system": "NOVO-1 Knowledge Graph",
+  "summary": {
+    "total_test_cases": 6,
+    "total_candidates": 42,
+    "validity_rate": 1.0,
+    "avg_qed": 0.45491604132525154,
+    "avg_confidence": 0.3920713056619696,
+    "avg_target_match": 0.7063492063492064,
+    "overall_score": 0.6561589147998106
+  },
+  "per_test_results": [
+    {
+      "test_name": "Mild COVID-19",
+      "severity": "mild",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.5639329797179673,
+      "avg_confidence": 0.41494694154415057,
+      "avg_target_match": 1.0,
+      "overall_score": 0.7521692822242203
+    },
+    {
+      "test_name": "Moderate COVID-19",
+      "severity": "moderate",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.34430383444725815,
+      "avg_confidence": 0.2993545653484955,
+      "avg_target_match": 1.0,
+      "overall_score": 0.6631620634038766
+    },
+    {
+      "test_name": "Severe COVID-19",
+      "severity": "severe",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.5639329797179673,
+      "avg_confidence": 0.49152802707066795,
+      "avg_target_match": 0.6666666666666666,
+      "overall_score": 0.700818832662857
+    },
+    {
+      "test_name": "Long COVID",
+      "severity": "long-term",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.5680127458479874,
+      "avg_confidence": 0.5285483722897433,
+      "avg_target_match": 0,
+      "overall_score": 0.5761134982123448
+    },
+    {
+      "test_name": "COVID + Influenza",
+      "severity": "co-infection",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.2590399857938227,
+      "avg_confidence": 0.23347834752525418,
+      "avg_target_match": 1.0,
+      "overall_score": 0.6244076652431977
+    },
+    {
+      "test_name": "Cytokine Storm",
+      "severity": "critical",
+      "n_generated": 7,
+      "n_valid": 7,
+      "validity": 1.0,
+      "avg_qed": 0.4302737224265064,
+      "avg_confidence": 0.38457158019350635,
+      "avg_target_match": 0.5714285714285713,
+      "overall_score": 0.6202821470523675
+    }
+  ],
+  "interpretation": "GOOD - System shows promise with reasonable accuracy for COVID-19 applications"
+}

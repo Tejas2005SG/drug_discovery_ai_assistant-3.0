@@ -1,0 +1,78 @@
+{
+  "symptoms": [
+    "rapid onset localized neural inflammation",
+    "tremors in extremities",
+    "cytokine storm markers"
+  ],
+  "num_candidates": 3,
+  "target_proteins": [
+    {
+      "name": "SNAP_25",
+      "uniprot_id": "P60880",
+      "druggability": "Low"
+    },
+    {
+      "name": "HDAC",
+      "uniprot_id": "P56524",
+      "druggability": "High"
+    },
+    {
+      "name": "GABA_transaminase",
+      "uniprot_id": "P80404",
+      "druggability": "High"
+    },
+    {
+      "name": "GABA_Receptor",
+      "uniprot_id": "P14867",
+      "druggability": "High"
+    },
+    {
+      "name": "Serotonin_Receptor_5HT1B",
+      "uniprot_id": "P28222",
+      "druggability": "High"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "NOVO_002",
+      "smiles": "CN1C(=O)NC(=O)c2cc(Cl)ccc21",
+      "formula": "C9H7ClN2O2",
+      "confidence": 0.73854430698489,
+      "qed": 0.7019772279395602,
+      "admet_score": 0.523,
+      "targets": [
+        "GABA_transaminase",
+        "GABA_Receptor",
+        "Serotonin_Receptor_5HT1B",
+        "Serotonin_Receptor_5HT1D"
+      ]
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "CCC1(c2ccccc2)S(=O)(=O)NC(=O)NC1=O",
+      "formula": "C11H12N2O4S",
+      "confidence": 0.72835,
+      "qed": 0.8147013150743047,
+      "admet_score": 0.481,
+      "targets": [
+        "GABA_transaminase",
+        "GABA_Receptor",
+        "HDAC"
+      ]
+    },
+    {
+      "id": "NOVO_001",
+      "smiles": "CN(C)C(=O)C1=CC=CC=C1",
+      "formula": "C9H11NO",
+      "confidence": 0.5753745809692608,
+      "qed": 0.5904983238770432,
+      "admet_score": 0.565,
+      "targets": [
+        "GABA_transaminase",
+        "HDAC",
+        "Serotonin_Receptor_5HT1B",
+        "Serotonin_Receptor_5HT1D"
+      ]
+    }
+  ]
+}

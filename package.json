@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@rcsb/rcsb-molstar": "^2.14.2",
+    "@rcsb/rcsb-saguaro-3d": "^4.2.5",
+    "molstar": "^5.6.1"
+  }
+}

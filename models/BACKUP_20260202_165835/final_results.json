@@ -1,0 +1,94 @@
+{
+  "training": {
+    "epochs": 40,
+    "model_size": "0.55M",
+    "dataset": 15
+  },
+  "symptoms": "brittle toenails, cracking knuckles, ear blockage, fluttering heartbeat, sudden confusion",
+  "candidates": [
+    {
+      "id": "NOVO_001",
+      "smiles": "@5555555555555555555555555555555555555555555",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.764
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "@5555555555555555555555555555555555555555555",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.871
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "@5555555555555555555555555555555555555555555",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.782
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "s@5555555555555555555555555555555555555555555",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.815
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "s@s5555555555555555555555555555555555555555555",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.753
+    },
+    {
+      "id": "NOVO_006",
+      "smiles": "5ssssssssssssssssssssssssssssssssssssssss",
+      "mw": 0,
+      "c": 0,
+      "o": 0,
+      "n": 0,
+      "valid": "NO",
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.826
+    }
+  ]
+}

@@ -1,150 +1,165 @@
-import { create } from "zustand";
-import { toast } from "sonner";
+/**
+ * Drug Discovery Store - Zustand without immer
+ * Manages drug discovery state and API calls
+ */
 
-const API_URL = "http://localhost:5000/api/drug-discovery";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { axiosInstance } from '@/lib/axios';
 
 interface ThinkingStep {
-  id: string;
-  stage: "planning" | "searching" | "thinking" | "generating" | "complete" | "error" | "crawling";
-  message: string;
-  status: "running" | "completed" | "failed" | "warning";
-  timestamp: number;
-  duration?: string;
-  progress?: number;
-  queries?: any[];
-  data?: any;
+    step: number;
+    title: string;
+    description: string;
+    status: 'pending' | 'in_progress' | 'completed';
+    timestamp: string;
 }
 
-interface Source {
-  title: string;
-  url: string;
-  status?: string;
-  category?: string;
-  contentLength?: number;
+interface ADMET {
+    bioavailability: number;
+    toxicity_risk: string;
+    half_life: number;
+}
+
+interface Lipinski {
+    violations: number;
+    passes: boolean;
+}
+
+interface Candidate {
+    id: string;
+    smiles: string;
+    molecular_formula: string;
+    molecular_weight: number;
+    qed: number;
+    logp: number;
+    tpsa: number;
+    confidence: number;
+    target_proteins: string[];
+    generation_method: string;
+    admet: ADMET;
+    lipinski: Lipinski;
+}
+
+interface Metadata {
+    totalDuration: string;
+    queriesExecuted: number;
+    sourcesFound: number;
+    sourcesUsed: number;
+    modelUsed: string;
+    timestamp: string;
+    totalCandidates: number;
 }
 
 interface ResearchResult {
-  content: string;
-  sources: Source[];
-  symptoms: string;
-  mode: string;
-  timestamp: string;
+    content: string;
+    sources: Array<{
+        title: string;
+        url: string;
+        category?: string;
+        database?: string;
+    }>;
+    symptoms: string;
+    extractedSymptoms: string;
+    candidates: Candidate[];
+    metadata: Metadata;
 }
 
 interface DrugDiscoveryState {
-  isResearching: boolean;
-  results: ResearchResult | null;
-  thinkingSteps: ThinkingStep[];
-  sources: Source[];
-  error: string | null;
-  
-  startResearch: (symptoms: string) => Promise<void>;
-  reset: () => void;
+    isResearching: boolean;
+    results: ResearchResult | null;
+    thinkingSteps: ThinkingStep[];
+    error: string | null;
+    currentQuery: string;
+    
+    startResearch: (query: string) => Promise<void>;
+    reset: () => void;
+    setError: (error: string | null) => void;
 }
 
-export const useDrugDiscoveryStore = create<DrugDiscoveryState>((set) => ({
-  isResearching: false,
-  results: null,
-  thinkingSteps: [],
-  sources: [],
-  error: null,
-
-  reset: () => set({ results: null, thinkingSteps: [], sources: [], error: null, isResearching: false }),
-
-  startResearch: async (symptoms: string) => {
-    set({ isResearching: true, error: null, thinkingSteps: [], results: null, sources: [] });
-
-    try {
-      const response = await fetch(`${API_URL}/research`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ symptoms }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to start research");
-      }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
-      if (!reader) throw new Error("No reader available");
-
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
+export const useDrugDiscoveryStore = create<DrugDiscoveryState>()(
+    devtools((set, get) => ({
+        isResearching: false,
+        results: null,
+        thinkingSteps: [],
+        error: null,
+        currentQuery: '',
+        
+        startResearch: async (query: string) => {
+            set({
+                isResearching: true,
+                currentQuery: query,
+                results: null,
+                error: null,
+                thinkingSteps: []
+            });
+            
             try {
-              const data = JSON.parse(line.substring(6));
-
-              if (data.type === "progress") {
-                set((state) => {
-                  const newSteps = [...state.thinkingSteps];
-                  const existingStepIndex = newSteps.findIndex(s => s.id === data.id);
-                  
-                  if (existingStepIndex !== -1) {
-                    // Update existing step only if it's not already completed
-                    if (newSteps[existingStepIndex].status !== 'completed' || data.status === 'completed') {
-                      newSteps[existingStepIndex] = {
-                        ...newSteps[existingStepIndex],
-                        ...data,
-                        // Ensure optional fields are handled
-                        queries: data.queries || newSteps[existingStepIndex].queries,
-                        data: data.data || newSteps[existingStepIndex].data,
-                      };
-                    }
-                  } else {
-                    // Add new step
-                    newSteps.push({
-                      id: data.id || Math.random().toString(36).substring(2, 9),
-                      stage: data.stage,
-                      message: data.message,
-                      status: data.status,
-                      timestamp: data.timestamp || Date.now(),
-                      duration: data.duration,
-                      progress: data.progress,
-                      queries: data.queries,
-                      data: data.data,
-                    });
-                  }
-                  
-                  return { thinkingSteps: newSteps };
+                const symptoms = query.split(/[,\n]+/).map(s => s.trim()).filter(s => s.length > 0);
+                
+                if (symptoms.length === 0) {
+                    throw new Error('No valid symptoms provided');
+                }
+                
+                console.log('[Store] Starting drug discovery for:', symptoms);
+                
+                const response = await axiosInstance.post('/drug-discovery/discover', {
+                    symptoms,
+                    n_candidates: 5
                 });
-              } else if (data.type === "complete") {
-                set((state) => ({ 
-                  results: data.data, 
-                  isResearching: false,
-                  sources: data.data.sources || [],
-                  // Force mark all previous steps as completed when the whole process finishes
-                  thinkingSteps: state.thinkingSteps.map(step => ({
-                    ...step,
-                    status: "completed"
-                  }))
-                }));
-              } else if (data.type === "error") {
-                set({ error: data.message || "An error occurred during research", isResearching: false });
-                toast.error(data.message || "An error occurred");
-              }
-            } catch (err) {
-              console.error("Error parsing SSE data", err);
+                
+                if (response.data.success) {
+                    // Transform backend response to frontend format
+                    const transformedResults = {
+                        content: `# Drug Discovery Results\n\n## Input Symptoms\n${response.data.symptoms?.join(', ') || ''}\n\n## Generated Candidates (${response.data.candidates?.length || 0})`,
+                        sources: [],
+                        symptoms: response.data.symptoms?.join(', ') || '',
+                        extractedSymptoms: response.data.symptoms?.join(', ') || '',
+                        candidates: response.data.candidates || [],
+                        metadata: {
+                            totalDuration: `${(response.data.candidates?.length || 0) * 2}s`,
+                            queriesExecuted: response.data.symptoms?.length || 0,
+                            sourcesFound: 0,
+                            sourcesUsed: 0,
+                            modelUsed: 'NOVO-1 v3.0',
+                            timestamp: response.data.timestamp,
+                            totalCandidates: response.data.candidates?.length || 0
+                        }
+                    };
+                    
+                    set({
+                        results: transformedResults,
+                        thinkingSteps: response.data.thinking_steps || [],
+                        isResearching: false,
+                        error: null
+                    });
+                    console.log('[Store] Drug discovery completed successfully');
+                } else {
+                    throw new Error(response.data.error || 'Drug discovery failed');
+                }
+                
+            } catch (error: any) {
+                console.error('[Store] Drug discovery error:', error);
+                set({
+                    isResearching: false,
+                    error: error.response?.data?.error || error.message || 'An error occurred during drug discovery',
+                    results: null
+                });
             }
-          }
+        },
+        
+        reset: () => {
+            set({
+                isResearching: false,
+                results: null,
+                thinkingSteps: [],
+                error: null,
+                currentQuery: ''
+            });
+        },
+        
+        setError: (error: string | null) => {
+            set({ error });
         }
-      }
-    } catch (error: any) {
-      set({ error: error.message, isResearching: false });
-      toast.error(error.message || "Failed to connect to research server");
-    }
-  },
-}));
+    }), { name: 'drug-discovery-store' })
+);

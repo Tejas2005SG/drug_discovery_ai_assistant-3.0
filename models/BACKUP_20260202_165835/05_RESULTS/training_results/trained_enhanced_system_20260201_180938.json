@@ -1,0 +1,22 @@
+{
+  "timestamp": "20260201_180938",
+  "system_version": "3.0",
+  "features": [
+    "Target Protein Identification (First & Last)",
+    "Comprehensive ADMET Predictions",
+    "All Chemical Properties",
+    "Protein Database with UniProt IDs",
+    "Enhanced Drug-likeness Scoring"
+  ],
+  "training_data": {
+    "num_drugs": 158,
+    "num_diseases": 82,
+    "drug_examples": [
+      "Paxlovid (Nirmatrelvir)",
+      "Remdesivir",
+      "Molnupiravir",
+      "Oseltamivir (Tamiflu)",
+      "Dexamethasone"
+    ]
+  }
+}

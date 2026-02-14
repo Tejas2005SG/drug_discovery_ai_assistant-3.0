@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test rcsb-molstar Library Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .pass {
+            background-color: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+        }
+        .fail {
+            background-color: #f8d7da;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+        .pending {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+        #viewer {
+            width: 100%;
+            height: 400px;
+            border: 2px solid #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>rcsb-molstar Library Test</h1>
+
+    <div id="test1" class="test-result pending">Test 1: Script tag present in DOM</div>
+    <div id="test2" class="test-result pending">Test 2: rcsbMolstar global variable exists</div>
+    <div id="test3" class="test-result pending">Test 3: rcsbMolstar.Viewer constructor exists</div>
+    <div id="test4" class="test-result pending">Test 4: Attempt to create viewer instance</div>
+
+    <div id="viewer"></div>
+
+    <p><strong>Loading from:</strong> <span id="load-source">Checking...</span></p>
+
+    <button onclick="location.reload()">Refresh Page</button>
+    <button onclick="runTests()">Run Tests Again</button>
+
+    <script type="text/javascript" src="/rcsb-molstar/dist/viewer/rcsb-molstar.js"></script>
+    <script>
+        function log(testId, message, isPass) {
+            const el = document.getElementById(testId);
+            el.textContent = message;
+            el.className = 'test-result ' + (isPass ? 'pass' : 'fail');
+        }
+
+        async function runTests() {
+            // Test 1: Script tag loaded
+            const scripts = document.querySelectorAll('script[src*="rcsb-molstar"]');
+            log('test1', `Test 1: Found ${scripts.length} script tag(s) with rcsb-molstar src`, scripts.length > 0);
+
+            // Test 2: rcsbMolstar exists
+            const hasGlobal = typeof rcsbMolstar !== 'undefined';
+            log('test2', `Test 2: rcsbMolstar global variable: ${hasGlobal ? 'EXISTS' : 'NOT FOUND'}`, hasGlobal);
+
+            if (hasGlobal) {
+                // Test 3: Viewer constructor exists
+                const hasViewer = typeof rcsbMolstar.Viewer === 'function';
+                log('test3', `Test 3: rcsbMolstar.Viewer constructor: ${hasViewer ? 'EXISTS' : 'NOT FOUND'}`, hasViewer);
+
+                if (hasViewer) {
+                    // Test 4: Try to create instance
+                    try {
+                        const viewer = new rcsbMolstar.Viewer('viewer', {
+                            showImportControls: false,
+                            showSessionControls: false,
+                            layoutShowLog: false,
+                            layoutShowControls: true,
+                            showMembraneOrientationPreset: true,
+                            detachedFromSierra: true,
+                            manualReset: true
+                        });
+
+                        log('test4', 'Test 4: Successfully created viewer instance', true);
+                        document.getElementById('load-source').textContent = 'Local static files (/rcsb-molstar/)';
+
+                        // Try loading a structure
+                        try {
+                            await viewer.loadPdbId('4HHB');
+                            alert('Successfully loaded structure 4HHB!');
+                        } catch (e) {
+                            console.warn('Failed to load structure:', e);
+                        }
+
+                    } catch (e) {
+                        log('test4', `Test 4: Failed to create viewer: ${e.message}`, false);
+                    }
+                } else {
+                    log('test4', 'Test 4: Skipped - no Viewer constructor', false);
+                }
+            } else {
+                log('test3', 'Test 3: Skipped - no rcsbMolstar global', false);
+                log('test4', 'Test 4: Skipped - no rcsbMolstar global', false);
+            }
+        }
+
+        // Wait for script to load
+        setTimeout(runTests, 1000);
+    </script>
+</body>
+</html>

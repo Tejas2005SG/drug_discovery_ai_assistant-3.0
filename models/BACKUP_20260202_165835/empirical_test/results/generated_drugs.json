@@ -1,0 +1,411 @@
+{
+  "test_info": {
+    "test_name": "COVID-19 Empirical Test",
+    "date": "2025-02-01",
+    "symptoms": [
+      "fever",
+      "cough",
+      "shortness_of_breath",
+      "fatigue"
+    ],
+    "num_candidates": 20,
+    "model": "NOVO-1"
+  },
+  "statistics": {
+    "total_generated": 20,
+    "valid_molecules": 14,
+    "validity_rate": 0.7,
+    "avg_qed": 0.622,
+    "avg_confidence": 0.83,
+    "avg_mw": 74.0,
+    "target_distribution": {
+      "3CL_protease": 0,
+      "ACE2_receptor": 6,
+      "RdRp": 14,
+      "Spike_protein": 14
+    }
+  },
+  "candidates": [
+    {
+      "id": "NOVO_COVID_000",
+      "smiles": "C(C)CCC(C)C",
+      "molecular_weight": 84,
+      "carbons": 7,
+      "oxygens": 0,
+      "nitrogens": 0,
+      "qed": 0.64,
+      "confidence": 0.827,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_001",
+      "smiles": "CC(C)CC(=O)OC(C)C",
+      "molecular_weight": 128,
+      "carbons": 8,
+      "oxygens": 2,
+      "nitrogens": 0,
+      "qed": 0.66,
+      "confidence": 0.84,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_002",
+      "smiles": "CNCC(C)C",
+      "molecular_weight": 74,
+      "carbons": 5,
+      "oxygens": 0,
+      "nitrogens": 1,
+      "qed": 0.65,
+      "confidence": 0.897,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_003",
+      "smiles": "CNC(C)CCC(C)C",
+      "molecular_weight": 110,
+      "carbons": 8,
+      "oxygens": 0,
+      "nitrogens": 1,
+      "qed": 0.71,
+      "confidence": 0.898,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_004",
+      "smiles": "CC(C)CC(=O)O",
+      "molecular_weight": 92,
+      "carbons": 5,
+      "oxygens": 2,
+      "nitrogens": 0,
+      "qed": 0.6,
+      "confidence": 0.818,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_005",
+      "smiles": "CC(C)CCNc1ccccc1",
+      "molecular_weight": 2,
+      "carbons": -1,
+      "oxygens": 0,
+      "nitrogens": 1,
+      "qed": 0.53,
+      "confidence": 0.785,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_006",
+      "smiles": "C(C)CCC(C)C",
+      "molecular_weight": 84,
+      "carbons": 7,
+      "oxygens": 0,
+      "nitrogens": 0,
+      "qed": 0.64,
+      "confidence": 0.797,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_007",
+      "smiles": "CC(C)Cc1ccccc1C(C)C",
+      "molecular_weight": 12,
+      "carbons": 1,
+      "oxygens": 0,
+      "nitrogens": 0,
+      "qed": 0.52,
+      "confidence": 0.825,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_008",
+      "smiles": "c1ccccc1CC(C)C",
+      "molecular_weight": -24,
+      "carbons": -2,
+      "oxygens": 0,
+      "nitrogens": 0,
+      "qed": 0.46,
+      "confidence": 0.859,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_009",
+      "smiles": "C(=O)OCC(C)CCC(N)=O",
+      "molecular_weight": 146,
+      "carbons": 7,
+      "oxygens": 3,
+      "nitrogens": 1,
+      "qed": 0.69,
+      "confidence": 0.752,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_010",
+      "smiles": "CC(C)CCC(N)=O",
+      "molecular_weight": 102,
+      "carbons": 6,
+      "oxygens": 1,
+      "nitrogens": 1,
+      "qed": 0.67,
+      "confidence": 0.895,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_011",
+      "smiles": "c1ccccc1CC(C)CCC(N)=O",
+      "molecular_weight": 30,
+      "carbons": 0,
+      "oxygens": 1,
+      "nitrogens": 1,
+      "qed": 0.55,
+      "confidence": 0.796,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_012",
+      "smiles": "c1ccccc1CC(C)C",
+      "molecular_weight": -24,
+      "carbons": -2,
+      "oxygens": 0,
+      "nitrogens": 0,
+      "qed": 0.46,
+      "confidence": 0.804,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_013",
+      "smiles": "C(C)CCC(C)CC(=O)O",
+      "molecular_weight": 128,
+      "carbons": 8,
+      "oxygens": 2,
+      "nitrogens": 0,
+      "qed": 0.66,
+      "confidence": 0.804,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_014",
+      "smiles": "CC(C)CCN",
+      "molecular_weight": 74,
+      "carbons": 5,
+      "oxygens": 0,
+      "nitrogens": 1,
+      "qed": 0.65,
+      "confidence": 0.871,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_015",
+      "smiles": "CC(N)=OCC(C)CCN",
+      "molecular_weight": 128,
+      "carbons": 7,
+      "oxygens": 1,
+      "nitrogens": 2,
+      "qed": 0.74,
+      "confidence": 0.878,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_016",
+      "smiles": "CC(N)=OCC(C)C",
+      "molecular_weight": 102,
+      "carbons": 6,
+      "oxygens": 1,
+      "nitrogens": 1,
+      "qed": 0.67,
+      "confidence": 0.762,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_017",
+      "smiles": "CNCC(C)CCC(N)=O",
+      "molecular_weight": 128,
+      "carbons": 7,
+      "oxygens": 1,
+      "nitrogens": 2,
+      "qed": 0.74,
+      "confidence": 0.854,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "inflammation",
+        "pain"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_018",
+      "smiles": "CC(C)CCN",
+      "molecular_weight": 74,
+      "carbons": 5,
+      "oxygens": 0,
+      "nitrogens": 1,
+      "qed": 0.65,
+      "confidence": 0.753,
+      "valid": true,
+      "predicted_targets": [
+        "RdRp",
+        "Spike_protein"
+      ],
+      "symptoms_treated": [
+        "fever",
+        "cough",
+        "fatigue"
+      ]
+    },
+    {
+      "id": "NOVO_COVID_019",
+      "smiles": "CC(C)CCC(N)=Oc1ccccc1",
+      "molecular_weight": 30,
+      "carbons": 0,
+      "oxygens": 1,
+      "nitrogens": 1,
+      "qed": 0.55,
+      "confidence": 0.877,
+      "valid": false,
+      "predicted_targets": [
+        "ACE2_receptor"
+      ],
+      "symptoms_treated": [
+        "respiratory",
+        "viral"
+      ]
+    }
+  ]
+}

@@ -7,10 +7,7 @@ import SignUpPage from './components/sign-up';
 import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import SettingsPage from './pages/SettingsPage';
-
-import DrugDiscoveryPage from './pages/DrugDiscoveryPage';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
-import { ResearchHistory } from './components/dashboard/ResearchHistory';
 import { useThemeStore } from './store/useThemeStore';
 
 function App() {
@@ -47,9 +44,6 @@ function App() {
         {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={authUser ? <DashboardLayout /> : <Navigate to="/login" />}>
           <Route index element={<DashboardPage />} />
-          <Route path="research" element={<DrugDiscoveryPage />} />
-          <Route path="research/:id" element={<DrugDiscoveryPage />} />
-          <Route path="history" element={<ResearchHistory />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
 

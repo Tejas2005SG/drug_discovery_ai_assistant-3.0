@@ -1,0 +1,137 @@
+{
+  "symptoms": [
+    "brittle toenails",
+    "cracking knuckles",
+    "ear blockage",
+    "fluttering heartbeat",
+    "sudden confusion"
+  ],
+  "num_candidates": 5,
+  "timestamp": "20260202_193626",
+  "candidates": [
+    {
+      "id": "NOVO_003",
+      "smiles": "CCN(CC)CCCC(C)NC1=CC=NC2=CC(Cl)=CC=C12",
+      "molecular_formula": "C18H26ClN3",
+      "molecular_weight": 319.88000000000005,
+      "qed": 0.75641175721287,
+      "confidence_score": 0.7062029393032175,
+      "target_proteins": [
+        "Calcium_Channel_alpha2delta",
+        "Potassium_Channel_KCNQ"
+      ],
+      "source_drugs": [
+        "Unknown",
+        "Gabapentin (tremor)",
+        "Ezogabine"
+      ],
+      "admet_summary": {
+        "oral_bioavailability": 65.9,
+        "bbb_penetration": -0.938,
+        "toxicity_risk": "MODERATE",
+        "drug_likeness_score": 0.631
+      },
+      "passes_lipinski": true
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "CC1(C)OC2(COC3C(O2)C(O)(CO)OC3O)OC1(C)CC(=O)N",
+      "molecular_formula": "C14H23NO9",
+      "molecular_weight": 349.3360000000002,
+      "qed": 0.44964863166741986,
+      "confidence_score": 0.673062157916855,
+      "target_proteins": [
+        "Carbonic_anhydrase",
+        "AMPA_receptor",
+        "Potassium_Channel_KCNQ",
+        "Serotonin_transporter",
+        "Norepinephrine_transporter"
+      ],
+      "source_drugs": [
+        "Venlafaxine",
+        "Ezogabine",
+        "Topiramate (tremor)"
+      ],
+      "admet_summary": {
+        "oral_bioavailability": 59.1,
+        "bbb_penetration": -3,
+        "toxicity_risk": "MODERATE",
+        "drug_likeness_score": 0.646
+      },
+      "passes_lipinski": true
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "CC(C)(C)NC(=O)[C@@H]1C[C@@H]2CCCC[C@@H]2CN1C[C@@H](O)[C@H](CC1=CC=CC=C1)NC(=O)[C@@H](CC(N)=O)NC(=O)C(C)(C)N",
+      "molecular_formula": "C32H52N6O5",
+      "molecular_weight": 600.805,
+      "qed": 0.20675888795928965,
+      "confidence_score": 0.2607897219898224,
+      "target_proteins": [
+        "Serotonin_transporter",
+        "Norepinephrine_transporter",
+        "GABA_Receptor"
+      ],
+      "source_drugs": [
+        "Unknown",
+        "Venlafaxine",
+        "Alprazolam (tremor)"
+      ],
+      "admet_summary": {
+        "oral_bioavailability": 54.5,
+        "bbb_penetration": -3,
+        "toxicity_risk": "MODERATE",
+        "drug_likeness_score": 0.519
+      },
+      "passes_lipinski": false
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "CC(C)(C)NC(=O)[C@@H]1C[C@@H]2CCCC[C@@H]2CN1C[C@@H](O)[C@H](CC1=CC=CC=C1)NC(=O)[C@@H](CC(N)=O)NC(=O)C(C)(C)NCN",
+      "molecular_formula": "C33H55N7O5",
+      "molecular_weight": 629.8469999999999,
+      "qed": 0.14482923793963695,
+      "confidence_score": 0.24285730948490922,
+      "target_proteins": [
+        "Potassium_Channel_KCNQ",
+        "Serotonin_transporter",
+        "Norepinephrine_transporter"
+      ],
+      "source_drugs": [
+        "Amitriptyline (migraine)",
+        "Ezogabine",
+        "Unknown"
+      ],
+      "admet_summary": {
+        "oral_bioavailability": 49.5,
+        "bbb_penetration": -3,
+        "toxicity_risk": "MODERATE",
+        "drug_likeness_score": 0.505
+      },
+      "passes_lipinski2": false
+    },
+    {
+      "id": "NOVO_001",
+      "smiles": "CC(C)(C)NC(=O)[C@@H]1C[C@@H]2CCCC[C@@H]2CN1C[C@@H](O)[C@H](CC1=CC=CC=C1)NC(=O)[C@@H](CC(N)=O)NC(=O)C(C)(C)N",
+      "molecular_formula": "C32H52N6O5",
+      "molecular_weight": 600.805,
+      "qed": 0.20675888795928965,
+      "confidence_score": 0.22078972198982239,
+      "target_proteins": [
+        "GABA_Receptor"
+      ],
+      "source_drugs": [
+        "Unknown",
+        "Unknown",
+        "Alprazolam (tremor)"
+      ],
+      "admet_summary": {
+        "oral_bioavailability": 54.5,
+        "bbb_penetration": -3,
+        "toxicity_risk": "MODERATE",
+        "drug_likeness_score": 0.519
+      },
+      "passes_lipinski": false
+    }
+  ]
+}

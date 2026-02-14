@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store/useAuthStore';
 import {
-  Home,
   Settings,
   LogOut,
   FlaskConical,
@@ -15,7 +14,7 @@ import {
   PanelLeftOpen,
   Sun,
   Moon,
-  History
+  Home
 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -37,11 +36,6 @@ export function Sidebar({ className }: SidebarProps) {
       name: 'Drug Discovery',
       href: '/dashboard',
       icon: FlaskConical,
-    },
-    {
-      name: 'History',
-      href: '/dashboard/history',
-      icon: History,
     },
     {
       name: 'Settings',

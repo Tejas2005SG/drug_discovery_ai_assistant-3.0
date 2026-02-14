@@ -1,0 +1,21 @@
+{
+  "test_case": "Complex Neurological Symptoms",
+  "symptoms": [
+    "rapid onset localized neural inflammation",
+    "cytokine storm markers",
+    "blocking of specific potassium channels",
+    "tremors in extremities"
+  ],
+  "candidates": [
+    {
+      "id": "NOVO_000",
+      "smiles": "CC1CC(CN(C)C)CCN1S(=O)(=O)NCC1CCCCC1",
+      "properties": {
+        "valid": true,
+        "smiles": "CC1CC(CN(C)C)CCN1S(=O)(=O)NCC1CCCCC1",
+        "mw": 331.52600000000024,
+        "qed": 0.8104514387164247,
+        "logp": 2.0631999999999997,
+        "hbd": 1,
+        "hba": 3,
+        "fingerprint": 

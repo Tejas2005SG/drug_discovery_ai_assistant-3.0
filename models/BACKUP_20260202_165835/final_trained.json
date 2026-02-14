@@ -1,0 +1,74 @@
+{
+  "drugs": [
+    {
+      "id": "NOVO_001",
+      "smiles": "CC(=O)OOc1ccccc1C(=O)O",
+      "mw": 116,
+      "c": 3,
+      "o": 5,
+      "n": 0,
+      "qed": 0.56,
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.884
+    },
+    {
+      "id": "NOVO_002",
+      "smiles": "CC(C)Cc1ccc(cc1)C(CN)C(=O)O",
+      "mw": 130,
+      "c": 7,
+      "o": 2,
+      "n": 1,
+      "qed": 0.64,
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.809
+    },
+    {
+      "id": "NOVO_003",
+      "smiles": "CC(=O)NC1=CC=C(C=CC1)O",
+      "mw": 154,
+      "c": 9,
+      "o": 2,
+      "n": 1,
+      "qed": 0.68,
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.886
+    },
+    {
+      "id": "NOVO_004",
+      "smiles": "CN1C=NC2=C1C(=O)N(C(=OO)N2C)C",
+      "mw": 200,
+      "c": 8,
+      "o": 3,
+      "n": 4,
+      "qed": 0.66,
+      "targets": [
+        "IL-6",
+        "ACE2"
+      ],
+      "conf": 0.819
+    },
+    {
+      "id": "NOVO_005",
+      "smiles": "CC(C)Nc1nOc2cc(C#Cc3ccccn3)ccc2o1",
+      "mw": 90,
+      "c": 5,
+      "o": 1,
+      "n": 1,
+      "qed": 0.6,
+      "targets": [
+        "COX-2",
+        "TNF-alpha"
+      ],
+      "conf": 0.845
+    }
+  ]
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rcsb-molstar - Final Working Version</title>
+    <link rel="stylesheet" type="text/css" href="/rcsb-molstar/dist/viewer/rcsb-molstar.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f23;
+            color: white;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #1a1a3e;
+            border-radius: 10px;
+        }
+        
+        input {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #4a4a8a;
+            border-radius: 5px;
+            background: #0f0f23;
+            color: white;
+            width: 150px;
+            text-transform: uppercase;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #6a6aff;
+        }
+        
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-load {
+            background: #4a90d9;
+            color: white;
+        }
+        
+        .btn-load:hover {
+            background: #6aaaff;
+        }
+        
+        .btn-clear {
+            background: #d94a4a;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #ff6a6a;
+        }
+        
+        #viewer {
+            width: 100%;
+            height: 70vh;
+            border: 3px solid #4a4a8a;
+            border-radius: 10px;
+            background: #1a1a2e !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Force dark background on all viewer elements */
+        #viewer, #viewer * {
+            background: #1a1a2e !important;
+        }
+        
+        #viewer canvas {
+            background: #1a1a2e !important;
+        }
+        
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .status.loading {
+            background: #4a4a2a;
+            color: #fffaaa;
+        }
+        
+        .status.success {
+            background: #2a4a2a;
+            color: #aaffaa;
+        }
+        
+        .status.error {
+            background: #4a2a2a;
+            color: #ffaafa;
+        }
+        
+        .tips {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1a1a3e;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .tips h3 {
+            color: #6a6aff;
+            margin-bottom: 10px;
+        }
+        
+        .tips ul {
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin: 5px 0;
+            color: #aaa;
+        }
+        
+        .tips code {
+            background: #2a2a4e;
+            padding: 2px 8px;
+            border-radius: 3px;
+            color: #6aff6a;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔬 RCSB Mol* Protein Structure Viewer</h1>
+    
+    <div class="controls">
+        <input type="text" id="pdb-input" value="4HHB" maxlength="4" placeholder="PDB ID">
+        <button class="btn-load" onclick="loadStructure()">Load Structure</button>
+        <button class="btn-clear" onclick="clearViewer()">Clear</button>
+    </div>
+    
+    <div id="status" class="status success">Ready to load structures</div>
+    
+    <div id="viewer"></div>
+    
+    <div class="tips">
+        <h3>📋 Quick Tips</h3>
+        <ul>
+            <li>Enter a 4-character PDB ID like <code>4HHB</code>, <code>1UBQ</code>, <code>1MBN</code></li>
+            <li>The viewer automatically colors protein chains in different colors</li>
+            <li>Use mouse to rotate, scroll to zoom, right-click to pan</li>
+            <li>Structure loads from RCSB PDB database</li>
+            <li>Dark background for better visibility of colored structures</li>
+        </ul>
+    </div>
+
+    <!-- Load library first -->
+    <script type="text/javascript" src="/rcsb-molstar/dist/viewer/rcsb-molstar.js"></script>
+    
+    <script>
+        let viewer = null;
+        
+        function setStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+        }
+        
+        function waitForLibrary() {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                const maxTime = 10000;
+                
+                function check() {
+                    if (typeof rcsbMolstar !== 'undefined' && rcsbMolstar.Viewer) {
+                        resolve(rcsbMolstar);
+                        return;
+                    }
+                    
+                    if (Date.now() - startTime > maxTime) {
+                        reject(new Error('Timeout waiting for rcsb-molstar'));
+                        return;
+                    }
+                    
+                    setTimeout(check, 100);
+                }
+                
+                check();
+            });
+        }
+        
+        async function initViewer() {
+            try {
+                setStatus('Loading library...', 'loading');
+                
+                await waitForLibrary();
+                
+                setStatus('Library loaded. Initializing viewer...', 'loading');
+                
+                // Create viewer with explicit dark background
+                viewer = new rcsbMolstar.Viewer('viewer', {
+                    showImportControls: false,
+                    showSessionControls: false,
+                    layoutShowLog: false,
+                    layoutShowControls: true,
+                    showMembraneOrientationPreset: true,
+                    detachedFromSierra: true,
+                    manualReset: true
+                });
+                
+                // Force dark background on container
+                const container = document.getElementById('viewer');
+                container.style.background = '#1a1a2e';
+                
+                setStatus('Viewer ready! Enter a PDB ID to load structure', 'success');
+                
+                // Auto-load default structure
+                await loadStructure();
+                
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                setStatus('Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function loadStructure() {
+            const pdbId = document.getElementById('pdb-input').value.trim().toUpperCase();
+            
+            if (!/^[1-9][A-Za-z0-9]{3}$/.test(pdbId)) {
+                setStatus('Invalid PDB ID format. Use 4 characters like 4HHB', 'error');
+                return;
+            }
+            
+            if (!viewer) {
+                setStatus('Viewer not ready. Please wait...', 'loading');
+                await initViewer();
+            }
+            
+            setStatus(`Loading ${pdbId}...`, 'loading');
+            
+            try {
+                // Load structure - viewer handles coloring automatically
+                await viewer.loadPdbId(pdbId);
+                
+                // Double-check background is dark
+                const container = document.getElementById('viewer');
+                container.style.background = '#1a1a2e';
+                
+                // Find and style all canvases
+                const canvases = container.querySelectorAll('canvas');
+                canvases.forEach(canvas => {
+                    canvas.style.background = '#1a1a2e';
+                });
+                
+                setStatus(`✅ Successfully loaded ${pdbId} with colored chains`, 'success');
+                
+            } catch (error) {
+                console.error('Load failed:', error);
+                
+                // Try fallback loading
+                try {
+                    const url = `https://files.rcsb.org/download/${pdbId}.cif`;
+                    await viewer.loadStructureFromUrl(url, 'mmcif');
+                    setStatus(`✅ Loaded ${pdbId} from URL`, 'success');
+                } catch (fallbackError) {
+                    setStatus(`❌ Failed to load ${pdbId}: ${error.message}`, 'error');
+                }
+            }
+        }
+        
+        async function clearViewer() {
+            if (viewer) {
+                try {
+                    await viewer.clear();
+                    setStatus('Viewer cleared', 'success');
+                } catch (error) {
+                    console.warn('Clear failed:', error);
+                }
+            }
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', initViewer);
+        
+        // Also check if already loaded
+        if (document.readyState === 'complete') {
+            initViewer();
+        }
+    </script>
+</body>
+</html>
