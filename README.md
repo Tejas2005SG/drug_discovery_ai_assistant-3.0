@@ -1,6 +1,6 @@
 # NOVO-1 Drug Discovery AI v3.0
 
-## 🧪 Empirical Testing Success: 66.1% Accuracy on COVID-19 Scenarios
+## 🧪 Empirical Testing Success: 66.1% Accuracy on COVID-19 Scenario
 NOVO-1 is a state-of-the-art Knowledge Graph-based drug discovery system designed for rapid identification of therapeutic candidates. Our latest **Empirical Validation Suite** confirms high clinical relevance, matching 100% molecular validity and 66.1% overall accuracy against FDA-approved COVID-19 treatments.
 
 <img width="3563" height="2950" alt="covid_benchmark_professional" src="https://github.com/user-attachments/assets/a6360f79-48fc-4607-990d-91c9d7f914f5" />
